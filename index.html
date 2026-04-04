@@ -94,7 +94,7 @@
         /* --- RESPONSIVE LAYOUT --- */
         .container {
             width: 100%; max-width: 1200px;
-            padding: 24px; padding-bottom: 120px; /* Menü için ekstra boşluk */
+            padding: 24px; padding-bottom: 120px;
             display: flex; flex-direction: column;
             gap: 20px;
             z-index: 2;
@@ -129,7 +129,7 @@
             background: var(--glass-surface); border-top: 1px solid var(--glass-border);
             backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
             display: flex; justify-content: space-around; align-items: center;
-            padding: 12px 5px 25px 5px; /* iPhone çentiği için alttan boşluk */
+            padding: 12px 5px 25px 5px; 
             z-index: 1000; box-shadow: 0 -10px 30px var(--shadow-color);
         }
         .nav-item {
@@ -148,6 +148,29 @@
             .nav-item { font-size: 0.75rem; padding: 10px; }
             .nav-item i { font-size: 1.4rem; }
         }
+
+        /* --- ÇEKMECE (DRAWER) MENÜ SİSTEMİ --- */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            z-index: 1500; opacity: 0; pointer-events: none; transition: 0.3s ease;
+        }
+        .drawer-overlay.open { opacity: 1; pointer-events: all; }
+        
+        .drawer-menu {
+            position: fixed; bottom: -100%; left: 0; right: 0;
+            background: var(--modal-bg); border-top: 1px solid var(--glass-border);
+            border-top-left-radius: 32px; border-top-right-radius: 32px;
+            z-index: 1501; padding: 20px 24px 40px 24px;
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.5);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .drawer-menu.open { bottom: 0; }
+        .drawer-drag {
+            width: 50px; height: 5px; background: var(--glass-border);
+            border-radius: 5px; margin: 0 auto 25px auto;
+        }
+        .drawer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         /* --- HEADER --- */
         .header {
@@ -229,9 +252,9 @@
 
         /* --- ACCORDION & TOOLS --- */
         .acc { background: var(--glass-surface); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; backdrop-filter: var(--glass-blur); box-shadow: 0 8px 32px 0 var(--shadow-color); width: 100%;}
-        .acc-head { width: 100%; padding: 20px 24px; background: transparent; border: none; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); font-weight: 500; font-size: 1rem; cursor: pointer; }
+        .acc-head { width: 100%; padding: 20px 24px; background: transparent; border: none; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); font-weight: 500; font-size: 1rem; cursor: pointer; text-align: left; }
         .acc-body { max-height: 0; overflow: hidden; transition: 0.4s cubic-bezier(0.4,0,0.2,1); background: rgba(0,0,0,0.05); }
-        .acc-body.open { max-height: 1000px; padding: 24px; border-top: 1px solid var(--glass-border); }
+        .acc-body.open { max-height: 5000px; padding: 24px; border-top: 1px solid var(--glass-border); }
         .acc-head i { transition: 0.3s; color: var(--text-muted); }
         .acc-head.active i { transform: rotate(180deg); color: var(--gold-text); }
 
@@ -383,20 +406,7 @@
                 </div>
             </div>
 
-            <!-- ================= SEKME 3: ESMAÜL HÜSNA ================= -->
-            <div id="tab-esma" class="tab-section">
-                <div class="info-layout">
-                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Esmaül Hüsna</h2>
-                    <div class="info-card big-card">
-                        <div class="esma-ar" id="esmaAr">...</div>
-                        <div class="esma-tr" id="esmaTr">...</div>
-                        <div class="esma-desc" id="esmaDesc">...</div>
-                        <button class="refresh-btn" onclick="shuffleEsma()"><i class="fas fa-random"></i> Başka Getir</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= SEKME 4: ZİKİRMATİK ================= -->
+            <!-- ================= SEKME 3: ZİKİRMATİK ================= -->
             <div id="tab-zikir" class="tab-section">
                 <div class="info-layout">
                     <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Zikirmatik</h2>
@@ -410,122 +420,88 @@
                 </div>
             </div>
 
-            <!-- ================= SEKME 5: AYARLAR ================= -->
+            <!-- ================= SEKME 4: SURELER (DIŞ DOSYADAN) ================= -->
+            <div id="tab-sureler" class="tab-section">
+                <div class="info-layout">
+                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Namaz Sureleri</h2>
+                    <!-- Arama Çubuğu -->
+                    <div style="width:100%; margin-bottom:10px;">
+                        <input type="text" id="sureSearch" class="z-inp" placeholder="Sure ara (Örn: İhlas, Felak)..." onkeyup="filterSureler()">
+                    </div>
+                    <div id="surelerContainer" style="display:flex; flex-direction:column; gap:15px;">
+                        <div style="text-align:center; color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Namaz Sureleri yükleniyor...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SEKME 5: PEYGAMBERLER ================= -->
+            <div id="tab-peygamberler" class="tab-section">
+                <div class="info-layout">
+                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Peygamberler Tarihi</h2>
+                    <div id="peygamberlerContainer" style="display:flex; flex-direction:column; gap:15px;"></div>
+                </div>
+            </div>
+
+            <!-- ================= SEKME 6: ESMAÜL HÜSNA ================= -->
+            <div id="tab-esma" class="tab-section">
+                <div class="info-layout">
+                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Esmaül Hüsna</h2>
+                    <div class="info-card big-card">
+                        <div class="esma-ar" id="esmaAr">...</div>
+                        <div class="esma-tr" id="esmaTr">...</div>
+                        <div class="esma-desc" id="esmaDesc">...</div>
+                        <button class="refresh-btn" onclick="shuffleEsma()"><i class="fas fa-random"></i> Başka Getir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SEKME 7: AYARLAR ================= -->
             <div id="tab-settings" class="tab-section">
                 <div class="info-layout">
                     <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Ayarlar & Araçlar</h2>
-                    
                     <div class="settings-list">
-                        <!-- Tema -->
-                        <div class="setting-item" onclick="toggleTheme()">
-                            <i class="fas fa-palette main-icon"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Açık / Koyu Tema</div>
-                                <div class="setting-desc">Görünümü değiştirin</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color: var(--text-muted)"></i>
-                        </div>
-
-                        <!-- Bildirim -->
-                        <div class="setting-item" onclick="enablePersistentMode()">
-                            <i class="fas fa-bell main-icon"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Kalıcı Bildirim Sayacı</div>
-                                <div class="setting-desc">Kilit ekranında sayacı göster</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color: var(--text-muted)"></i>
-                        </div>
-
-                        <!-- Ezan Test -->
-                        <div class="setting-item" onclick="testAdhan()">
-                            <i class="fas fa-mosque main-icon"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Ezan Sesi Testi</div>
-                                <div class="setting-desc">Vakit alarmını dinleyin</div>
-                            </div>
-                            <i class="fas fa-play" style="color: var(--blue)"></i>
-                        </div>
-
-                        <!-- Kerahat Test -->
-                        <div class="setting-item" onclick="testKerahat()">
-                            <i class="fas fa-triangle-exclamation main-icon" style="color: #fcd34d;"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Kerahat Uyarı Testi</div>
-                                <div class="setting-desc">Uyarı sesini dinleyin</div>
-                            </div>
-                            <i class="fas fa-play" style="color: #fcd34d"></i>
-                        </div>
-
-                        <!-- Sesi Durdur -->
-                        <div class="setting-item" onclick="stopAudio()" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
-                            <i class="fas fa-stop-circle main-icon" style="color: #ef4444;"></i>
-                            <div class="setting-info">
-                                <div class="setting-title" style="color: #ef4444;">Çalan Sesi Durdur</div>
-                                <div class="setting-desc">Ezan veya uyarıyı kapat</div>
-                            </div>
-                        </div>
-
-                        <!-- Kıble -->
-                        <div class="setting-item" onclick="window.open('https://qiblafinder.withgoogle.com/', '_blank')">
-                            <i class="fas fa-compass main-icon" style="color: #10b981;"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Kıble Bul (Google)</div>
-                                <div class="setting-desc">Web üzerinden kıble yönü</div>
-                            </div>
-                            <i class="fas fa-external-link-alt" style="color: var(--text-muted)"></i>
-                        </div>
-
-                        <!-- Paylaş -->
-                        <div class="setting-item" onclick="shareApp()">
-                            <i class="fas fa-share-nodes main-icon" style="color: #d946ef;"></i>
-                            <div class="setting-info">
-                                <div class="setting-title">Uygulamayı Paylaş</div>
-                                <div class="setting-desc">Sevdiklerinize tavsiye edin</div>
-                            </div>
-                            <i class="fas fa-share" style="color: var(--text-muted)"></i>
-                        </div>
+                        <div class="setting-item" onclick="toggleTheme()"><i class="fas fa-palette main-icon"></i><div class="setting-info"><div class="setting-title">Açık / Koyu Tema</div><div class="setting-desc">Görünümü değiştirin</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
+                        <div class="setting-item" onclick="enablePersistentMode()"><i class="fas fa-bell main-icon"></i><div class="setting-info"><div class="setting-title">Kalıcı Bildirim Sayacı</div><div class="setting-desc">Kilit ekranında sayacı göster</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
+                        <div class="setting-item" onclick="testAdhan()"><i class="fas fa-mosque main-icon"></i><div class="setting-info"><div class="setting-title">Ezan Sesi Testi</div><div class="setting-desc">Vakit alarmını dinleyin</div></div><i class="fas fa-play" style="color: var(--blue)"></i></div>
+                        <div class="setting-item" onclick="testKerahat()"><i class="fas fa-triangle-exclamation main-icon" style="color: #fcd34d;"></i><div class="setting-info"><div class="setting-title">Kerahat Uyarı Testi</div><div class="setting-desc">Uyarı sesini dinleyin</div></div><i class="fas fa-play" style="color: #fcd34d"></i></div>
+                        <div class="setting-item" onclick="stopAudio()" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"><i class="fas fa-stop-circle main-icon" style="color: #ef4444;"></i><div class="setting-info"><div class="setting-title" style="color: #ef4444;">Çalan Sesi Durdur</div><div class="setting-desc">Ezan veya uyarıyı kapat</div></div></div>
+                        <div class="setting-item" onclick="window.open('https://qiblafinder.withgoogle.com/', '_blank')"><i class="fas fa-compass main-icon" style="color: #10b981;"></i><div class="setting-info"><div class="setting-title">Kıble Bul (Google)</div><div class="setting-desc">Web üzerinden kıble yönü</div></div><i class="fas fa-external-link-alt" style="color: var(--text-muted)"></i></div>
                     </div>
                 </div>
             </div>
 
         </div>
-
     </div>
 
-    <!-- ALT NAVİGASYON MENÜSÜ -->
+    <!-- ALT NAVİGASYON (SADECE 4 BUTON) -->
     <nav class="bottom-nav">
         <button class="nav-item active" id="nav-tab-home" onclick="switchTab('tab-home')">
-            <i class="fas fa-home"></i>
-            <span>Ana Sayfa</span>
+            <i class="fas fa-home"></i><span>Ana Sayfa</span>
         </button>
         <button class="nav-item" id="nav-tab-verses" onclick="switchTab('tab-verses')">
-            <i class="fas fa-book-open"></i>
-            <span>Ayetler</span>
-        </button>
-        <button class="nav-item" id="nav-tab-esma" onclick="switchTab('tab-esma')">
-            <i class="fas fa-hand-holding-heart"></i>
-            <span>Esmaül Hüsna</span>
+            <i class="fas fa-book-open"></i><span>Ayetler</span>
         </button>
         <button class="nav-item" id="nav-tab-zikir" onclick="switchTab('tab-zikir')">
-            <i class="fas fa-fingerprint"></i>
-            <span>Zikirmatik</span>
+            <i class="fas fa-fingerprint"></i><span>Zikirmatik</span>
         </button>
-        <button class="nav-item" id="nav-tab-settings" onclick="switchTab('tab-settings')">
-            <i class="fas fa-cog"></i>
-            <span>Ayarlar</span>
+        <button class="nav-item" id="nav-drawer-btn" onclick="toggleDrawer()">
+            <i class="fas fa-bars"></i><span>Menü</span>
         </button>
     </nav>
 
-    <!-- PWA KURULUM BANNERI -->
-    <div class="pwa" id="installBanner">
-        <div style="display:flex; gap:14px; align-items:center">
-            <img src="icon-192.png" alt="Icon" width="48" style="border-radius:12px; border:1px solid rgba(255,255,255,0.1)" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3029/3029994.png'">
-            <div><div style="font-weight:700; color:var(--text-main)">Uygulamayı Yükle</div><div style="font-size:0.8rem; color:var(--text-muted)">İnternetsiz Erişim</div></div>
+    <!-- ÇEKMECE MENÜ (DRAWER) -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <div class="drawer-menu" id="drawerMenu">
+        <div class="drawer-drag"></div>
+        <div class="drawer-grid">
+            <button class="tool-btn" onclick="handleDrawerNav('tab-sureler')"><i class="fas fa-book-quran"></i> Namaz Sureleri</button>
+            <button class="tool-btn" onclick="handleDrawerNav('tab-peygamberler')"><i class="fas fa-users-viewfinder"></i> Peygamberler</button>
+            <button class="tool-btn" onclick="handleDrawerNav('tab-esma')"><i class="fas fa-hand-holding-heart"></i> Esmaül Hüsna</button>
+            <button class="tool-btn" onclick="handleDrawerNav('tab-settings')"><i class="fas fa-cog"></i> Ayarlar</button>
         </div>
-        <button class="btn-icon" style="width:auto; padding:0 20px; border-radius:50px; background:var(--blue); border:none; color:#fff; font-weight:600" onclick="installPWA()">Kur</button>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL İMSAKİYE -->
     <div id="imsakiyeModal" class="modal">
         <div class="modal-con">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:15px">
@@ -539,43 +515,98 @@
     </div>
 
     <script>
-        /* --- SEKME (TAB) YÖNETİMİ --- */
+        /* --- ÇEKMECE YÖNETİMİ --- */
+        function toggleDrawer() {
+            document.getElementById('drawerOverlay').classList.toggle('open');
+            document.getElementById('drawerMenu').classList.toggle('open');
+        }
+        function handleDrawerNav(tabId) {
+            toggleDrawer(); // Çekmeceyi Kapat
+            switchTab(tabId); // İlgili sekmeyi aç
+        }
+
+        /* --- SEKME YÖNETİMİ --- */
         function switchTab(tabId) {
             document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active-tab'));
             document.getElementById(tabId).classList.add('active-tab');
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-' + tabId).classList.add('active');
+            
+            // Sadece alt menüdeki öğeleri yönet, çekmece içi sekmelerde 'Menü' butonu aktif kalsın
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active'));
+            let directNavBtn = document.getElementById('nav-' + tabId);
+            if(directNavBtn) { directNavBtn.classList.add('active'); } 
+            else { document.getElementById('nav-drawer-btn').classList.add('active'); }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         /* --- TEMA YÖNETİMİ --- */
         function initTheme() {
             const savedTheme = localStorage.getItem('mugolTheme');
-            if(savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i>';
-                document.getElementById('themeColorMeta').setAttribute('content', '#f1f5f9');
-            }
+            if(savedTheme === 'light') { document.body.classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i>'; document.getElementById('themeColorMeta').setAttribute('content', '#f1f5f9'); }
         }
         function toggleTheme() {
-            const body = document.body;
-            const btn = document.getElementById('themeBtn');
-            const meta = document.getElementById('themeColorMeta');
-            
+            const body = document.body; const btn = document.getElementById('themeBtn'); const meta = document.getElementById('themeColorMeta');
             body.classList.toggle('light-mode');
-            if(body.classList.contains('light-mode')) {
-                localStorage.setItem('mugolTheme', 'light');
-                btn.innerHTML = '<i class="fas fa-moon"></i>';
-                meta.setAttribute('content', '#f1f5f9');
-            } else {
-                localStorage.setItem('mugolTheme', 'dark');
-                btn.innerHTML = '<i class="fas fa-sun"></i>';
-                meta.setAttribute('content', '#020617');
-            }
+            if(body.classList.contains('light-mode')) { localStorage.setItem('mugolTheme', 'light'); btn.innerHTML = '<i class="fas fa-moon"></i>'; meta.setAttribute('content', '#f1f5f9'); } 
+            else { localStorage.setItem('mugolTheme', 'dark'); btn.innerHTML = '<i class="fas fa-sun"></i>'; meta.setAttribute('content', '#020617'); }
         }
         initTheme(); 
 
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(console.error); }); }
+        /* --- DIŞ DOSYADAN SURELERİ ÇEKME FONKSİYONU --- */
+        let globalSurelerData = [];
+        async function fetchSureler() {
+            const container = document.getElementById('surelerContainer');
+            try {
+                let response = await fetch('sureler.json');
+                if(!response.ok) throw new Error("Dosya okunamadı.");
+                
+                globalSurelerData = await response.json();
+                renderSurelerListesi(globalSurelerData);
+            } catch(e) {
+                container.innerHTML = `
+                <div style="text-align:center; padding: 20px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:16px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size:2rem; color:#ef4444; margin-bottom:10px;"></i>
+                    <div style="color:var(--text-main); font-weight:600;">Sureler Yüklenemedi!</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Lütfen <b>sureler.json</b> dosyasını index.html ile aynı klasöre koyduğunuzdan emin olun.</div>
+                </div>`;
+            }
+        }
+
+        /* --- SURELERİ EKRANA ÇİZDİRME & ARAMA YAPMA --- */
+        function renderSurelerListesi(dataList) {
+            const container = document.getElementById('surelerContainer');
+            let html = "";
+            dataList.forEach(s => {
+                let arHtml = s.ar ? `<div style="text-align:right; font-family:'Amiri', serif; font-size:1.8rem; color:var(--gold-text); margin-bottom:15px; line-height:1.5;" dir="rtl">${s.ar}</div>` : '';
+                let trHtml = s.tr ? `<div style="font-weight:600; font-size:1rem; color:var(--text-main); margin-bottom:10px; line-height:1.4;">Okunuşu: <span style="font-weight:400;">${s.tr}</span></div>` : '';
+                let anHtml = s.an ? `<div style="font-size:0.9rem; color:var(--text-muted); line-height:1.4;">Anlamı: ${s.an}</div>` : '';
+
+                // Burada "s.name" kullanıldı, undefined hatası giderildi.
+                html += `
+                <div class="acc sure-item">
+                    <button class="acc-head" onclick="toggleAcc(this)">
+                        <span><i class="fas fa-book-open" style="margin-right:10px; color:var(--blue)"></i> ${s.name}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="acc-body">
+                        ${arHtml}
+                        ${trHtml}
+                        ${anHtml}
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // Arama (Filtreleme) Sistemi
+        function filterSureler() {
+            let search = document.getElementById('sureSearch').value.toLowerCase();
+            let items = document.querySelectorAll('.sure-item');
+            items.forEach(item => {
+                let name = item.querySelector('.acc-head span').innerText.toLowerCase();
+                if(name.includes(search)) { item.style.display = "block"; } else { item.style.display = "none"; }
+            });
+        }
 
         /* --- ŞEHİR LİSTESİ --- */
         const cities =[
@@ -602,96 +633,58 @@
             {c:"Duzce",n:"Düzce"}
         ];
 
-        const religiousEvents =[
-            { name: "Miraç Kandili", date: "2026-01-15" }, { name: "Berat Kandili", date: "2026-02-02" },
-            { name: "Ramazan Başlangıcı", date: "2026-02-19" }, { name: "Kadir Gecesi", date: "2026-03-16" },
-            { name: "Ramazan Bayramı", date: "2026-03-19" }, { name: "Kurban Bayramı", date: "2026-05-27" },
-            { name: "Aşure Günü", date: "2026-06-25" }, { name: "Mevlid Kandili", date: "2026-08-26" }
+        /* --- PEYGAMBERLER (SABİT VERİ) --- */
+        const peygamberlerList = [
+            { name: "Hz. Âdem (a.s)", desc: "İlk insan ve ilk peygamberdir. Allah onu topraktan yaratmış ve ruhundan üflemiştir. Eşi Hz. Havva ile birlikte insanlığın atasıdır." },
+            { name: "Hz. Nuh (a.s)", desc: "İnsanları tevhid inancına çağırmak için çok uzun süre çabalamıştır. İnanmayanların helak olduğu büyük tufan ve yaptığı gemi ile bilinir." },
+            { name: "Hz. İbrahim (a.s)", desc: "Hanif dininin atası, putları yıkan ve ateşe atıldığında ateşin onu yakmadığı peygamberdir. Kabe'yi oğlu Hz. İsmail ile birlikte inşa etmiştir." },
+            { name: "Hz. Musa (a.s)", desc: "İsrailoğullarını Firavun'un zulmünden kurtaran, kendisine Tevrat indirilen büyük peygamberdir. Asasıyla denizi yarması en bilinen mucizelerindendir." },
+            { name: "Hz. İsa (a.s)", desc: "Babasız olarak dünyaya gelmiş, beşikteyken konuşmuş ve ölüleri diriltme gibi mucizeler göstermiştir. Kendisine İncil indirilmiştir." },
+            { name: "Hz. Muhammed (s.a.v)", desc: "Son peygamberdir. Bütün insanlığa rahmet olarak gönderilmiştir. Kendisine kutsal kitabımız Kur'an-ı Kerim indirilmiştir." }
         ];
+        function renderPeygamberler() {
+            const container = document.getElementById('peygamberlerContainer');
+            let html = "";
+            peygamberlerList.forEach(p => {
+                html += `<div class="acc"><button class="acc-head" onclick="toggleAcc(this)"><span><i class="fas fa-star-and-crescent" style="margin-right:10px; color:var(--gold-text)"></i> ${p.name}</span><i class="fas fa-chevron-down"></i></button><div class="acc-body"><div style="font-size:1rem; color:var(--text-main); line-height:1.6;">${p.desc}</div></div></div>`;
+            }); container.innerHTML = html;
+        }
 
-        const esmaList =[
-            {ar:"الله", tr:"Allah", m:"Eşi benzeri olmayan tek ilah."},
-            {ar:"الرَّحْمَن", tr:"Er-Rahman", m:"Bütün mahlükata merhamet eden."},
-            {ar:"الْمَلِك", tr:"El-Melik", m:"Mülkün gerçek sahibi."},
-            {ar:"الْقُدُّوس", tr:"El-Kuddüs", m:"Her türlü eksiklikten münezzeh."},
-            {ar:"السَّلاَم", tr:"Es-Selam", m:"Selamete çıkaran."},
-            {ar:"الْعَزِيز", tr:"El-Aziz", m:"İzzet sahibi, her şeye galip."}
-        ];
-
-        const quotes =[
-            { text: "Kim bir iyilik yaparsa, ona on katı vardır.", source: "En'âm Suresi, 160" },
-            { text: "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.", source: "Hadis-i Şerif" },
-            { text: "Allah, sabredenlerle beraberdir.", source: "Bakara Suresi, 153" },
-            { text: "Ameller niyetlere göredir.", source: "Hadis-i Şerif" },
-            { text: "Şükrederseniz, elbette size nimetimi artırırım.", source: "İbrahim Suresi, 7" },
-            { text: "Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.", source: "Hadis-i Şerif" },
-            { text: "Mümin müminin aynasıdır.", source: "Hadis-i Şerif" },
-            { text: "İnsanlara merhamet etmeyene Allah merhamet etmez.", source: "Hadis-i Şerif" },
-            { text: "Her zorlukla beraber bir kolaylık vardır.", source: "İnşirah Suresi, 5" },
-            { text: "Dua, ibadetin özüdür.", source: "Hadis-i Şerif" }
-        ];
-
-        let timerInt = null;
-        let monthlyDataCache = null;
+        /* --- GENEL DEĞİŞKENLER VE AÇILIŞ --- */
+        let timerInt = null; let monthlyDataCache = null;
         let zikirList = JSON.parse(localStorage.getItem('zikirList')) ||[{ id: 1, name: "Sübhanallah", count: 0 }];
         let kazaData = JSON.parse(localStorage.getItem('kazaData')) || { sabah:0, ogle:0, ikindi:0, aksam:0, yats:0, vitir:0 };
         const kazaNames = { sabah:"Sabah", ogle:"Öğle", ikindi:"İkindi", aksam:"Akşam", yats:"Yatsı", vitir:"Vitir" };
-        
-        let isPersistentActive = false;
-        let lastPlayedTime = ""; 
-        let lastKerahatStatus = false;
+        let isPersistentActive = false; let lastPlayedTime = ""; let lastKerahatStatus = false;
 
         window.onload = () => {
-            const d = new Date();
-            document.getElementById('dateText').innerText = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', weekday:'long'});
-            
-            shuffleEsma();
-            renderDailyQuote();
+            document.getElementById('dateText').innerText = new Date().toLocaleDateString('tr-TR', {day:'numeric', month:'long', weekday:'long'});
+            renderDailyQuote(); shuffleEsma(); renderPeygamberler(); fetchSureler();
+            renderZikirs(); renderKaza(); renderEvents();
 
             const sel = document.getElementById('citySelect');
             sel.innerHTML = "";
             cities.sort((a,b)=>a.n.localeCompare(b.n,'tr'));
             cities.forEach(x => { let op = document.createElement('option'); op.value = x.c; op.text = x.n; sel.add(op); });
-
-            const saved = localStorage.getItem('mugolCity') || "Istanbul";
-            sel.value = saved;
+            
+            const saved = localStorage.getItem('mugolCity') || "Istanbul"; sel.value = saved;
             sel.onchange = () => { localStorage.setItem('mugolCity', sel.value); getData(sel.value); }
-
-            renderEvents(); renderZikirs(); renderKaza(); getData(saved);
+            getData(saved);
         };
 
-        function shuffleQuote() {
-            const q = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('dailyQuote').innerText = `"${q.text}"`;
-            document.getElementById('dailyQuoteSrc').innerText = `- ${q.source}`;
-        }
+        const esmaList =[{ar:"الله", tr:"Allah", m:"Eşi benzeri olmayan tek ilah."},{ar:"الرَّحْمَن", tr:"Er-Rahman", m:"Bütün mahlükata merhamet eden."},{ar:"الْمَلِك", tr:"El-Melik", m:"Mülkün gerçek sahibi."}];
+        const quotes =[{ text: "Kim bir iyilik yaparsa, ona on katı vardır.", source: "En'âm Suresi, 160" },{ text: "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.", source: "Hadis-i Şerif" }];
+        const religiousEvents =[{ name: "Ramazan Başlangıcı", date: "2026-02-19" }, { name: "Ramazan Bayramı", date: "2026-03-19" }];
 
-        function shuffleEsma() {
-            const randEsma = esmaList[Math.floor(Math.random() * esmaList.length)];
-            document.getElementById('esmaAr').innerText = randEsma.ar;
-            document.getElementById('esmaTr').innerText = randEsma.tr;
-            document.getElementById('esmaDesc').innerText = randEsma.m;
-        }
+        function shuffleQuote() { const q = quotes[Math.floor(Math.random() * quotes.length)]; document.getElementById('dailyQuote').innerText = `"${q.text}"`; document.getElementById('dailyQuoteSrc').innerText = `- ${q.source}`; }
+        function shuffleEsma() { const randEsma = esmaList[Math.floor(Math.random() * esmaList.length)]; document.getElementById('esmaAr').innerText = randEsma.ar; document.getElementById('esmaTr').innerText = randEsma.tr; document.getElementById('esmaDesc').innerText = randEsma.m; }
+        function renderDailyQuote() { const q = quotes[Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000) % quotes.length]; document.getElementById('dailyQuote').innerText = `"${q.text}"`; document.getElementById('dailyQuoteSrc').innerText = `- ${q.source}`; }
 
-        function renderDailyQuote() {
-            const start = new Date(new Date().getFullYear(), 0, 0);
-            const diff = new Date() - start;
-            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const q = quotes[dayOfYear % quotes.length];
-            document.getElementById('dailyQuote').innerText = `"${q.text}"`;
-            document.getElementById('dailyQuoteSrc').innerText = `- ${q.source}`;
-        }
-
-        /* --- ALADHAN TO DİYANET FORMAT ÇEVİRİCİ --- */
+        /* --- 3 KATMANLI SAĞLAM API MOTORU (Ezan Vakitleri İçin) --- */
         function aladhanToDiyanetFormat(aladhanItem) {
             const cln = (s) => s.split(' ')[0];
             const gDate = aladhanItem.date.gregorian.date.replace(/-/g, '.');
-            const trMonths = {
-                "Muharram":"Muharrem","Safar":"Safer","Rabi' al-awwal":"Rebiülevvel",
-                "Rabi' al-thani":"Rebiülahir","Jumada al-awwal":"Cemaziyelevvel",
-                "Jumada al-thani":"Cemaziyelahir","Rajab":"Recep","Sha'ban":"Şaban",
-                "Ramadan":"Ramazan","Shawwal":"Şevval","Dhu al-Qi'dah":"Zilkade","Dhu al-Hijjah":"Zilhicce"
-            };
+            const trMonths = { "Muharram":"Muharrem","Safar":"Safer","Rabi' al-awwal":"Rebiülevvel", "Rabi' al-thani":"Rebiülahir","Jumada al-awwal":"Cemaziyelevvel", "Jumada al-thani":"Cemaziyelahir","Rajab":"Recep","Sha'ban":"Şaban", "Ramadan":"Ramazan","Shawwal":"Şevval","Dhu al-Qi'dah":"Zilkade","Dhu al-Hijjah":"Zilhicce" };
             let m = aladhanItem.date.hijri.month.en;
             return {
                 MiladiTarihKisa: gDate, Imsak: cln(aladhanItem.timings.Imsak), Gunes: cln(aladhanItem.timings.Sunrise),
@@ -701,109 +694,78 @@
             };
         }
 
-        /* --- 1. DİYANET RESMİ API PROXY MOTORU (KESİN EŞLEŞME) --- */
         async function denemeDiyanetFetch(cityValue) {
-            // Sağlam 3 farklı proxy, timeout ile sonsuz beklemeyi önler.
             const proxies = [
                 (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
                 (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
                 (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`
             ];
-
             const fetchProxy = async (url) => {
                 let lastErr;
                 for (let proxyFn of proxies) {
                     try {
                         const controller = new AbortController();
-                        const id = setTimeout(() => controller.abort(), 6000); // 6 sn bekle
+                        const id = setTimeout(() => controller.abort(), 6000); 
                         let reqUrl = proxyFn(url);
                         let res = await fetch(reqUrl, { signal: controller.signal });
                         clearTimeout(id);
                         if (res.ok) {
                             let text = await res.text();
-                            let data = JSON.parse(text); // Cloudflare HTML'den kaçınır
+                            let data = JSON.parse(text); 
                             if(Array.isArray(data) || typeof data === 'object') return data;
                         }
                     } catch(e) { lastErr = e; }
                 }
-                throw lastErr || new Error("Tüm proxyler başarısız");
+                throw lastErr || new Error("Proxyler başarısız");
             };
 
             let sehirler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/sehirler/2');
-            if(!sehirler || !sehirler.length) throw new Error("Şehir listesi alınamadı");
-
-            let sehir = sehirler.find(s =>
-                s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() ||
-                s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR')
-            );
+            let sehir = sehirler.find(s => s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() || s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR'));
             if(!sehir) sehir = sehirler.find(s => s.SehirAdiEn.includes(cityValue.toUpperCase()));
             if(!sehir) throw new Error("Şehir bulunamadı");
 
             let ilceler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/ilceler/' + sehir.SehirID);
-            if(!ilceler || !ilceler.length) throw new Error("İlçe listesi boş");
-
-            // Kocaeli, Sakarya, Hatay gibi istisnai merkez ilçe isimlerini çözen hayati eşleşme.
             let ilce = ilceler.find(i => {
-                let iName = i.IlceAdi.toLocaleUpperCase('tr-TR');
-                let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR');
-                return iName === cName || 
-                       iName === "MERKEZ" || 
-                       (cName === "KOCAELİ" && iName === "İZMİT") ||
-                       (cName === "SAKARYA" && iName === "ADAPAZARI") ||
-                       (cName === "HATAY" && iName === "ANTAKYA");
+                let iName = i.IlceAdi.toLocaleUpperCase('tr-TR'); let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR');
+                return iName === cName || iName === "MERKEZ" || (cName === "KOCAELİ" && iName === "İZMİT") || (cName === "SAKARYA" && iName === "ADAPAZARI") || (cName === "HATAY" && iName === "ANTAKYA");
             });
             if(!ilce) ilce = ilceler[0];
 
             let vakitler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/vakitler/' + ilce.IlceID);
-            if(!vakitler || !vakitler.length) throw new Error("Vakit listesi boş");
-
             return vakitler;
         }
 
-        /* --- 2. VERCEL DİYANET API YEDEĞİ --- */
         async function fallbackVercelFetch(cityValue) {
             let res = await fetch(`https://vakit.vercel.app/api/timesFromPlace?country=Turkey&region=${cityValue}&city=${cityValue}`);
             if(!res.ok) throw new Error("Vercel api başarısız");
             let data = await res.json();
-            
             let mappedData = [];
             for (let dateKey in data.times) {
-                let [y, m, d] = dateKey.split('-');
-                let times = data.times[dateKey];
-                mappedData.push({
-                    MiladiTarihKisa: `${d}.${m}.${y}`,
-                    Imsak: times[0], Gunes: times[1], Ogle: times[2],
-                    Ikindi: times[3], Aksam: times[4], Yatsi: times[5]
-                });
+                let [y, m, d] = dateKey.split('-'); let times = data.times[dateKey];
+                mappedData.push({ MiladiTarihKisa: `${d}.${m}.${y}`, Imsak: times[0], Gunes: times[1], Ogle: times[2], Ikindi: times[3], Aksam: times[4], Yatsi: times[5] });
             }
             return mappedData;
         }
 
-        /* --- VERİLERİ ÇEKME ANA FONKSİYONU --- */
         async function getData(cityValue) { 
             const ldr = document.getElementById('loader'); 
             ldr.style.display = 'block'; 
-            
             try { 
-                // 1. Resmi Diyanet API'yi Proxy İle Çek
                 let dData = await denemeDiyanetFetch(cityValue);
                 monthlyDataCache = dData; 
                 updateForToday(dData);
             } catch(e) { 
-                console.warn("Diyanet proxy başarısız oldu. Açık Kaynak API'ye geçiliyor...", e); 
+                console.warn("Diyanet proxy başarısız oldu. Vercel API'ye geçiliyor...", e); 
                 try {
-                    // 2. Proxyler takılırsa Vercel Diyanet API'sine geç
                     let vData = await fallbackVercelFetch(cityValue);
                     monthlyDataCache = vData;
                     updateForToday(vData);
                 } catch(fallbackErr) {
-                    console.warn("Vercel API başarısız. Matematiksel hesaplamaya geçiliyor...", fallbackErr);
+                    console.warn("Vercel API başarısız. Aladhan API hesaplamaya geçiliyor...", fallbackErr);
                     try {
-                        // 3. Son Çare Matematiksel Hesaplama Aladhan (Sapma Olabilir)
                         let d = new Date();
                         let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`);
                         let json = await res.json();
-                        
                         if(json.code === 200) {
                             monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item));
                             updateForToday(monthlyDataCache);
@@ -813,9 +775,7 @@
                         alert("Veriler alınırken beklenmeyen bir hata oluştu. Lütfen internetinizi kontrol edin.");
                     }
                 }
-            } finally { 
-                ldr.style.display = 'none'; 
-            } 
+            } finally { ldr.style.display = 'none'; } 
         }
 
         function updateForToday(dataArray) {
@@ -825,7 +785,7 @@
             updateView(todayData); 
         }
 
-        /* --- GPS İLE KONUM BULMA --- */
+        /* --- GPS İLE KONUM BULMA GERİ GETİRİLDİ --- */
         async function getGPSLocation() {
             if (!navigator.geolocation) return alert("Tarayıcınız konum servislerini desteklemiyor.");
             const ldr = document.getElementById('loader'); 
@@ -863,222 +823,73 @@
             });
         }
 
-        /* --- VİTRİN GÜNCELLEME --- */
         function updateView(t) { 
             if(!t) return;
-            document.getElementById('t-Imsak').innerText = t.Imsak; 
-            document.getElementById('t-Sunrise').innerText = t.Gunes; 
-            document.getElementById('t-Dhuhr').innerText = t.Ogle; 
-            document.getElementById('t-Asr').innerText = t.Ikindi; 
-            document.getElementById('t-Maghrib').innerText = t.Aksam; 
-            document.getElementById('t-Isha').innerText = t.Yatsi; 
-
+            document.getElementById('t-Imsak').innerText = t.Imsak; document.getElementById('t-Sunrise').innerText = t.Gunes; document.getElementById('t-Dhuhr').innerText = t.Ogle; document.getElementById('t-Asr').innerText = t.Ikindi; document.getElementById('t-Maghrib').innerText = t.Aksam; document.getElementById('t-Isha').innerText = t.Yatsi; 
+            
             if(t.HicriTarihUzun) { document.getElementById('hijriText').innerText = `${t.HicriTarihUzun} (Hicri)`; }
             else { document.getElementById('hijriText').innerText = ""; }
-
             startTimer(t); 
         }
 
-        /* --- SAYAÇ VE BİLDİRİM MANTIĞI --- */
+        /* --- TIMER --- */
         function startTimer(t) {
             if(timerInt) clearInterval(timerInt);
             const times = {'Imsak':t.Imsak, 'Sunrise':t.Gunes, 'Dhuhr':t.Ogle, 'Asr':t.Ikindi, 'Maghrib':t.Aksam, 'Isha':t.Yatsi};
             const tr = {'Imsak':'İmsak','Sunrise':'Güneş','Dhuhr':'Öğle','Asr':'İkindi','Maghrib':'Akşam','Isha':'Yatsı'};
-            
             function tick() {
                 let now = new Date(); let target = null, name = ""; let min = Infinity;
                 let currentTimeStr = now.toTimeString().split(' ')[0].substr(0, 5);
+                if (now.getSeconds() === 0 && currentTimeStr !== lastPlayedTime) { for (let key in times) { if (times[key] === currentTimeStr) { triggerAlarm(tr[key]); lastPlayedTime = currentTimeStr; } } }
+                for(let k in times) { let[h,m] = times[k].split(':'); let d = new Date(); d.setHours(h,m,0,0); let diff = d - now; if(diff > 0 && diff < min) { min = diff; target = d; name = k; } }
+                if(!target) { let[h,m] = times['Imsak'].split(':'); target = new Date(); target.setDate(target.getDate()+1); target.setHours(h,m,0,0); name = 'Imsak'; }
                 
-                if (now.getSeconds() === 0 && currentTimeStr !== lastPlayedTime) {
-                    for (let key in times) {
-                        if (times[key] === currentTimeStr) { triggerAlarm(tr[key]); lastPlayedTime = currentTimeStr; }
-                    }
-                }
-
-                for(let k in times) { 
-                    let[h,m] = times[k].split(':'); 
-                    let d = new Date(); d.setHours(h,m,0,0); 
-                    let diff = d - now; 
-                    if(diff > 0 && diff < min) { min = diff; target = d; name = k; } 
-                }
-                
-                if(!target) { 
-                    let[h,m] = times['Imsak'].split(':'); 
-                    target = new Date(); target.setDate(target.getDate()+1); target.setHours(h,m,0,0); 
-                    name = 'Imsak'; 
-                }
-                
-                const nextVakitTR = tr[name];
-                document.getElementById('nextName').innerText = nextVakitTR;
-                
+                document.getElementById('nextName').innerText = tr[name];
                 document.querySelectorAll('.v-box').forEach(x=>x.classList.remove('active'));
                 let ab = document.getElementById('box-'+name); if(ab) ab.classList.add('active');
 
-                let isKerahat = false;
-                let checkKerahat = (vakitName, range) => { 
-                    let[vh, vm] = times[vakitName].split(':'); 
-                    let vt = new Date(); vt.setHours(vh,vm,0,0); 
-                    if(vakitName === 'Sunrise') { let diff = (now - vt) / 60000; return (diff > 0 && diff < range); } 
-                    else { let rem = (vt - now) / 60000; return (rem > 0 && rem < range); }
-                };
-                
-                const badge = document.getElementById('infoBadge');
-                const mainCard = document.getElementById('mainTimerCard');
-                
-                if(checkKerahat('Sunrise', 45) || checkKerahat('Dhuhr', 45) || checkKerahat('Maghrib', 45)) { 
-                    isKerahat = true; 
-                    badge.innerHTML = '<i class="fas fa-triangle-exclamation"></i> KERAHAT'; 
-                    mainCard.classList.add('kerahat');
-                    if (!lastKerahatStatus) { triggerKerahatAlarm(); lastKerahatStatus = true; }
-                } else { 
-                    badge.innerHTML = `<i class="fas fa-clock"></i> Hedef: ${times[name]}`; 
-                    mainCard.classList.remove('kerahat');
-                    lastKerahatStatus = false;
-                }
-
-                let rem = target - now; 
-                let h = Math.floor(rem/3600000); 
-                let m = Math.floor((rem%3600000)/60000); 
-                let s = Math.floor((rem%60000)/1000);
-                const countdownStr = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
-                document.getElementById('counter').innerText = countdownStr;
-
-                if (isPersistentActive && 'mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: isKerahat ? "⚠️ KERAHAT VAKTİ" : `${nextVakitTR} Vaktine Kalan:`,
-                        artist: countdownStr,
-                        album: "MuGöl İmsak",
-                        artwork:[{ src: 'icon-192.png', sizes: '192x192', type: 'image/png' }]
-                    });
-                }
+                let rem = target - now; let h = Math.floor(rem/3600000); let m = Math.floor((rem%3600000)/60000); let s = Math.floor((rem%60000)/1000);
+                document.getElementById('counter').innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
+                document.getElementById('infoBadge').innerHTML = `<i class="fas fa-clock"></i> Hedef: ${times[name]}`;
             }
             tick(); timerInt = setInterval(tick, 1000);
         }
 
-        async function enablePersistentMode() {
-            const btn = document.getElementById('notifyBtn');
-            const silent = document.getElementById('silentAudio');
-            try {
-                await silent.play();
-                isPersistentActive = true;
-                btn.classList.add('notify-active');
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.setActionHandler('play', function() {});
-                    navigator.mediaSession.setActionHandler('pause', function() {});
-                }
-                if (Notification.permission !== "granted") await Notification.requestPermission();
-                const adhan = document.getElementById('adhanAudio');
-                adhan.volume = 0; 
-                adhan.play().then(() => { adhan.pause(); adhan.currentTime=0; adhan.volume=1; }).catch(console.log);
-                alert("Bildirim Sayacı Açıldı! Telefonu kilitlediğinizde sayaç görünecek.");
-            } catch(e) { alert("Lütfen önce sayfada bir yere dokunun."); }
-        }
+        function triggerAlarm(v) { const a = document.getElementById('adhanAudio'); a.currentTime = 0; a.play(); }
+        function triggerKerahatAlarm() { const a = document.getElementById('kerahatAudio'); a.currentTime = 0; a.play(); }
 
-        function triggerAlarm(vakitIsmi) {
-            const audio = document.getElementById('adhanAudio');
-            audio.currentTime = 0; audio.play().catch(console.error);
-            if (Notification.permission === "granted") {
-                new Notification("🕌 MuGöl Vakit", { body: `${vakitIsmi} Vakti Girdi!`, icon: "icon-192.png" });
-            }
-        }
-
-        function triggerKerahatAlarm() {
-            const audio = document.getElementById('kerahatAudio');
-            audio.currentTime = 0; audio.play().catch(console.error);
-        }
-
+        /* --- UI COMPONENTS --- */
         function toggleAcc(btn) {
-            const content = btn.nextElementSibling;
-            const icon = btn.querySelector('.fa-chevron-down');
+            const content = btn.nextElementSibling; const icon = btn.querySelector('.fa-chevron-down');
             if (content.classList.contains('open')) { content.classList.remove('open'); icon.style.transform = 'rotate(0deg)'; } 
             else { content.classList.add('open'); icon.style.transform = 'rotate(180deg)'; }
         }
 
-        function shareApp() {
-            const sel = document.getElementById('citySelect');
-            const cityName = sel.options[sel.selectedIndex].text;
-            const imsak = document.getElementById('t-Imsak').innerText;
-            const text = `MuGöl İmsak Vakti\n📍 ${cityName}\n🌑 İmsak: ${imsak}\n`;
-            if (navigator.share) navigator.share({ title: 'MuGöl', text: text }).catch(console.error);
-            else { navigator.clipboard.writeText(text); alert("Kopyalandı!"); }
-        }
-
         function renderEvents() { 
-            const box = document.getElementById('daysSlider'); 
-            const now = new Date(); now.setHours(0,0,0,0); 
+            const box = document.getElementById('daysSlider'); const now = new Date(); now.setHours(0,0,0,0); 
             religiousEvents.forEach(e => { 
                 let t = new Date(e.date); t.setHours(0,0,0,0); let diff = t - now; 
                 if(diff >= 0) { 
                     let days = Math.ceil(diff / 86400000); 
-                    let dateStr = t.toLocaleDateString('tr-TR', {day:'numeric', month:'short'}); 
                     let div = document.createElement('div'); div.className = `day-card ${days === 0 ? 'today' : ''}`; 
-                    div.innerHTML = `<div class="dc-name">${e.name}</div><div class="dc-num">${days===0?'!':days}</div><div class="dc-date">${dateStr}</div>`; 
+                    div.innerHTML = `<div class="dc-name">${e.name}</div><div class="dc-num">${days===0?'!':days}</div><div class="dc-date">${t.toLocaleDateString('tr-TR', {day:'numeric', month:'short'})}</div>`; 
                     box.appendChild(div); 
                 } 
             }); 
-            if(box.innerHTML === "") box.innerHTML = "<div class='day-card'><div class='dc-name'>2026</div><div class='dc-num'>:)</div></div>"; 
         }
 
-        function renderKaza() { 
-            const grid = document.getElementById('kazaGrid'); grid.innerHTML = ""; 
-            Object.keys(kazaData).forEach(key => { 
-                let div = document.createElement('div'); div.className = 'tool-btn'; 
-                div.innerHTML = `<div class="v-name">${kazaNames[key]}</div><div class="v-time" style="color:var(--gold-text)">${kazaData[key]}</div><div style="display:flex; gap:10px; margin-top:5px"><i class="fas fa-minus-circle" onclick="updateKaza('${key}', -1); event.stopPropagation()"></i> <i class="fas fa-plus-circle" onclick="updateKaza('${key}', 1); event.stopPropagation()"></i></div>`; 
-                grid.appendChild(div); 
-            }); 
-        }
+        function renderKaza() { const grid = document.getElementById('kazaGrid'); grid.innerHTML = ""; Object.keys(kazaData).forEach(key => { let div = document.createElement('div'); div.className = 'tool-btn'; div.innerHTML = `<div class="v-name">${kazaNames[key]}</div><div class="v-time" style="color:var(--gold-text)">${kazaData[key]}</div><div style="display:flex; gap:10px; margin-top:5px"><i class="fas fa-minus-circle" onclick="updateKaza('${key}', -1); event.stopPropagation()"></i> <i class="fas fa-plus-circle" onclick="updateKaza('${key}', 1); event.stopPropagation()"></i></div>`; grid.appendChild(div); }); }
         function updateKaza(key, n) { if(kazaData[key]+n < 0) return; kazaData[key]+=n; localStorage.setItem('kazaData', JSON.stringify(kazaData)); renderKaza(); }
         function resetAllKaza() { if(confirm("Tüm kazalar sıfırlansın mı?")) { kazaData={sabah:0,ogle:0,ikindi:0,aksam:0,yats:0,vitir:0}; localStorage.setItem('kazaData',JSON.stringify(kazaData)); renderKaza(); } }
 
-        function renderZikirs() { 
-            const list = document.getElementById('zikirList'); list.innerHTML = ""; 
-            zikirList.forEach(item => { 
-                let div = document.createElement('div'); div.className = 'z-item'; 
-                div.innerHTML = `<div><div style="font-weight:600; font-size:1rem">${item.name}</div><div style="color:var(--gold-text); font-weight:700; font-size:1.2rem">${item.count}</div></div><div style="display:flex; gap:8px"><button class="zb zb-reset" title="Sıfırla" onclick="upZikir(${item.id},0)"><i class="fas fa-redo"></i></button><button class="zb zb-del" title="Sil" onclick="delZikir(${item.id})"><i class="fas fa-trash"></i></button><button class="zb zb-inc" onclick="upZikir(${item.id},${item.count+1})"><i class="fas fa-plus"></i></button></div>`; 
-                list.appendChild(div); 
-            }); localStorage.setItem('zikirList', JSON.stringify(zikirList)); 
-        }
+        function renderZikirs() { const list = document.getElementById('zikirList'); list.innerHTML = ""; zikirList.forEach(item => { let div = document.createElement('div'); div.className = 'z-item'; div.innerHTML = `<div><div style="font-weight:600; font-size:1rem">${item.name}</div><div style="color:var(--gold-text); font-weight:700; font-size:1.2rem">${item.count}</div></div><div style="display:flex; gap:8px"><button class="zb zb-reset" title="Sıfırla" onclick="upZikir(${item.id},0)"><i class="fas fa-redo"></i></button><button class="zb zb-del" title="Sil" onclick="delZikir(${item.id})"><i class="fas fa-trash"></i></button><button class="zb zb-inc" onclick="upZikir(${item.id},${item.count+1})"><i class="fas fa-plus"></i></button></div>`; list.appendChild(div); }); localStorage.setItem('zikirList', JSON.stringify(zikirList)); }
         function addNewZikir() { const val = document.getElementById('newZikirName').value; if(val){ zikirList.push({id:Date.now(), name:val, count:0}); document.getElementById('newZikirName').value=""; renderZikirs(); } }
         function upZikir(id, n) { const idx = zikirList.findIndex(x=>x.id===id); if(idx!==-1) { if(n>zikirList[idx].count && navigator.vibrate) navigator.vibrate(50); zikirList[idx].count=n; renderZikirs(); } }
         function delZikir(id) { if(confirm("Silinsin mi?")) { zikirList = zikirList.filter(x=>x.id!==id); renderZikirs(); } }
 
-        function openModal() { 
-            if(!monthlyDataCache) return alert("Veri yükleniyor, lütfen bekleyin..."); 
-            const tb = document.querySelector('#monthlyTable tbody'); tb.innerHTML = ""; 
-            
-            let d = new Date();
-            let todayStr = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
-            
-            monthlyDataCache.forEach(dData => { 
-                let isToday = (dData.MiladiTarihKisa === todayStr);
-                let tr = document.createElement('tr'); 
-                if(isToday) tr.className="active-day"; 
-                
-                let dayNum = dData.MiladiTarihKisa.split('.')[0];
-                
-                tr.innerHTML = `<td>${dayNum}</td><td>${dData.Imsak}</td><td>${dData.Gunes}</td><td>${dData.Ogle}</td><td>${dData.Ikindi}</td><td>${dData.Aksam}</td><td>${dData.Yatsi}</td>`; 
-                tb.appendChild(tr); 
-            }); 
-            
-            const modal = document.getElementById('imsakiyeModal');
-            modal.style.display = "flex";
-            setTimeout(() => modal.classList.add('show'), 10);
-        }
-        
-        function closeModal() { 
-            const modal = document.getElementById('imsakiyeModal');
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = "none", 300);
-        }
+        function openModal() { const modal = document.getElementById('imsakiyeModal'); modal.style.display = "flex"; setTimeout(() => modal.classList.add('show'), 10); }
+        function closeModal() { const modal = document.getElementById('imsakiyeModal'); modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
-
-        function testAdhan() { const a = document.getElementById('adhanAudio'); a.currentTime=0; a.play(); }
-        function testKerahat() { const a = document.getElementById('kerahatAudio'); a.currentTime=0; a.play(); }
-        function stopAudio() { document.getElementById('adhanAudio').pause(); document.getElementById('kerahatAudio').pause(); }
-
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if(!localStorage.getItem('pwaDismissed')) document.getElementById('installBanner').style.display = 'flex'; });
-        async function installPWA() { if(!deferredPrompt) { return alert('Yüklemek için tarayıcı menüsünü kullanın.'); } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if(outcome === 'accepted') { document.getElementById('installBanner').style.display = 'none'; localStorage.setItem('pwaDismissed', 'true'); } deferredPrompt = null; }
     </script>
 </body>
 </html>
