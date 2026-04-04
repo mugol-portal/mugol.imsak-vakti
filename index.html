@@ -111,39 +111,14 @@
         .btn-icon { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--glass-border); background: rgba(128,128,128,0.1); color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: 0.3s; flex-shrink: 0; }
         .btn-icon:hover { background: rgba(128,128,128,0.2); } .btn-icon:active { transform: scale(0.9); }
         
-        /* GÜNCELLENMİŞ SAYAÇ KARTI TASARIMI (Resimsiz, CSS Tabanlı) */
-        .timer-card { 
-            position: relative; 
-            background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.2) 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 36px;
-            width: 100%; 
-            max-width: 360px; 
-            margin: 0 auto;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 40px 20px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3), inset 0 2px 15px rgba(255,255,255,0.05); 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        
-        .timer-card::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), transparent 60%);
-            border-radius: 38px;
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        .timer-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 4px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; opacity: 0.9; }
-        .timer-next { font-family: 'Amiri', serif; font-size: 3.2rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; line-height: 1.2; text-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .timer-val { font-size: 4rem; font-weight: 700; line-height: 1; letter-spacing: -1px; background: var(--timer-bg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); font-variant-numeric: tabular-nums; }
-        .timer-badge { padding: 8px 18px; border-radius: 20px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: var(--blue); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; }
+        /* SAYAÇ KARTI - Resim Arka Planlı */
+        .timer-card { position: relative; background-image: url('cerceve.png'); background-size: 100% 100%; background-repeat: no-repeat; background-position: center; aspect-ratio: 1 / 1; width: 100%; max-width: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 22% 10%; filter: drop-shadow(0 15px 40px var(--shadow-color)); }
+        .timer-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 4px; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; opacity: 0.9; }
+        .timer-next { font-family: 'Amiri', serif; font-size: 3rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 2px; line-height: 1.2; text-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .timer-val { font-size: 3.8rem; font-weight: 700; line-height: 1; letter-spacing: -1px; background: var(--timer-bg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); font-variant-numeric: tabular-nums; }
+        .timer-badge { padding: 6px 14px; border-radius: 20px; background: var(--glass-surface); border: 1px solid var(--glass-border); color: var(--blue); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .timer-card.kerahat .timer-val { background: linear-gradient(to bottom, #ef4444, #991b1b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .timer-card.kerahat .timer-badge { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.1); }
         
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
         .v-box { background: var(--glass-surface); border: 1px solid var(--glass-border); border-radius: 20px; padding: 18px 5px; text-align: center; backdrop-filter: var(--glass-blur); position: relative; overflow: hidden; }
@@ -814,7 +789,24 @@
         }
 
         /* --- GENEL TANIMLAR --- */
-        const cities =[{c:"Adana",n:"Adana"},{c:"Adiyaman",n:"Adıyaman"},{c:"Ankara",n:"Ankara"},{c:"Istanbul",n:"İstanbul"},{c:"Izmir",n:"İzmir"}]; 
+        const cities =[
+            {c:"Adana",n:"Adana"},{c:"Adiyaman",n:"Adıyaman"},{c:"Afyonkarahisar",n:"Afyonkarahisar"},{c:"Agri",n:"Ağrı"},{c:"Aksaray",n:"Aksaray"},
+            {c:"Amasya",n:"Amasya"},{c:"Ankara",n:"Ankara"},{c:"Antalya",n:"Antalya"},{c:"Ardahan",n:"Ardahan"},{c:"Artvin",n:"Artvin"},
+            {c:"Aydin",n:"Aydın"},{c:"Balikesir",n:"Balıkesir"},{c:"Bartin",n:"Bartın"},{c:"Batman",n:"Batman"},{c:"Bayburt",n:"Bayburt"},
+            {c:"Bilecik",n:"Bilecik"},{c:"Bingol",n:"Bingöl"},{c:"Bitlis",n:"Bitlis"},{c:"Bolu",n:"Bolu"},{c:"Burdur",n:"Burdur"},
+            {c:"Bursa",n:"Bursa"},{c:"Canakkale",n:"Çanakkale"},{c:"Cankiri",n:"Çankırı"},{c:"Corum",n:"Çorum"},{c:"Denizli",n:"Denizli"},
+            {c:"Diyarbakir",n:"Diyarbakır"},{c:"Duzce",n:"Düzce"},{c:"Edirne",n:"Edirne"},{c:"Elazig",n:"Elazığ"},{c:"Erzincan",n:"Erzincan"},
+            {c:"Erzurum",n:"Erzurum"},{c:"Eskisehir",n:"Eskişehir"},{c:"Gaziantep",n:"Gaziantep"},{c:"Giresun",n:"Giresun"},{c:"Gumushane",n:"Gümüşhane"},
+            {c:"Hakkari",n:"Hakkari"},{c:"Hatay",n:"Hatay"},{c:"Igdir",n:"Iğdır"},{c:"Isparta",n:"Isparta"},{c:"Istanbul",n:"İstanbul"},
+            {c:"Izmir",n:"İzmir"},{c:"Kahramanmaras",n:"Kahramanmaraş"},{c:"Karabuk",n:"Karabük"},{c:"Karaman",n:"Karaman"},{c:"Kars",n:"Kars"},
+            {c:"Kastamonu",n:"Kastamonu"},{c:"Kayseri",n:"Kayseri"},{c:"Kilis",n:"Kilis"},{c:"Kirikkale",n:"Kırıkkale"},{c:"Kirklareli",n:"Kırklareli"},
+            {c:"Kirsehir",n:"Kırşehir"},{c:"Kocaeli",n:"Kocaeli"},{c:"Konya",n:"Konya"},{c:"Kutahya",n:"Kütahya"},{c:"Malatya",n:"Malatya"},
+            {c:"Manisa",n:"Manisa"},{c:"Mardin",n:"Mardin"},{c:"Mersin",n:"Mersin"},{c:"Mugla",n:"Muğla"},{c:"Mus",n:"Muş"},
+            {c:"Nevsehir",n:"Nevşehir"},{c:"Nigde",n:"Niğde"},{c:"Ordu",n:"Ordu"},{c:"Osmaniye",n:"Osmaniye"},{c:"Rize",n:"Rize"},
+            {c:"Sakarya",n:"Sakarya"},{c:"Samsun",n:"Samsun"},{c:"Sanliurfa",n:"Şanlıurfa"},{c:"Siirt",n:"Siirt"},{c:"Sinop",n:"Sinop"},
+            {c:"Sirnak",n:"Şırnak"},{c:"Sivas",n:"Sivas"},{c:"Tekirdag",n:"Tekirdağ"},{c:"Tokat",n:"Tokat"},{c:"Trabzon",n:"Trabzon"},
+            {c:"Tunceli",n:"Tunceli"},{c:"Usak",n:"Uşak"},{c:"Van",n:"Van"},{c:"Yalova",n:"Yalova"},{c:"Yozgat",n:"Yozgat"},{c:"Zonguldak",n:"Zonguldak"}
+        ]; 
         let timerInt = null; let monthlyDataCache = null;
         let zikirList = JSON.parse(localStorage.getItem('zikirList')) ||[{ id: 1, name: "Sübhanallah", count: 0 }];
         let kazaData = JSON.parse(localStorage.getItem('kazaData')) || { sabah:0, ogle:0, ikindi:0, aksam:0, yats:0, vitir:0 };
@@ -822,19 +814,14 @@
         let lastPlayedTime = "";
 
         const religiousEvents =[
-            { name: "Üç Aylar Başlangıcı", date: "2026-01-19" }, 
-            { name: "Regaip Kandili", date: "2026-01-22" }, 
-            { name: "Miraç Kandili", date: "2026-02-13" }, 
-            { name: "Berat Kandili", date: "2026-02-28" }, 
-            { name: "Ramazan Başlangıcı", date: "2026-03-18" }, 
-            { name: "Kadir Gecesi", date: "2026-04-13" }, 
-            { name: "Ramazan Bayramı Arf.", date: "2026-04-16" }, 
-            { name: "Ramazan Bayramı (1. Gün)", date: "2026-04-17" }, 
-            { name: "Kurban Bayramı Arf.", date: "2026-06-23" }, 
-            { name: "Kurban Bayramı (1. Gün)", date: "2026-06-24" }, 
-            { name: "Hicri Yılbaşı", date: "2026-07-14" }, 
-            { name: "Aşure Günü", date: "2026-07-23" }, 
-            { name: "Mevlid Kandili", date: "2026-09-22" }
+            { name: "Ramazan Başlangıcı", date: "2024-03-11" }, { name: "Ramazan Bayramı", date: "2024-04-10" }, { name: "Kurban Bayramı", date: "2024-06-16" }, 
+            { name: "Regaib Kandili", date: "2025-01-02" }, { name: "Miraç Kandili", date: "2025-01-26" }, { name: "Berat Kandili", date: "2025-02-13" }, 
+            { name: "Ramazan Başlangıcı", date: "2025-03-01" }, { name: "Kadir Gecesi", date: "2025-03-26" }, { name: "Ramazan Bayramı", date: "2025-03-30" },
+            { name: "Kurban Bayramı", date: "2025-06-06" }, { name: "Hicri Yılbaşı", date: "2025-06-26" }, { name: "Aşure Günü", date: "2025-07-05" }, 
+            { name: "Mevlid Kandili", date: "2025-09-04" }, { name: "Regaib Kandili", date: "2026-11-19" }, { name: "Miraç Kandili", date: "2026-12-14" },
+            { name: "Berat Kandili", date: "2026-02-02" }, { name: "Ramazan Başlangıcı", date: "2026-02-18" }, { name: "Kadir Gecesi", date: "2026-03-15" }, 
+            { name: "Ramazan Bayramı", date: "2026-03-20" }, { name: "Kurban Bayramı", date: "2026-05-27" }, { name: "Hicri Yılbaşı", date: "2026-06-16" },
+            { name: "Aşure Günü", date: "2026-06-25" }, { name: "Mevlid Kandili", date: "2026-08-24" }
         ];
 
         const sunnahList = [
@@ -865,10 +852,10 @@
 
         /* --- API & SAYAÇ & KERAHAT MOTORU --- */
         function aladhanToDiyanetFormat(aladhanItem) { const cln = (s) => s.split(' ')[0]; const gDate = aladhanItem.date.gregorian.date.replace(/-/g, '.'); const trMonths = { "Muharram":"Muharrem","Safar":"Safer","Rabi' al-awwal":"Rebiülevvel", "Rabi' al-thani":"Rebiülahir","Jumada al-awwal":"Cemaziyelevvel", "Jumada al-thani":"Cemaziyelahir","Rajab":"Recep","Sha'ban":"Şaban", "Ramadan":"Ramazan","Shawwal":"Şevval","Dhu al-Qi'dah":"Zilkade","Dhu al-Hijjah":"Zilhicce" }; let m = aladhanItem.date.hijri.month.en; return { MiladiTarihKisa: gDate, Imsak: cln(aladhanItem.timings.Imsak), Gunes: cln(aladhanItem.timings.Sunrise), Ogle: cln(aladhanItem.timings.Dhuhr), Ikindi: cln(aladhanItem.timings.Asr), Aksam: cln(aladhanItem.timings.Maghrib), Yatsi: cln(aladhanItem.timings.Isha), HicriTarihUzun: `${aladhanItem.date.hijri.day} ${trMonths[m] || m} ${aladhanItem.date.hijri.year}` }; }
-        async function denemeDiyanetFetch(cityValue) { const proxies = [(url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`]; const fetchProxy = async (url) => { let lastErr; for (let proxyFn of proxies) { try { const controller = new AbortController(); const id = setTimeout(() => controller.abort(), 6000); let reqUrl = proxyFn(url); let res = await fetch(reqUrl, { signal: controller.signal }); clearTimeout(id); if (res.ok) { let text = await res.text(); let data = JSON.parse(text); if(Array.isArray(data) || typeof data === 'object') return data; } } catch(e) { lastErr = e; } } throw lastErr || new Error("Proxyler başarısız"); }; let sehirler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/sehirler/2'); let sehir = sehirler.find(s => s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() || s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR')); if(!sehir) sehir = sehirler.find(s => s.SehirAdiEn.includes(cityValue.toUpperCase())); if(!sehir) throw new Error("Şehir bulunamadı"); let ilceler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/ilceler/' + sehir.SehirID); let ilce = ilceler.find(i => { let iName = i.IlceAdi.toLocaleUpperCase('tr-TR'); let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR'); return iName === cName || iName === "MERKEZ" || (cName === "KOCAELİ" && iName === "İZMİT") || (cName === "SAKARYA" && iName === "ADAPAZARI") || (cName === "HATAY" && iName === "ANTAKYA"); }); if(!ilce) ilce = ilceler[0]; return await fetchProxy('https://ezanvakti.diyanet.gov.tr/vakitler/' + ilce.IlceID); }
+        async function denemeDiyanetFetch(cityValue) { const proxies = [(url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, (url) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`]; const fetchProxy = async (url) => { let lastErr; for (let proxyFn of proxies) { try { const controller = new AbortController(); const id = setTimeout(() => controller.abort(), 8000); let reqUrl = proxyFn(url); let res = await fetch(reqUrl, { signal: controller.signal }); clearTimeout(id); if (res.ok) { let text = await res.text(); if(!text || text.trim() === '') continue; let data = JSON.parse(text); if(Array.isArray(data) && data.length > 0) return data; if(typeof data === 'object' && data !== null) return data; } } catch(e) { lastErr = e; } } throw lastErr || new Error("Proxyler başarısız"); }; let sehirler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/sehirler/2'); let sehir = sehirler.find(s => s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() || s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR')); if(!sehir) sehir = sehirler.find(s => s.SehirAdiEn.includes(cityValue.toUpperCase())); if(!sehir) throw new Error("Şehir bulunamadı"); let ilceler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/ilceler/' + sehir.SehirID); let ilce = ilceler.find(i => { let iName = i.IlceAdi.toLocaleUpperCase('tr-TR'); let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR'); return iName === cName || iName === "MERKEZ" || (cName === "KOCAELİ" && iName === "İZMİT") || (cName === "SAKARYA" && iName === "ADAPAZARI") || (cName === "HATAY" && iName === "ANTAKYA"); }); if(!ilce) ilce = ilceler[0]; return await fetchProxy('https://ezanvakti.diyanet.gov.tr/vakitler/' + ilce.IlceID); }
         async function fallbackVercelFetch(cityValue) { let res = await fetch(`https://vakit.vercel.app/api/timesFromPlace?country=Turkey&region=${cityValue}&city=${cityValue}`); if(!res.ok) throw new Error("Vercel başarısız"); let data = await res.json(); let mappedData = []; for (let dateKey in data.times) { let [y, m, d] = dateKey.split('-'); let times = data.times[dateKey]; mappedData.push({ MiladiTarihKisa: `${d}.${m}.${y}`, Imsak: times[0], Gunes: times[1], Ogle: times[2], Ikindi: times[3], Aksam: times[4], Yatsi: times[5] }); } return mappedData; }
         
-        async function getData(cityValue) { const ldr = document.getElementById('loader'); ldr.style.display = 'block'; try { let dData = await denemeDiyanetFetch(cityValue); monthlyDataCache = dData; updateForToday(dData); } catch(e) { try { let vData = await fallbackVercelFetch(cityValue); monthlyDataCache = vData; updateForToday(vData); } catch(fallbackErr) { try { let d = new Date(); let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`); let json = await res.json(); if(json.code === 200) { monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item)); updateForToday(monthlyDataCache); } } catch(finalErr) { alert("Bağlantı hatası."); } } } finally { ldr.style.display = 'none'; } }
+        async function getData(cityValue) { const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; try { let d = new Date(); let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`); let json = await res.json(); if(json.code === 200 && json.data && json.data.length > 0) { monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item)); updateForToday(monthlyDataCache); return; } throw new Error("Aladhan boş döndü"); } catch(e) { try { let dData = await denemeDiyanetFetch(cityValue); monthlyDataCache = dData; updateForToday(dData); } catch(e2) { try { let vData = await fallbackVercelFetch(cityValue); monthlyDataCache = vData; updateForToday(vData); } catch(finalErr) { ldr.style.display = 'none'; alert("Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."); } } } finally { ldr.style.display = 'none'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; } }
         function updateForToday(dataArray) { let d = new Date(); let todayStr = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; let todayData = dataArray.find(v => v.MiladiTarihKisa === todayStr) || dataArray[0]; updateView(todayData); }
         
         async function getGPSLocation() { if (!navigator.geolocation) return alert("Konum desteklenmiyor."); const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-location-arrow fa-spin"></i> Bulunuyor...'; navigator.geolocation.getCurrentPosition(async (pos) => { try { let geoRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=tr`); let geoJson = await geoRes.json(); let cityName = geoJson.principalSubdivision.replace(' Province', '').replace(' ili', '').replace(' İli', '').trim(); let sel = document.getElementById('citySelect'); let matchedOption = Array.from(sel.options).find(o => o.text.toLocaleUpperCase('tr-TR') === cityName.toLocaleUpperCase('tr-TR') || o.value.toUpperCase() === cityName.toUpperCase()); if(matchedOption) { sel.value = matchedOption.value; localStorage.setItem('mugolCity', matchedOption.value); await getData(matchedOption.value); } else { await getData(cityName); let opt = document.createElement('option'); opt.value = cityName; opt.text = `📍 ${cityName} (GPS)`; sel.add(opt, sel.options[0]); sel.value = cityName; } } catch (e) {} finally { ldr.style.display = 'none'; } }, () => { ldr.style.display = 'none'; alert("Konum izni reddedildi."); }); }
@@ -876,10 +863,10 @@
         function updateView(t) { if(!t) return; document.getElementById('t-Imsak').innerText = t.Imsak; document.getElementById('t-Sunrise').innerText = t.Gunes; document.getElementById('t-Dhuhr').innerText = t.Ogle; document.getElementById('t-Asr').innerText = t.Ikindi; document.getElementById('t-Maghrib').innerText = t.Aksam; document.getElementById('t-Isha').innerText = t.Yatsi; if(t.HicriTarihUzun) { document.getElementById('hijriText').innerText = `${t.HicriTarihUzun} (Hicri)`; } else { document.getElementById('hijriText').innerText = ""; } startTimer(t); }
 
         function checkKerahat(now, t) {
-            const getD = (timeStr) => { let [h,m] = timeStr.split(':'); let d = new Date(now); d.setHours(h,m,0,0); return d; };
-            let sunRise = getD(t.Sunrise); let sunRiseEnd = new Date(sunRise.getTime() + 45*60000);
-            let dhuhr = getD(t.Dhuhr); let dhuhrStart = new Date(dhuhr.getTime() - 45*60000);
-            let maghrib = getD(t.Maghrib); let maghribStart = new Date(maghrib.getTime() - 45*60000);
+            const getD = (timeStr) => { if(!timeStr) return new Date(0); let [h,m] = timeStr.split(':'); let d = new Date(now); d.setHours(parseInt(h),parseInt(m),0,0); return d; };
+            let sunRise = getD(t.Gunes); let sunRiseEnd = new Date(sunRise.getTime() + 45*60000);
+            let dhuhr = getD(t.Ogle); let dhuhrStart = new Date(dhuhr.getTime() - 45*60000);
+            let maghrib = getD(t.Aksam); let maghribStart = new Date(maghrib.getTime() - 45*60000);
             let isKerahat = (now >= sunRise && now <= sunRiseEnd) || (now >= dhuhrStart && now <= dhuhr) || (now >= maghribStart && now <= maghrib);
             const banner = document.getElementById('kerahatBanner');
             if(isKerahat) { banner.style.display = 'block'; document.getElementById('mainTimerCard').classList.add('kerahat'); } 
