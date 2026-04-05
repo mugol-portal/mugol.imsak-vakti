@@ -13,7 +13,7 @@
     },
     {
         "name": "Fîl Suresi",
-        "ar": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ. أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ. وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ. تَرْمِيهِمْ بِحِجَارَةٍ مِنْ سِجِّيلٍ. فَجَعَلَهُمْ كَعَصْفٍ مَأْكُولٍ.",
+        "ar": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ. أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ. وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ. تَرْمِيهِمْ بِحِجَارَةٍ مِنْ سِجِّيلٍ. فَجَعﻠَهُمْ كَعَصْفٍ مَأْكُولٍ.",
         "tr": "Elem tera keyfe fe'ale rabbüke biashâbilfîl. Elem yec'al keydehüm fî tadlîl. Ve ersele aleyhim tayran ebâbîl. Termîhim bihicâratin min siccîl. Fece'alehüm ke'asfin me'kûl.",
         "an": "Rabbinin, fil sahiplerine ne yaptığını görmedin mi? Onların tuzaklarını boşa çıkarmadı mı? Üzerlerine sürü sürü kuşlar gönderdi. Onlara çamurdan sertleşmiş taşlar atıyorlardı. Nihayet onları yenilmiş ekin yaprakları haline getirdi."
     },
@@ -70,5 +70,54 @@
         "ar": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ. مَلِكِ النَّاسِ. إِلَهِ النَّاسِ. مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ. الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ. مِنَ الْجِنَّةِ وَالنَّاسِ.",
         "tr": "Kul e'ûzü birabbin nâs. Melikin nâs. İlâhin nâs. Min şerril vesvâsil hannâs. Ellezî yüvesvisü fî sudûrin nâs. Minel cinneti ven nâs.",
         "an": "De ki: Cinlerden ve insanlardan; insanların kalplerine vesvese veren sinsi vesvesecinin kötülüğünden, insanların Rabbine, Melikine, İlahına sığınırım."
+    },
+    {
+        "name": "Kadr Suresi",
+        "ar": "إِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ. وَمَا أَدْرَاكَ مَا لَيْلَةُ الْقَدْرِ. لَيْلَةُ الْقَدْرِ خَيْرٌ مِنْ أَلْفِ شَهْرٍ. تَنَزَّلُ الْمَلَائِكَةُ وَالرُّوحُ فِيهَا بِإِذْنِ رَبِّهِمْ مِنْ كُلِّ أَمْرٍ. سَلَامٌ هِيَ حَتَّى مَطْلَعِ الْفَجْرِ.",
+        "tr": "İnnâ enzelnâhü fî leyletil kadr. Vemâ edrâke mâ leyletül kadr. Leyletül kadri hayrün min elfi şehr. Tenezzelül melâiketü verrûhu fîhâ biizni rabbihim min külli emr. Selâmün hiye hattâ matla'il fecr.",
+        "an": "Şüphesiz, biz onu (Kur'an'ı) Kadir gecesinde indirdik. Kadir gecesinin ne olduğunu sen ne bileceksin! Kadir gecesi bin aydan daha hayırlıdır. Melekler ve Ruh (Cebrail) o gecede, Rablerinin izniyle her türlü iş için iner de iner. O gece, tan yerinin ağarmasına kadar bir esenliktir."
+    },
+    {
+        "name": "Asr Suresi",
+        "ar": "وَالْعَصْرِ. إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ. إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَواصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ.",
+        "tr": "Vel asr. İnnel insâne lefî husr. İllellezîne âmenû ve amilûs sâlihâti ve tevâsav bil hakkı ve tevâsav bissabr.",
+        "an": "Andolsun zamana ki, insan gerçekten ziyan içindedir. Ancak iman edip de salih ameller işleyenler, birbirlerine hakkı tavsiye edenler ve birbirlerine sabrı tavsiye edenler başka (onlar ziyanda değillerdir)."
+    },
+    {
+        "name": "İnşirah Suresi",
+        "ar": "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ. وَوَضَعْنَا عَنْكَ وِزْرَكَ. الَّذِي أَنْقَضَ ظَهْرَكَ. وَرَفَعْنَا لَكَ ذِكْرَكَ. فَإِنَّ مَعَ الْعُسْرِ يُسْرًا. إِنَّ مَعَ الْعُسْرِ يُسْرًا. فَإِذَا فَرَغْتَ فَانْصَبْ. وَإِلَى رَبِّكَ فَارْغَبْ.",
+        "tr": "Elem neşrah leke sadrak. Ve veda'nâ anke vizrak. Ellezî enkada zahrak. Ve refa'nâ leke zikrak. Feinne meâl usri yusrâ. İnne meâl usri yusrâ. Feizâ ferağte fensab. Ve ilâ rabbike ferğab.",
+        "an": "Senin için göğsünü açmadık mı? Senden yükünü indirmedik mı? O senin sırtını ezen yükü. Senin şanını yüceltmedik mi? Demek ki zorlukla beraber bir kolaylık vardır. Evet, zorlukla beraber bir kolaylık vardır. O halde boş kaldığında yine kalk yorul! Ve ancak Rabbine yönel."
+    },
+    {
+        "name": "Duha Suresi",
+        "ar": "وَالضُّحَى. وَاللَّيْلِ إِذَا سَجَى. مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَى. وَلَلْآخِرَةُ خَيْرٌ لَكَ مِنَ الْأُولَى. وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَى. أَلَمْ يَجِدْكَ يَتِيمًا فَآوَى. وَوَجَدَكَ ضَالًّا فَهَدَى. وَوَجَدَكَ عَائِلًا فَأَغْنَى. فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ. وَأَمَّا السَّائِلَ فَلَا تَنْهَرْ. وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ.",
+        "tr": "Vedduhâ. Velleyli izâ secâ. Mâ vedde'ake rabbüke vemâ kalâ. Ve lel'âhiratü hayrün leke minel ûlâ. Ve lesevfe yu'tîke rabbüke feterdâ. Elem yecidke yetîmen feâvâ. Ve vecedeke dâllen fehedâ. Ve vecedeke âilen feağnâ. Fe emmel yetîme felâ takher. Ve emmes sâile felâ tenher. Ve emmâ bini'meti rabbike fehaddis.",
+        "an": "Kuşluk vaktine andolsun. Karanlığı çöktüğü vakit geceye andolsun ki, Rabbin seni terk etmedi, sana darılmadı da. Elbette ahiret senin için dünyadan daha hayırlıdır. Pek yakında Rabbin sana verecek de memnun olacaksın. O seni yetim bulup barındırmadı mı? Seni yol bilmez bulup doğru yola iletmedi mi? Seni yoksul bulup zengin etmedi mi? Öyleyse sakın yetimi ezme! El açıp isteyeni de sakın azarlama! Ve Rabbinin nimetini minnetle an."
+    },
+    {
+        "name": "Kunut Duaları - 1",
+        "ar": "اَللّٰهُمَّ اِنَّا نَسْتَعِينُكَ وَنَسْتَغْفِرُكَ وَنَسْتَهْدِيكَ. وَنُؤْمِنُ بِكَ وَنَتُوبُ اِلَيْكَ. وَنَتَوَكَّلُ عَلَيْكَ وَنُثْنِي عَلَيْكَ الْخَيْرَ كُلَّهُ نَشْكُرُكَ وَلَا نَكْفُرُكَ وَنَخْلَعُ وَنَتْرُكُ مَنْ يَفْجُرُكَ.",
+        "tr": "Allâhümme innâ neste'înüke ve nestağfirüke ve nestehdîk. Ve nü'minü bike ve netûbü ileyk. Ve netevekkelü aleyke ve nüsnî aleykel-hayra küllehû neşkürüke velâ nekfürük. Ve nahleu ve netrükü mey yefcürük.",
+        "an": "Allahım! Sen’den yardım isteriz, günahlarımızı bağışlamanı isteriz, razı olduğun şeylere hidayet etmeni isteriz. Sana inanırız, Sana tövbe ederiz. Sana güveniriz. Bize verdiğin bütün nimetleri bilerek Seni hayır ile överiz. Sana şükrederiz. Hiçbir nimetini inkâr etmeyiz ve inanmayanları bırakır onlarla ilişkimizi keseriz."
+    },
+    {
+        "name": "Kunut Duaları - 2",
+        "ar": "اَللّٰهُمَّ اِيَّاكَ نَعْبُدُ وَلَكَ نُصَلِّي وَنَسْجُدُ وَاِلَيْكَ نَسْعٰى وَنَحْفِدُ نَرْجُو رَحْمَتَكَ وَنَخْشٰى عَذَابَكَ اِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحِقٌ.",
+        "tr": "Allâhümme iyyâke na'büdü ve leke nüsallî ve nescüdü ve ileyke nes'â ve nahfidü nercû rahmeteke ve nahşâ azâbeke inne azâbeke bilküffâri mülhık.",
+        "an": "Allahım! Biz yalnız Sana kulluk ederiz. Namazı yalnız Senin için kılarız, ancak Sana secde ederiz. Sana yaklaştıracak işlere koşarız ve ibadet aşkı ile çalışırız. Rahmetinin devamını ve çoğalmasını dileriz. Azabından korkarız, şüphesiz Senin azabın kâfirlere ve inançsızlara ulaşır."
+    },
+    {
+        "name": "Allahümme Salli",
+        "ar": "اَللّٰهُمَّ صَلِّ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰى اِبْرٰهيمَ وَعَلٰى اٰلِ اِبْرٰهيمَ اِنَّكَ حَميدٌ مَجيدٌ.",
+        "tr": "Allâhümme salli alâ Muhammedin ve alâ âli Muhammed. Kemâ salleyte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
+        "an": "Allah'ım! Hz. İbrahim'e ve ailesine rahmet ettiğin gibi; Hz. Muhammed'e ve ailesine de rahmet eyle. Şüphesiz Sen övülmeye layık ve yücesin."
+    },
+    {
+        "name": "Allahümme Barik",
+        "ar": "اَللّٰهُمَّ بَارِكْ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلٰى اِبْرٰهيمَ وَعَلٰى اٰلِ اِبْرٰهيمَ اِنَّكَ حَميدٌ مَجيدٌ.",
+        "tr": "Allâhümme bârik alâ Muhammedin ve alâ âli Muhammed. Kemâ bârekte alâ İbrâhîme ve alâ âli İbrâhîm. İnneke hamîdün mecîd.",
+        "an": "Allah'ım! Hz. İbrahim'i ve ailesini mübarek kıldığın gibi; Hz. Muhammed'i ve ailesini de mübarek kıl. Şüphesiz Sen övülmeye layık ve yücesin."
     }
 ]
+ 

@@ -2,111 +2,156 @@
     {
         "name": "Hz. Âdem (a.s)",
         "desc": "İlk insan ve ilk peygamberdir. Allah onu topraktan (çamurdan) yaratmış ve ona kendi ruhundan üflemiştir. Eşi Hz. Havva ile birlikte cennette yaşarken yasak meyveyi yemeleri sonucu dünyaya gönderilmişlerdir.",
+        "location": "Cennetten sonra Hindistan (Seylan) ve Mekke (Arafat) bölgesi.",
+        "key_events": "Yeryüzüne indirilme, Hz. Havva ile buluşma ve tövbesinin kabulü.",
         "source": "Bakara Suresi 30-38. Ayetler / Araf Suresi 19-25. Ayetler"
     },
     {
         "name": "Hz. Şit (a.s)",
         "desc": "Hz. Âdem'in (a.s) oğullarından biridir. Kendisine 50 suhuf (sayfa) verilmiştir. Kabil'in Habil'i öldürmesinden sonra Allah tarafından Hz. Adem'e bir teselli olarak ihsan edilmiştir.",
+        "location": "Mezopotamya ve Mekke çevresi.",
+        "key_events": "Kabe'yi taştan inşa etmesi ve ilk defa dokumacılık/sanatla uğraşılması.",
         "source": "İslami Kaynaklar (Kısas-ı Enbiya) / Hadis-i Şerifler (Suhuflar hakkında: İbn Hibbân, 361)"
     },
     {
         "name": "Hz. İdris (a.s)",
         "desc": "Kalemle ilk yazı yazan ve elbise dikip giyen ilk peygamber olduğuna inanılır. Kur'an'da onun 'sıddık' (dosdoğru) bir peygamber olduğu ve yüce bir makama yükseltildiği belirtilir.",
+        "location": "Babil (Irak) ve Mısır (Münif) bölgesi.",
+        "key_events": "Yazının icadı, terzilik sanatının başlatılması ve diri olarak göğe yükseltilmesi.",
         "source": "Meryem Suresi 56-57. Ayetler"
     },
     {
         "name": "Hz. Nuh (a.s)",
         "desc": "İnsanları 950 yıl boyunca tevhid inancına davet etmiş, ancak kavminden çok azı inanmıştır. Allah'ın emriyle dev bir gemi inşa etmiş ve tufandan inananlarla birlikte kurtulmuştur. Ona 'İkinci Âdem' de denir.",
+        "location": "Mezopotamya (Irak - Kûfe/Musul civarı).",
+        "key_events": "Büyük Tufan ve geminin Cudi Dağı'na oturması.",
         "source": "Nuh Suresi 1-28. Ayetler / Hûd Suresi 25-49. Ayetler"
     },
     {
         "name": "Hz. Hûd (a.s)",
         "desc": "Âd kavmine gönderilmiştir. Çok güçlü ve varlıklı olan kavmi, binalarıyla gururlanıp şirke düşmüştür. Şiddetli bir rüzgar (sarsıntı) ile helak edilmişlerdir.",
+        "location": "Ahkâf Bölgesi (Yemen ve Umman arası).",
+        "key_events": "İrem Bağları ile ünlü kavminin 7 gece 8 gün süren rüzgarla helakı.",
         "source": "Hûd Suresi 50-60. Ayetler / A'râf Suresi 65-72. Ayetler"
     },
     {
         "name": "Hz. Salih (a.s)",
         "desc": "Semûd kavmine gönderilmiştir. Kavminin isteği üzerine kayadan mucizevi bir deve çıkarılmıştır. Ancak kavmi deveyi keserek azgınlaşmış ve korkunç bir ses (sayha) ile helak olmuştur.",
+        "location": "Hicr Bölgesi (Medine - Şam arası).",
+        "key_events": "Mucizevi deve imtihanı ve Semud kavminin helakı.",
         "source": "Şuarâ Suresi 141-159. Ayetler / Şems Suresi 11-15. Ayetler"
     },
     {
         "name": "Hz. İbrahim (a.s)",
         "desc": "Kur'an'da 'Halilullah' (Allah'ın dostu) olarak anılır. Tevhid inancının atası kabul edilir. Kâbe'yi oğlu İsmail ile birlikte inşa etmiştir. Nemrut tarafından ateşe atılmış fakat ateş onu yakmamıştır.",
+        "location": "Babil (Irak), Harran (Şanlıurfa), Kenan (Filistin) ve Mekke.",
+        "key_events": "Ateşe atılma mucizesi, putları kırması ve Kabe'nin inşası.",
         "source": "Enbiyâ Suresi 51-73. Ayetler / Bakara Suresi 124-131. Ayetler"
     },
     {
         "name": "Hz. Lût (a.s)",
         "desc": "Hz. İbrahim'in yeğenidir. Sodom ve Gomore halkına (Lût Kavmi) gönderilmiştir. Kavmi, tarihte daha önce görülmemiş bir ahlaksızlık (eşcinsellik) yaptığı için gökten yağan taşlarla helak olmuştur.",
+        "location": "Sodom ve Gomore (Lût Gölü / Ölü Deniz çevresi).",
+        "key_events": "Kavminin helakı ve şehrin altının üstüne getirilmesi.",
         "source": "A'râf Suresi 80-84. Ayetler / Hicr Suresi 59-77. Ayetler"
     },
     {
         "name": "Hz. İsmail (a.s)",
         "desc": "Hz. İbrahim'in oğlu, Arapların ve Hz. Muhammed'in (s.a.v) atasıdır. Babasının onu kurban etme sınavındaki teslimiyetiyle bilinir. Kâbe'nin yapımında babasına yardım etmiştir.",
+        "location": "Mekke ve çevresi.",
+        "key_events": "Zemzem suyunun çıkışı, kurban imtihanı ve Kabe inşası.",
         "source": "Sâffât Suresi 100-107. Ayetler / Meryem Suresi 54. Ayet"
     },
     {
         "name": "Hz. İshak (a.s)",
         "desc": "Hz. İbrahim'in (a.s) Sâre validemizden olan oğludur. İsrailoğullarına gönderilen peygamberlerin atasıdır (Yakup, Yusuf, Musa, İsa hepsi onun soyundandır).",
+        "location": "Filistin (Kenan diyarı) ve Şam bölgesi.",
+        "key_events": "İsrailoğulları soyunun başlangıcı ve müjdelenen evlat olması.",
         "source": "Sâffât Suresi 112-113. Ayetler"
     },
     {
         "name": "Hz. Yakub (a.s)",
         "desc": "Hz. İshak'ın oğludur. Diğer adı 'İsrail'dir. Oğlu Hz. Yusuf'a olan hasreti ve sabrıyla (Sabr-ı Cemil) tanınır. Ağlamaktan gözlerine perde inmiş, sonra şifa bulmuştur.",
+        "location": "Kenan diyarı (Filistin).",
+        "key_events": "Yusuf'un kaybıyla sınanması ve Kenan'dan Mısır'a göç.",
         "source": "Yusuf Suresi 83-86. Ayetler / Meryem Suresi 49. Ayet"
     },
     {
         "name": "Hz. Yusuf (a.s)",
         "desc": "Kardeşleri tarafından kıskanılıp kuyuya atılmış, köle olarak Mısır'a satılmış, iftiraya uğrayıp hapse girmiş, ancak rüya tabiri ilmi sayesinde Mısır'a maliye bakanı (hazine sorumlusu) olmuştur. Güzelliği dillere destandır.",
+        "location": "Kenan diyarı (Filistin) ve Mısır.",
+        "key_events": "Kuyuya atılma, Züleyha imtihanı ve Mısır kıtlığını yönetmesi.",
         "source": "Yusuf Suresi (Tamamı) - Ahsenü'l Kasas (Kıssaların En Güzeli)"
     },
     {
         "name": "Hz. Eyyüb (a.s)",
         "desc": "Büyük bir zenginlik ve kalabalık bir aileden sonra her şeyini kaybetmiş, ağır bir hastalığa tutulmuştur. Hastalığına rağmen şikayet etmeyerek 'Sabır Kahramanı' olmuştur. Sonunda Allah ona şifa ve eski nimetlerini fazlasıyla geri vermiştir.",
+        "location": "Şam / Havran bölgesi.",
+        "key_events": "Ağır hastalık imtihanı, sabrı ve şifalı su mucizesi.",
         "source": "Enbiyâ Suresi 83-84. Ayetler / Sâd Suresi 41-44. Ayetler"
     },
     {
         "name": "Hz. Şuayb (a.s)",
         "desc": "Medyen ve Eyke halkına gönderilmiştir. Hitabet yeteneği çok güçlü olduğu için 'Hatîbü'l-Enbiyâ' (Peygamberlerin Hatibi) denir. Kavmini ölçü ve tartıda hile yapmamaları konusunda uyarmıştır.",
+        "location": "Medyen (Kuzeybatı Arabistan) ve Eyke.",
+        "key_events": "Ticarette hile yapan kavminin helakı ve Hz. Musa'ya kayınpederlik yapması.",
         "source": "A'râf Suresi 85-93. Ayetler / Hûd Suresi 84-95. Ayetler"
     },
     {
         "name": "Hz. Musa (a.s)",
         "desc": "Firavun'a karşı mücadele etmiş, İsrailoğullarını Mısır'dan kurtarmıştır. Allah ile doğrudan konuştuğu için 'Kelîmullah' denir. Asasıyla Kızıldeniz'i yarmıştır. Kendisine Tevrat verilmiştir.",
+        "location": "Mısır, Sina Yarımadası ve Tih Çölü.",
+        "key_events": "Asa mucizesi, Kızıldeniz'in yarılması ve Tur Dağı'nda vahiy.",
         "source": "Tâhâ Suresi 9-98. Ayetler / Kasas Suresi 3-43. Ayetler"
     },
     {
         "name": "Hz. Harun (a.s)",
         "desc": "Hz. Musa'nın ağabeyidir. Dili çok akıcı olduğu için Hz. Musa'nın duası üzerine ona yardımcı peygamber olarak görevlendirilmiştir.",
+        "location": "Mısır ve Sina bölgesi.",
+        "key_events": "Hz. Musa ile birlikte Firavun'a gitmesi ve İsrailoğullarına önderlik etmesi.",
         "source": "Tâhâ Suresi 29-36. Ayetler / Meryem Suresi 53. Ayet"
     },
     {
         "name": "Hz. Davud (a.s)",
         "desc": "Hem hükümdar hem peygamberdir. Calut'u öldürmüş, İsrailoğullarına kral olmuştur. Kendisine Zebur verilmiştir. Demiri hamur gibi işleme mucizesi vardır ve sesi çok güzeldir.",
+        "location": "Kudüs (Filistin).",
+        "key_events": "Calut (Golyat)'ı öldürmesi ve demiri işlemesi.",
         "source": "Bakara Suresi 251. Ayet / Sebe Suresi 10-11. Ayetler"
     },
     {
         "name": "Hz. Süleyman (a.s)",
         "desc": "Hz. Davud'un oğludur. Hayvanların dilini anlayan, rüzgara, cinlere ve şeytanlara hükmeden eşsiz bir hükümdar peygamberdir.",
+        "location": "Kudüs (Filistin).",
+        "key_events": "Mescid-i Aksa'nın inşası ve Sebe Melikesi Belkıs ile görüşmesi.",
         "source": "Neml Suresi 15-44. Ayetler / Sâd Suresi 30-40. Ayetler"
     },
     {
         "name": "Hz. Zekeriya (a.s)",
         "desc": "Kudüs'te Mescid-i Aksa'nın hizmetkarı ve Hz. Meryem'in koruyucusudur. İlerlemiş yaşına ve eşinin kısırlığına rağmen dua ile Allah ona Hz. Yahya'yı nasip etmiştir. Testere ile kesilerek şehit edilmiştir.",
+        "location": "Kudüs (Filistin).",
+        "key_events": "Mucizevi bir evlatla (Yahya) müjdelenmesi ve şehit edilmesi.",
         "source": "Âl-i İmrân Suresi 37-41. Ayetler / Meryem Suresi 2-11. Ayetler"
     },
     {
         "name": "Hz. Yahya (a.s)",
         "desc": "Hz. Zekeriya'nın oğludur. Daha çocukken kendisine hikmet verilmiştir. Hz. İsa'nın müjdecisidir ve o da babası gibi zalim yöneticiler tarafından şehit edilmiştir.",
+        "location": "Kudüs ve Ürdün çevresi.",
+        "key_events": "Zahitlik dolu bir hayat ve zalimlerce şehit edilmesi.",
         "source": "Meryem Suresi 12-15. Ayetler"
     },
     {
         "name": "Hz. İsa (a.s)",
         "desc": "Hz. Meryem'den babasız olarak mucizevi bir şekilde doğmuştur. Beşikteyken konuşmuş, körleri ve cüzamlıları iyileştirmiş, ölüleri diriltmiştir. Kendisine İncil verilmiş ve göğe yükseltilmiştir.",
+        "location": "Filistin (Nasıra ve Kudüs).",
+        "key_events": "Babasız doğum, ölüleri diriltme mucizesi ve semaya yükseltilme.",
         "source": "Âl-i İmrân Suresi 45-55. Ayetler / Mâide Suresi 110-118. Ayetler"
     },
     {
         "name": "Hz. Muhammed (s.a.v)",
         "desc": "Son peygamber (Hâtemü'l-Enbiyâ) ve bütün insanlığa gönderilen evrensel elçidir. Kendisine son ilahi kitap olan Kur'an-ı Kerim indirilmiştir. Onun gelişiyle peygamberlik zinciri tamamlanmıştır.",
+        "location": "Mekke ve Medine (Hicaz).",
+        "key_events": "İlk vahiy, Hicret, Bedir-Uhud-Hendek Savaşları ve Mekke'nin Fethi.",
         "source": "Ahzâb Suresi 40. Ayet / Enbiyâ Suresi 107. Ayet / Fetih Suresi 28-29. Ayetler"
     }
 ]
+ 
