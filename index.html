@@ -35,7 +35,7 @@
     <div id="previewModal" class="modal">
         <div class="modal-con" style="max-height: 95vh; padding: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:15px; margin-bottom:15px;">
-                <h3 style="color:var(--text-main); font-weight:700;">Kart Önizleme</h3>
+                <h3 style="color:var(--text-main); font-weight:700;">Kart Tasarımı Önizleme</h3>
                 <i class="fas fa-times" style="cursor:pointer; font-size:1.5rem; color:var(--text-muted)" onclick="closePreview()"></i>
             </div>
             
@@ -43,23 +43,24 @@
                 <div class="preview-wrapper" id="previewWrapper"></div>
 
                 <div style="width: 100%; max-width: 324px; margin-top: 20px; text-align: left;">
-                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Hazır Renkler</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Hazır Temalar</div>
                     <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-                        <button class="color-swatch" style="background: linear-gradient(135deg, #020617, #0f172a);" onclick="changeExportBg('#020617', '#0f172a')"></button>
-                        <button class="color-swatch" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="changeExportBg('#064e3b', '#022c22')"></button>
-                        <button class="color-swatch" style="background: linear-gradient(135deg, #450a0a, #7f1d1d);" onclick="changeExportBg('#450a0a', '#7f1d1d')"></button>
-                        <button class="color-swatch" style="background: linear-gradient(135deg, #1e3a8a, #172554);" onclick="changeExportBg('#1e3a8a', '#172554')"></button>
-                        <button class="color-swatch" style="background: linear-gradient(135deg, #000000, #1a1a1a);" onclick="changeExportBg('#000000', '#1a1a1a')"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #020617, #0f172a);" onclick="changeExportBg('#020617', '#0f172a', '#fcd34d')" title="Gece / Altın"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="changeExportBg('#064e3b', '#022c22', '#d4af37')" title="Zümrüt / Altın"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #450a0a, #7f1d1d);" onclick="changeExportBg('#450a0a', '#7f1d1d', '#fecaca')" title="Bordo / Gül"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #1e3a8a, #172554);" onclick="changeExportBg('#1e3a8a', '#172554', '#93c5fd')" title="Mavi / Gümüş"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #000000, #1a1a1a);" onclick="changeExportBg('#000000', '#1a1a1a', '#ffffff')" title="Siyah / Beyaz"></button>
                     </div>
 
-                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Kendi Rengini Seç</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Kendi Stillerini Seç</div>
                     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="color" id="customColor1" value="#064e3b" class="custom-color-input" onchange="applyCustomColor()">
-                        <input type="color" id="customColor2" value="#022c22" class="custom-color-input" onchange="applyCustomColor()">
+                        <input type="color" id="customColor1" value="#064e3b" class="custom-color-input" onchange="applyCustomColor()" title="Arka Plan 1">
+                        <input type="color" id="customColor2" value="#022c22" class="custom-color-input" onchange="applyCustomColor()" title="Arka Plan 2">
+                        <input type="color" id="customTextColor" value="#d4af37" class="custom-color-input" onchange="applyCustomColor()" title="Vurgu/Çizgi Rengi">
                     </div>
 
                     <button class="btn-full" style="width: 100%;" onclick="executeDownload()">
-                        <i class="fas fa-download"></i> Resmi İndir
+                        <i class="fas fa-download"></i> Tasarımı İndir
                     </button>
                 </div>
             </div>
@@ -91,7 +92,7 @@
             <div class="ex-cuma-title">Cumanız Mübarek Olsun</div>
             <div class="ex-cuma-divider"></div>
             
-            <div class="ex-text-wrapper">
+            <div class="ex-text-wrapper ex-cuma-text-wrapper">
                 <div class="ex-cuma-text" id="ex-cuma-quote-text">...</div>
             </div>
             
@@ -423,6 +424,10 @@
             <button class="tool-btn" onclick="handleDrawerNav('tab-zekat')"><i class="fas fa-coins"></i> Zekât Hesapla</button>
             <button class="tool-btn" onclick="handleDrawerNav('tab-esma')"><i class="fas fa-hand-holding-heart"></i> Esmaül Hüsna</button>
             <button class="tool-btn" style="grid-column: span 2;" onclick="handleDrawerNav('tab-settings')"><i class="fas fa-cog"></i> Ayarlar & Araçlar</button>
+            
+            <!-- PORTAL VE PWA BUTONLARI -->
+            <button class="tool-btn" style="background: rgba(16, 185, 129, 0.1); border-color: #10b981;" onclick="window.location.href='https://mugol-portal.github.io'"><i class="fas fa-arrow-left" style="color: #10b981;"></i> MuGöl PORTAL'a Dön</button>
+            <button class="tool-btn" id="installPwaBtn" style="background: rgba(56, 189, 248, 0.1); border-color: #38bdf8;" onclick="installPWA()"><i class="fas fa-download" style="color: #38bdf8;"></i> Uygulamayı İndir (PWA)</button>
         </div>
     </div>
 
@@ -440,6 +445,25 @@
     </div>
 
     <script>
+        /* --- PWA KURULUM MANTIĞI --- */
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        async function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredPrompt = null;
+                }
+            } else {
+                alert("Cihazınızda PWA kurulumu şu anda desteklenmiyor veya uygulama zaten yüklü.");
+            }
+        }
+
         function stopAllAudio() { 
             document.getElementById('adhanAudio').pause(); document.getElementById('adhanAudio').currentTime = 0; 
             document.getElementById('kerahatAudio').pause(); document.getElementById('kerahatAudio').currentTime = 0; 
@@ -597,7 +621,7 @@
             document.getElementById('ex-cuma-quote-text').innerText = `"${msg}"`;
         }
 
-        /* --- ÖNİZLEME VE RENK DEĞİŞTİRME MANTIĞI --- */
+        /* --- ÖNİZLEME VE RENK DEĞİŞTİRME MANTIĞI (GÜNCELLENDİ) --- */
         function openPreview(type) {
             activePreviewType = type;
             const modal = document.getElementById('previewModal');
@@ -627,17 +651,40 @@
             }, 300);
         }
 
-        function changeExportBg(color1, color2) {
+        function changeExportBg(color1, color2, textColor = '#fcd34d') {
             const bgId = activePreviewType === 'quote' ? 'exportQuoteBg' : 'exportCumaBg';
+            const cardId = activePreviewType === 'quote' ? 'export-card' : 'export-cuma-card';
+            
+            // Arka Plan Renklerini Uygula
             document.getElementById(bgId).style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+            
+            // Input'ları Güncelle
             document.getElementById('customColor1').value = color1;
             document.getElementById('customColor2').value = color2;
+            document.getElementById('customTextColor').value = textColor;
+
+            // Yazı ve Vurgu Renklerini Uygula
+            const card = document.getElementById(cardId);
+            if(activePreviewType === 'quote') {
+                card.querySelector('.ex-quote-icon').style.color = textColor;
+                card.querySelector('.ex-src').style.color = textColor;
+                card.querySelector('.ex-footer').style.color = textColor;
+                card.querySelector('.ex-logo').style.borderColor = textColor;
+            } else {
+                card.querySelector('.ex-cuma-title').style.color = textColor;
+                card.querySelector('.ex-cuma-divider').style.background = textColor;
+                card.querySelector('.ex-cuma-footer').style.color = textColor;
+                card.querySelector('.ex-cuma-footer').style.borderTopColor = textColor;
+                card.querySelector('.ex-cuma-glass').style.borderColor = textColor;
+                card.querySelector('.ex-logo').style.borderColor = textColor;
+            }
         }
 
         function applyCustomColor() {
             const c1 = document.getElementById('customColor1').value;
             const c2 = document.getElementById('customColor2').value;
-            changeExportBg(c1, c2);
+            const tc = document.getElementById('customTextColor').value;
+            changeExportBg(c1, c2, tc);
         }
 
         function executeDownload() {
@@ -731,7 +778,7 @@
             fetchSozler(); 
             fetchPeygamberler(); 
             fetchSureler(); 
-            fetchCumaSozler(); // <--- Yeni Cuma JSON verisi çağrısı
+            fetchCumaSozler(); 
             
             shuffleEsma(); renderTesbihat(); renderDualar(); renderCuz();
             renderZikirs(); renderKaza(); renderEvents(); 
