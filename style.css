@@ -192,11 +192,6 @@ td { padding: 14px 5px; border-bottom: 1px solid var(--glass-border); text-align
 tr.active-day { background: rgba(56, 189, 248, 0.15); } tr.active-day td { color: var(--text-main); font-weight: 700; }
 #loader { text-align: center; display: none; color: var(--text-muted); margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px; }
 
-/* Günün İyiliği Kartı */
-.sunnah-card { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; padding: 20px; text-align: center; margin-top: 10px; }
-.sunnah-title { color: #10b981; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.sunnah-text { color: var(--text-main); font-size: 1.1rem; font-weight: 500; line-height: 1.5; }
-
 /* --- ÖNİZLEME (PREVIEW) BÖLÜMÜ CSS --- */
 .preview-wrapper { width: 324px; height: 324px; position: relative; overflow: hidden; border-radius: 20px; border: 2px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #000; }
 .color-swatch { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--glass-border); cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
@@ -207,88 +202,91 @@ tr.active-day { background: rgba(56, 189, 248, 0.15); } tr.active-day td { color
 
 /* --- DIŞA AKTARILACAK GİZLİ KARTLARIN TEMEL YAPISI --- */
 .export-template { position: fixed; left: -9999px; top: -9999px; width: 1080px; height: 1080px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px; text-align: center; font-family: 'Outfit', sans-serif; color: #f8fafc; overflow: hidden; z-index: -100; }
-
-/* Modal içinde önizleme yaparken 1080x1080'i 324x324 boyutuna (scale:0.3) küçültürüz */
 .export-template.previewing { position: absolute; left: 0; top: 0; transform: scale(0.3); transform-origin: top left; z-index: 10; }
-
-/* İndirilirken orijinal boyutlarında ama ekranda görünmez olmak için */
 .export-template.downloading { position: fixed; left: -9999px; top: -9999px; transform: scale(1); z-index: -100; }
 
-/* --- SÖZLER İNDİRME ŞABLONU (ZARİF TASARIM) --- */
+/* --- SÖZLER İNDİRME ŞABLONU --- */
 #export-card { padding: 80px; }
 .ex-bg { position: absolute; inset: 0; z-index: 0; transition: background 0.3s; }
 .ex-glass { position: relative; z-index: 1; background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.08)); border: 1px solid rgba(255,255,255,0.15); border-radius: 40px; padding: 100px 80px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-
-/* ORTAK LOGO TANIMLAMASI (SOL ÜST KÖŞE İÇİN) */
-.ex-logo { 
-    position: absolute; 
-    top: 50px; 
-    left: 50px; 
-    width: 140px; 
-    height: 140px; 
-    border-radius: 50%; 
-    border: 4px solid #fcd34d; 
-    object-fit: cover; 
-    z-index: 10; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-}
-
+.ex-logo { position: absolute; top: 50px; left: 50px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid #fcd34d; object-fit: cover; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .ex-quote-icon { font-size: 5rem; color: #b38728; margin-bottom: 30px; opacity: 0.8; }
 .ex-quote { font-size: 3.5rem; font-weight: 400; font-style: italic; line-height: 1.5; margin-bottom: 40px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 .ex-src { font-size: 2.2rem; color: #fcd34d; font-weight: 600; font-family: 'Amiri', serif; border-top: 1px solid rgba(252, 211, 77, 0.3); padding-top: 20px; display: inline-block; }
+.ex-footer { position: absolute; bottom: 50px; left: 0; right: 0; text-align: center; font-size: 2.8rem; color: #fcd34d; font-weight: 700; font-family: 'Amiri', serif; letter-spacing: 2px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
-/* APP ADI ALTTA ORTADA - SÖZLER KARTI */
-.ex-footer { 
-    position: absolute; 
-    bottom: 50px; 
-    left: 0; 
-    right: 0; 
-    text-align: center;
-    font-size: 2.8rem; 
-    color: #fcd34d; 
-    font-weight: 700; 
-    font-family: 'Amiri', serif; 
-    letter-spacing: 2px;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-/* --- CUMA PAYLAŞIM KARTI ŞABLONU (ZÜMRÜT YEŞİLİ/ALTIN TASARIM) --- */
+/* --- CUMA PAYLAŞIM KARTI ŞABLONU (KESİN DÜZELTİLMİŞ) --- */
 #export-cuma-card { padding: 60px; }
 .ex-cuma-bg { position: absolute; inset: 0; z-index: 0; transition: background 0.3s; }
-.ex-cuma-glass { position: relative; z-index: 1; border: 2px solid #d4af37; border-radius: 40px; padding: 80px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.25); backdrop-filter: blur(15px); box-shadow: inset 0 0 0 10px rgba(212, 175, 55, 0.2), 0 30px 60px rgba(0,0,0,0.5); }
 
-.ex-cuma-title { font-size: 5rem; color: #fcd34d; font-family: 'Amiri', serif; font-weight: 700; margin-bottom: 30px; text-shadow: 0 5px 15px rgba(0,0,0,0.6); padding-top: 20px; }
-.ex-cuma-divider { width: 150px; height: 3px; background: #d4af37; margin-bottom: 40px; border-radius: 2px; }
+.ex-cuma-glass { 
+    position: relative; 
+    z-index: 1; 
+    border: 2px solid #d4af37; 
+    border-radius: 40px; 
+    padding: 60px 80px; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; /* İçerikleri dikeyde eşit yayar */
+    align-items: center; 
+    background: rgba(0,0,0,0.25); 
+    backdrop-filter: none; /* Bulanıklık sorunu kalktı */
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
+}
 
-/* CUMA KARTI İÇİN ÖZEL ORTALANMIŞ METİN ALANI */
+.ex-cuma-title { 
+    font-size: 5.2rem; 
+    color: #fcd34d; 
+    font-family: 'Amiri', serif; 
+    font-weight: 700; 
+    margin-top: 50px; 
+    margin-bottom: 20px; 
+    text-shadow: 0 5px 15px rgba(0,0,0,0.7); 
+}
+
+.ex-cuma-divider { 
+    width: 180px; 
+    height: 4px; 
+    background: #d4af37; 
+    margin-bottom: 30px; 
+    border-radius: 2px; 
+}
+
+/* Mesajın footer ile çakışmasını engelleyen esnek kapsayıcı */
+.ex-cuma-text-wrapper {
+    flex: 1; /* Ortadaki boşluğu kaplar ve mesajı merkezler */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 .ex-cuma-text { 
     font-size: 3.2rem; 
     font-weight: 400; 
     font-style: italic; 
-    line-height: 1.6; 
-    text-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    text-align: center; 
-    width: 100%;
+    line-height: 1.5; 
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.7); 
+    text-align: center;
+    padding: 0 20px;
 }
 
-/* APP ADI ALTTA ORTADA - CUMA KARTI (Çizgili vurgulu) */
 .ex-cuma-footer { 
-    position: absolute; 
-    bottom: 50px; 
-    left: 0; 
-    right: 0; 
-    margin: 0 auto;
-    width: 80%;
-    text-align: center;
+    position: relative; /* Absolute çakışmaya sebep oluyordu, Relative yapıldı */
+    width: 90%; 
+    text-align: center; 
     font-size: 2.8rem; 
     color: #fcd34d; 
     font-weight: 700; 
     font-family: 'Amiri', serif; 
-    letter-spacing: 2px;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    letter-spacing: 2px; 
+    text-shadow: 0 5px 15px rgba(0,0,0,0.5); 
     border-top: 2px solid rgba(212, 175, 55, 0.4); 
-    padding-top: 25px;
+    padding-top: 30px; 
+    margin-bottom: 20px;
+    margin-top: 40px; /* Mesaj ile arasını açar */
 }
