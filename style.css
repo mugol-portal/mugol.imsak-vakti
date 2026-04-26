@@ -290,3 +290,46 @@ tr.active-day { background: rgba(56, 189, 248, 0.15); } tr.active-day td { color
     margin-bottom: 20px;
     margin-top: 40px; /* Mesaj ile arasını açar */
 }
+
+/* ── AdSense Reklam Kutusu ── */
+.mg-ad-box {
+    position: relative;
+    width: 100%;
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px 12px 12px;
+    margin: 20px 0;
+    overflow: visible;
+    box-sizing: border-box;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+.mg-ad-box ins.adsbygoogle {
+    display: block !important;
+    width: 300px !important;
+    height: 250px !important;
+}
+.mg-ad-label {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--modal-bg);
+    padding: 2px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+    font-family: 'Outfit', sans-serif;
+}

@@ -24,6 +24,9 @@
 
     <!-- Harici CSS Dosyası -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1880946354382681" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -165,6 +168,16 @@
                     </div>
                 </div>
 
+                <!-- ── ADSENSE REKLAM 1 — Ana Sayfa Üst ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
                 <div class="sunnah-card">
                     <div class="sunnah-title"><i class="fas fa-heart"></i> Günün Sünneti / İyiliği</div>
                     <div class="sunnah-text" id="dailySunnah">Yükleniyor...</div>
@@ -190,6 +203,17 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM 2 — Ana Sayfa Alt ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 2: AYETLER & SÖZLER ================= -->
@@ -211,6 +235,17 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM 3 — Ayetler & Sözler Alt ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME: CUMA MESAJLARI ================= -->
@@ -252,6 +287,17 @@
                         <div id="zikirList" style="display: flex; flex-direction: column; width: 100%;"></div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM 4 — Zikirmatik Alt ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 4: HATİM TAKİBİ ================= -->
@@ -874,5 +920,29 @@
         function closeModal() { const modal = document.getElementById('imsakiyeModal'); modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
     </script>
+
+    <!-- ── AdSense Lazy Push ── -->
+    <script>
+    (function() {
+        function mgPushAds() {
+            document.querySelectorAll('ins.adsbygoogle').forEach(function(ins) {
+                if (!ins.getAttribute('data-adsbygoogle-status')) {
+                    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+                }
+            });
+        }
+        // Sayfa yüklenince
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(mgPushAds, 800); });
+        } else {
+            setTimeout(mgPushAds, 800);
+        }
+        // Sekme geçişlerinde de push et
+        document.querySelectorAll('.nav-item, .tool-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() { setTimeout(mgPushAds, 400); });
+        });
+    })();
+    </script>
+
 </body>
 </html>
