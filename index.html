@@ -440,6 +440,27 @@
                         <div class="setting-item" onclick="toggleFullScreen()"><i class="fas fa-expand main-icon" style="color: #10b981;"></i><div class="setting-info"><div class="setting-title">Tam Ekran Modu</div><div class="setting-desc">Uygulamayı tam ekran yap</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
 
                         <div class="setting-item" onclick="enablePersistentMode()"><i class="fas fa-bell main-icon"></i><div class="setting-info"><div class="setting-title">Kalıcı Bildirim Sayacı</div><div class="setting-desc">Kilit ekranında sayacı göster</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
+
+                        <!-- SES AYARLARI -->
+                        <div class="acc">
+                            <button class="acc-head" onclick="toggleAcc(this)">
+                                <span><i class="fas fa-sliders" style="margin-right:10px; color:#fcd34d;"></i> Ses Ayarları</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="acc-body">
+                                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:12px;">Ezan Okunacak Vakitler</div>
+                                <div id="soundSettingsGrid" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+                                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:12px;">Kerahat Vakti Uyarısı</div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 15px; background:var(--glass-surface); border:1px solid var(--glass-border); border-radius:14px; cursor:pointer; transition:0.2s;" onclick="toggleKerahatSound()" onmouseenter="this.style.background='var(--box-hover)'" onmouseleave="this.style.background='var(--glass-surface)'">
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <i class="fas fa-triangle-exclamation" style="color:#fcd34d; font-size:0.95rem; width:18px; text-align:center;"></i>
+                                        <span style="font-weight:600; color:var(--text-main); font-size:0.95rem;">Kerahat Başlangıç Sesi</span>
+                                    </div>
+                                    <span id="kerahatSoundStatus" style="color:var(--gold-text); font-weight:700; font-size:0.85rem;">Açık</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="setting-item" onclick="testAdhan()"><i class="fas fa-mosque main-icon"></i><div class="setting-info"><div class="setting-title">Ezan Sesi Testi</div><div class="setting-desc">Vakit alarmını dinleyin</div></div><i class="fas fa-play" style="color: var(--blue)"></i></div>
                         <div class="setting-item" onclick="testKerahat()"><i class="fas fa-triangle-exclamation main-icon" style="color: #fcd34d;"></i><div class="setting-info"><div class="setting-title">Kerahat Uyarı Testi</div><div class="setting-desc">Uyarı sesini dinleyin</div></div><i class="fas fa-play" style="color: #fcd34d"></i></div>
                         <div class="setting-item" onclick="stopAllAudio()" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);"><i class="fas fa-stop-circle main-icon" style="color: #ef4444;"></i><div class="setting-info"><div class="setting-title" style="color: #ef4444;">Çalan Sesi Durdur</div><div class="setting-desc">Çalan tüm sesleri kapat</div></div></div>
@@ -877,6 +898,10 @@
         ]; 
         let timerInt = null; let monthlyDataCache = null;
         let currentVakitData = null; let prayerNotifInterval = null;
+        let adhanSettings = JSON.parse(localStorage.getItem('mugolAdhanSettings')) || { Imsak:true, Sunrise:false, Dhuhr:true, Asr:true, Maghrib:true, Isha:true };
+        let kerahatSoundEnabled = JSON.parse(localStorage.getItem('mugolKerahatSound')) ?? true;
+        let wasKerahat = false;
+        const vakitLabels = { Imsak:'İmsak', Sunrise:'Güneş', Dhuhr:'Öğle', Asr:'İkindi', Maghrib:'Akşam', Isha:'Yatsı' };
         let zikirList = JSON.parse(localStorage.getItem('zikirList')) ||[{ id: 1, name: "Sübhanallah", count: 0 }];
         let kazaData = JSON.parse(localStorage.getItem('kazaData')) || { sabah:0, ogle:0, ikindi:0, aksam:0, yats:0, vitir:0 };
         const kazaNames = { sabah:"Sabah", ogle:"Öğle", ikindi:"İkindi", aksam:"Akşam", yats:"Yatsı", vitir:"Vitir" };
@@ -900,6 +925,15 @@
             "Bugün ailenden veya arkadaşlarından birinin halini hatırını sor.", "Öfkelendiğinde eûzü besmele çek veya abdest al."
         ];
 
+        /* --- MOBİL SES KİLİDİ AÇICI ---
+           Android/iOS'ta autoplay yasak; ilk dokunuşta silentAudio çalarak
+           ses bağlamını açıyoruz. Sonraki tüm adhanAudio.play() çağrıları çalışır. */
+        document.addEventListener('click', function unlockAudio() {
+            const s = document.getElementById('silentAudio');
+            if (s) s.play().catch(() => {});
+            document.removeEventListener('click', unlockAudio);
+        }, { once: true });
+
         window.onload = () => {
             document.getElementById('dateText').innerText = new Date().toLocaleDateString('tr-TR', {day:'numeric', month:'long', weekday:'long'});
             
@@ -910,7 +944,7 @@
             fetchCumaSozler(); 
             
             shuffleEsma(); renderTesbihat(); renderDualar(); renderCuz();
-            renderZikirs(); renderKaza(); renderEvents(); 
+            renderZikirs(); renderKaza(); renderEvents(); renderSoundSettings();
 
             const todayIndex = Math.floor(Date.now() / 86400000) % sunnahList.length;
             document.getElementById('dailySunnah').innerText = sunnahList[todayIndex];
@@ -946,6 +980,10 @@
             const banner = document.getElementById('kerahatBanner');
             if(isKerahat) { banner.style.display = 'block'; document.getElementById('mainTimerCard').classList.add('kerahat'); } 
             else { banner.style.display = 'none'; document.getElementById('mainTimerCard').classList.remove('kerahat'); }
+            if (isKerahat && !wasKerahat && kerahatSoundEnabled) {
+                const ka = document.getElementById('kerahatAudio'); ka.currentTime = 0; ka.play().catch(() => {});
+            }
+            wasKerahat = isKerahat;
         }
 
         function startTimer(t) { 
@@ -958,7 +996,7 @@
                 let target = null, name = ""; let min = Infinity; 
                 let currentTimeStr = now.toTimeString().split(' ')[0].substr(0, 5); 
                 if (now.getSeconds() === 0 && currentTimeStr !== lastPlayedTime) { 
-                    for (let key in times) { if (times[key] === currentTimeStr) { document.getElementById('adhanAudio').play(); lastPlayedTime = currentTimeStr; } } 
+                    for (let key in times) { if (times[key] === currentTimeStr && adhanSettings[key] !== false) { document.getElementById('adhanAudio').play().catch(()=>{}); lastPlayedTime = currentTimeStr; } } 
                 } 
                 for(let k in times) { 
                     let[h,m] = times[k].split(':'); let d = new Date(); d.setHours(h,m,0,0); let diff = d - now; 
@@ -999,6 +1037,37 @@
         function upZikir(id, n) { const idx = zikirList.findIndex(x=>x.id===id); if(idx!==-1) { if(n > zikirList[idx].count && isVibrationEnabled && navigator.vibrate) { navigator.vibrate(50); } zikirList[idx].count = n; renderZikirs(); } }
         function delZikir(id) { if(confirm("Silinsin mi?")) { zikirList = zikirList.filter(x=>x.id!==id); renderZikirs(); } }
         
+        /* --- SES AYARLARI --- */
+        function renderSoundSettings() {
+            const grid = document.getElementById('soundSettingsGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            Object.keys(adhanSettings).forEach(key => {
+                const on = adhanSettings[key];
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:11px 15px;background:var(--glass-surface);border:1px solid var(--glass-border);border-radius:14px;cursor:pointer;transition:0.2s;';
+                row.onmouseenter = () => row.style.background = 'var(--box-hover)';
+                row.onmouseleave = () => row.style.background = 'var(--glass-surface)';
+                row.onclick = () => toggleAdhanVakit(key);
+                row.innerHTML = '<div style="display:flex;align-items:center;gap:10px;"><i class="fas fa-mosque" style="color:' + (on ? 'var(--gold-text)' : 'var(--text-muted)') + ';font-size:0.95rem;width:18px;text-align:center;"></i><span style="font-weight:600;color:var(--text-main);font-size:0.95rem;">' + vakitLabels[key] + '</span></div><span style="color:' + (on ? 'var(--gold-text)' : 'var(--text-muted)') + ';font-weight:700;font-size:0.85rem;">' + (on ? 'Açık' : 'Kapalı') + '</span>';
+                grid.appendChild(row);
+            });
+            const ks = document.getElementById('kerahatSoundStatus');
+            if (ks) { ks.innerText = kerahatSoundEnabled ? 'Açık' : 'Kapalı'; ks.style.color = kerahatSoundEnabled ? 'var(--gold-text)' : 'var(--text-muted)'; }
+        }
+
+        function toggleAdhanVakit(key) {
+            adhanSettings[key] = !adhanSettings[key];
+            localStorage.setItem('mugolAdhanSettings', JSON.stringify(adhanSettings));
+            renderSoundSettings();
+        }
+
+        function toggleKerahatSound() {
+            kerahatSoundEnabled = !kerahatSoundEnabled;
+            localStorage.setItem('mugolKerahatSound', JSON.stringify(kerahatSoundEnabled));
+            renderSoundSettings();
+        }
+
         function openModal() { const modal = document.getElementById('imsakiyeModal'); modal.style.display = "flex"; setTimeout(() => modal.classList.add('show'), 10); }
         function closeModal() { const modal = document.getElementById('imsakiyeModal'); modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
