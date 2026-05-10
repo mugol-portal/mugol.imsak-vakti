@@ -22,8 +22,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <!-- Cuma Sözleri Veri Dosyası -->
+    <script src="cumasoz.js"></script>
+
     <!-- Harici CSS Dosyası -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Bildirim butonu aktif (açık) durumu */
+        .btn-icon.notif-active {
+            background: linear-gradient(135deg, #fcd34d, #b38728) !important;
+            color: #020617 !important;
+            border-color: #b38728 !important;
+            box-shadow: 0 0 14px rgba(252, 211, 77, 0.45) !important;
+        }
+    </style>
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1880946354382681" crossorigin="anonymous"></script>
@@ -146,8 +158,8 @@
                             </div>
                         </div>
 
-                        <div style="text-align: center; padding: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 16px; color: var(--blue); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px;">
-                            <i class="fas fa-mosque"></i> Diyanet Uyumlu Resmi Vakitler
+                        <div style="text-align: center; padding: 12px; background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: 16px; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.3px;">
+                            <i class="fas fa-triangle-exclamation" style="color: var(--gold-text);"></i> Vakitlerde sapma olabilir, resmi kaynaklarla karşılaştırınız.
                         </div>
                         <div class="grid">
                             <div class="v-box" id="box-Imsak"><div class="v-name">İmsak</div><div class="v-time" id="t-Imsak">--:--</div></div>
@@ -219,21 +231,16 @@
             <!-- ================= SEKME 2: AYETLER & SÖZLER ================= -->
             <div id="tab-verses" class="tab-section">
                 <div class="info-layout">
-                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Günün Sözü</h2>
-                    <div class="info-card big-card">
-                        <i class="fas fa-quote-left" style="font-size: 3rem; color: rgba(255,255,255,0.05); position: absolute; top: 20px; left: 20px;"></i>
-                        <div class="quote-text" id="dailyQuote">Sözler Yükleniyor...</div>
-                        <div class="quote-src" id="dailyQuoteSrc"></div>
-                        <div style="display:flex; flex-wrap: wrap; justify-content:center; gap:10px; margin-top: 25px;">
-                            <button class="refresh-btn" style="margin-top:0;" onclick="shuffleQuote()"><i class="fas fa-random"></i> Başka Getir</button>
-                            <button class="refresh-btn" style="margin-top:0; background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: var(--text-main);" onclick="shareQuote()">
-                                <i class="fas fa-share-nodes" style="color: #10b981;"></i> Paylaş
-                            </button>
-                            <button class="refresh-btn" style="margin-top:0; width: 100%; justify-content: center; background: rgba(251, 191, 36, 0.1); border-color: #f59e0b; color: var(--text-main);" onclick="openPreview('quote')">
-                                <i class="fas fa-eye" style="color: #f59e0b;"></i> Kartı Tasarla & İndir
-                            </button>
-                        </div>
+                    <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Sözler & Ayetler</h2>
+
+                    <!-- Arama kutusu -->
+                    <div style="width:100%;">
+                        <input type="text" id="quoteSearch" class="z-inp" placeholder="Söz veya kaynak ara..." onkeyup="filterQuotes()" style="width:100%;">
                     </div>
+
+                    <!-- Tüm sözler listesi -->
+                    <div id="allQuotesList" style="display:flex; flex-direction:column; gap:14px; width:100%;"></div>
+
                 </div>
 
                 <!-- ── ADSENSE REKLAM 3 — Ayetler & Sözler Alt ── -->
@@ -252,19 +259,15 @@
             <div id="tab-cuma" class="tab-section">
                 <div class="info-layout">
                     <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Cuma Mesajları</h2>
-                    <div class="info-card big-card" style="background: linear-gradient(135deg, #064e3b, #0f766e); border: 2px solid #b38728; overflow: hidden; position: relative;">
-                        <i class="fas fa-star-and-crescent" style="font-size: 15rem; color: rgba(255,255,255,0.04); position: absolute; bottom: -30px; right: -30px; transform: rotate(-10deg);"></i>
-                        
-                        <div class="quote-text" id="cumaQuote" style="color: #f8fafc; text-shadow: 0 2px 5px rgba(0,0,0,0.4); font-size: calc(1.4rem * var(--read-scale)); margin-bottom: 25px;">Mesajlar Yükleniyor...</div>
-                        <div class="quote-src" style="color: #fcd34d; font-size: calc(1.5rem * var(--read-scale)); font-family: 'Amiri', serif;">Hayırlı Cumalar</div>
-                        
-                        <div style="display:flex; flex-wrap: wrap; justify-content:center; gap:10px; margin-top: 35px; z-index:2; position:relative;">
-                            <button class="refresh-btn" style="margin-top:0; border-color: #b38728; color: #fcd34d; background: rgba(179,135,40,0.15);" onclick="shuffleCuma()"><i class="fas fa-random"></i> Başka Getir</button>
-                            <button class="refresh-btn" style="margin-top:0; width: 100%; justify-content: center; background: linear-gradient(135deg, #b38728, #aa771c); border: none; color: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3);" onclick="openPreview('cuma')">
-                                <i class="fas fa-eye"></i> Kartı Tasarla & İndir
-                            </button>
-                        </div>
+
+                    <!-- Arama kutusu -->
+                    <div style="width:100%;">
+                        <input type="text" id="cumaSearch" class="z-inp" placeholder="Mesaj veya kaynak ara..." onkeyup="filterCuma()" style="width:100%;">
                     </div>
+
+                    <!-- Tüm cuma mesajları listesi -->
+                    <div id="allCumaList" style="display:flex; flex-direction:column; gap:14px; width:100%;"></div>
+
                 </div>
             </div>
 
@@ -622,49 +625,128 @@
         let globalQuotes = [];
         let activePreviewType = ''; 
 
-        async function fetchSozler() { try { let res = await fetch('sozler.json'); if(!res.ok) throw new Error("sozler.json bulunamadı"); globalQuotes = await res.json(); } catch(e) { globalQuotes = [ { text: "Kim bir iyilik yaparsa, ona on katı vardır.", source: "En'âm Suresi, 160. Ayet" }, { text: "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.", source: "Hadis-i Şerif" } ]; } renderDailyQuote(); }
+        async function fetchSozler() { try { let res = await fetch('sozler.json'); if(!res.ok) throw new Error("sozler.json bulunamadı"); globalQuotes = await res.json(); } catch(e) { globalQuotes = [ { text: "Kim bir iyilik yaparsa, ona on katı vardır.", source: "En'âm Suresi, 160. Ayet" }, { text: "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.", source: "Hadis-i Şerif" }, { text: "Güzel söz sadakadır.", source: "Hadis-i Şerif" }, { text: "Allah sizin suretlerinize ve mallarınıza değil, kalplerinize ve amellerinize bakar.", source: "Müslim" } ]; } renderAllQuotes(globalQuotes); }
+
+        /* Tüm sözleri kartlar halinde listele */
+        function renderAllQuotes(list) {
+            const container = document.getElementById('allQuotesList');
+            if (!container) return;
+            container.innerHTML = '';
+            if (!list || list.length === 0) { container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Söz bulunamadı.</div>'; return; }
+            list.forEach(function(q, idx) {
+                const div = document.createElement('div');
+                div.className = 'quote-card-item';
+                div.dataset.text = (q.text || '').toLowerCase();
+                div.dataset.source = (q.source || '').toLowerCase();
+                div.innerHTML = `
+                    <i class="fas fa-quote-left" style="font-size:1.4rem; color:rgba(252,211,77,0.25); margin-bottom:10px; display:block;"></i>
+                    <div class="quote-text" style="font-size:calc(1rem * var(--read-scale)); margin-bottom:10px;">"${q.text}"</div>
+                    <div class="quote-src" style="font-size:calc(0.85rem * var(--read-scale));">— ${q.source}</div>
+                    <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+                        <button class="quote-action-btn" onclick="shareQuoteText('${(q.text||'').replace(/'/g,"\\'")}','${(q.source||'').replace(/'/g,"\\'")}')"><i class="fas fa-share-nodes" style="color:#10b981;"></i> Paylaş</button>
+                        <button class="quote-action-btn" style="border-color:#f59e0b;" onclick="openPreviewWith('${(q.text||'').replace(/'/g,"\\'")}','${(q.source||'').replace(/'/g,"\\'")}')"><i class="fas fa-eye" style="color:#f59e0b;"></i> Kart</button>
+                    </div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function filterQuotes() {
+            const search = (document.getElementById('quoteSearch').value || '').toLowerCase();
+            document.querySelectorAll('.quote-card-item').forEach(function(item) {
+                const match = item.dataset.text.includes(search) || item.dataset.source.includes(search);
+                item.style.display = match ? '' : 'none';
+            });
+        }
+
+        /* Belirli bir sözü önizlemeye aç */
+        function openPreviewWith(text, source) {
+            updateQuoteUI(text, source);
+            openPreview('quote');
+        }
+
+        /* Paylaş butonu için */
+        function shareQuoteText(text, source) {
+            if (navigator.share) { navigator.share({ title: 'Günün Sözü', text: `"${text}"\n— ${source}\n\n- MuGöl İmsak Vakti` }).catch(function(){}); }
+            else { alert("Tarayıcınız paylaşma özelliğini desteklemiyor."); }
+        }
+
         function shuffleQuote() { const q = globalQuotes[Math.floor(Math.random() * globalQuotes.length)]; updateQuoteUI(q.text, q.source); }
         function renderDailyQuote() { const q = globalQuotes[Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000) % globalQuotes.length]; updateQuoteUI(q.text, q.source); }
         function updateQuoteUI(text, source) { 
-            document.getElementById('dailyQuote').innerText = `"${text}"`; 
-            document.getElementById('dailyQuoteSrc').innerText = `- ${source}`;
+            // export kart için güncelle
             document.getElementById('ex-quote-text').innerText = `"${text}"`;
             document.getElementById('ex-quote-src').innerText = source;
         }
-        function shareQuote() { const text = document.getElementById('dailyQuote').innerText; const src = document.getElementById('dailyQuoteSrc').innerText; if (navigator.share) { navigator.share({ title: 'Günün Sözü', text: `${text} ${src}\n\n- MuGöl İmsak Vakti Uygulamasından` }).catch(err => console.log('Paylaşım hatası', err)); } else { alert("Tarayıcınız paylaşma özelliği desteklemiyor."); } }
+        function shareQuote() { shareQuoteText(document.getElementById('ex-quote-text').innerText, document.getElementById('ex-quote-src').innerText); }
         
-        /* --- YENİ EKLENEN CUMA MESAJLARI (cumasoz.json) --- */
+        /* --- CUMA MESAJLARI (cumasoz.js'den yüklenir) --- */
         let cumaMesajlari = [];
-        
-        async function fetchCumaSozler() {
-            try {
-                let res = await fetch('cumasoz.json');
-                if (!res.ok) throw new Error("cumasoz.json bulunamadı");
-                cumaMesajlari = await res.json();
-            } catch(e) {
-                // Hata olursa varsayılan mesajlar yüklenir.
+
+        function fetchCumaSozler() {
+            // cumasoz.js yüklüyse oradan al, yoksa fallback
+            if (typeof cumaSozleri !== 'undefined' && cumaSozleri.length > 0) {
+                cumaMesajlari = cumaSozleri;
+            } else {
                 cumaMesajlari = [
-                    "Rabbim, bu mübarek Cuma günü hürmetine günahlarımızı affeylesin. Hayırlı Cumalar.",
-                    "Güzellikler içinizi aydınlatsın, yüzünüzden ve yüreğinizden tebessüm eksilmesin. Cumanız mübarek olsun.",
-                    "Allah'ın rahmeti ve bereketi üzerinize olsun. Duanız kabul, ameliniz makbul olsun. Hayırlı Cumalar."
+                    { text: "Rabbim, bu mübarek Cuma günü hürmetine günahlarımızı affeylesin. Hayırlı Cumalar.", source: "Dua" },
+                    { text: "Güzellikler içinizi aydınlatsın, yüzünüzden tebessüm eksilmesin. Cumanız mübarek olsun.", source: "Cuma Tebriki" },
+                    { text: "Allah'ın rahmeti ve bereketi üzerinize olsun. Duanız kabul, ameliniz makbul olsun.", source: "Cuma Tebriki" }
                 ];
             }
-            renderCumaQuote();
+            renderAllCuma(cumaMesajlari);
         }
 
-        function renderCumaQuote() { 
-            const bugunIndex = Math.floor(Date.now() / 86400000) % cumaMesajlari.length; 
-            updateCumaUI(cumaMesajlari[bugunIndex]); 
+        /* Tüm cuma mesajlarını kart kart listele */
+        function renderAllCuma(list) {
+            const container = document.getElementById('allCumaList');
+            if (!container) return;
+            container.innerHTML = '';
+            if (!list || list.length === 0) { container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Mesaj bulunamadı.</div>'; return; }
+            list.forEach(function(q) {
+                const text = typeof q === 'string' ? q : (q.text || q);
+                const source = typeof q === 'string' ? 'Hayırlı Cumalar' : (q.source || 'Hayırlı Cumalar');
+                const div = document.createElement('div');
+                div.className = 'quote-card-item cuma-card-item';
+                div.dataset.text = text.toLowerCase();
+                div.dataset.source = source.toLowerCase();
+                div.innerHTML = `
+                    <i class="fas fa-star-and-crescent" style="font-size:1.3rem; color:rgba(179,135,40,0.35); margin-bottom:10px; display:block;"></i>
+                    <div class="quote-text" style="font-size:calc(1rem * var(--read-scale)); margin-bottom:10px;">"${text}"</div>
+                    <div class="quote-src cuma-src" style="font-size:calc(0.85rem * var(--read-scale));">— ${source}</div>
+                    <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+                        <button class="quote-action-btn cuma-action-btn" onclick="shareCumaText('${text.replace(/'/g,"\\'")}','${source.replace(/'/g,"\\'")}')"><i class="fas fa-share-nodes" style="color:#10b981;"></i> Paylaş</button>
+                        <button class="quote-action-btn" style="border-color:#b38728;" onclick="openCumaPreviewWith('${text.replace(/'/g,"\\'")}')"><i class="fas fa-eye" style="color:#b38728;"></i> Kart</button>
+                    </div>`;
+                container.appendChild(div);
+            });
         }
-        
-        function shuffleCuma() { 
-            const msg = cumaMesajlari[Math.floor(Math.random() * cumaMesajlari.length)]; 
-            updateCumaUI(msg); 
+
+        function filterCuma() {
+            const search = (document.getElementById('cumaSearch').value || '').toLowerCase();
+            document.querySelectorAll('.cuma-card-item').forEach(function(item) {
+                const match = item.dataset.text.includes(search) || item.dataset.source.includes(search);
+                item.style.display = match ? '' : 'none';
+            });
         }
-        
+
+        function shareCumaText(text, source) {
+            if (navigator.share) { navigator.share({ title: 'Hayırlı Cumalar', text: `"${text}"\n— ${source}\n\n- MuGöl İmsak Vakti` }).catch(function(){}); }
+            else { alert("Tarayıcınız paylaşma özelliğini desteklemiyor."); }
+        }
+
+        function openCumaPreviewWith(text) {
+            updateCumaUI(text);
+            openPreview('cuma');
+        }
+
+        function renderCumaQuote() { /* artık kullanılmıyor, liste gösteriliyor */ }
+        function shuffleCuma() { /* artık kullanılmıyor */ }
+
         function updateCumaUI(msg) {
-            document.getElementById('cumaQuote').innerText = `"${msg}"`;
-            document.getElementById('ex-cuma-quote-text').innerText = `"${msg}"`;
+            const el1 = document.getElementById('cumaQuote');
+            const el2 = document.getElementById('ex-cuma-quote-text');
+            if (el1) el1.innerText = `"${msg}"`;
+            if (el2) el2.innerText = `"${msg}"`;
         }
 
         /* --- ÖNİZLEME VE RENK DEĞİŞTİRME MANTIĞI (GÜNCELLENDİ) --- */
@@ -794,6 +876,7 @@
             {c:"Tunceli",n:"Tunceli"},{c:"Usak",n:"Uşak"},{c:"Van",n:"Van"},{c:"Yalova",n:"Yalova"},{c:"Yozgat",n:"Yozgat"},{c:"Zonguldak",n:"Zonguldak"}
         ]; 
         let timerInt = null; let monthlyDataCache = null;
+        let currentVakitData = null; let prayerNotifInterval = null;
         let zikirList = JSON.parse(localStorage.getItem('zikirList')) ||[{ id: 1, name: "Sübhanallah", count: 0 }];
         let kazaData = JSON.parse(localStorage.getItem('kazaData')) || { sabah:0, ogle:0, ikindi:0, aksam:0, yats:0, vitir:0 };
         const kazaNames = { sabah:"Sabah", ogle:"Öğle", ikindi:"İkindi", aksam:"Akşam", yats:"Yatsı", vitir:"Vitir" };
@@ -852,7 +935,7 @@
         
         async function getGPSLocation() { if (!navigator.geolocation) return alert("Konum desteklenmiyor."); const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-location-arrow fa-spin"></i> Bulunuyor...'; navigator.geolocation.getCurrentPosition(async (pos) => { try { let geoRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=tr`); let geoJson = await geoRes.json(); let cityName = geoJson.principalSubdivision.replace(' Province', '').replace(' ili', '').replace(' İli', '').trim(); let sel = document.getElementById('citySelect'); let matchedOption = Array.from(sel.options).find(o => o.text.toLocaleUpperCase('tr-TR') === cityName.toLocaleUpperCase('tr-TR') || o.value.toUpperCase() === cityName.toUpperCase()); if(matchedOption) { sel.value = matchedOption.value; localStorage.setItem('mugolCity', matchedOption.value); await getData(matchedOption.value); } else { await getData(cityName); let opt = document.createElement('option'); opt.value = cityName; opt.text = `📍 ${cityName} (GPS)`; sel.add(opt, sel.options[0]); sel.value = cityName; } } catch (e) {} finally { ldr.style.display = 'none'; } }, () => { ldr.style.display = 'none'; alert("Konum izni reddedildi."); }); }
         
-        function updateView(t) { if(!t) return; document.getElementById('t-Imsak').innerText = t.Imsak; document.getElementById('t-Sunrise').innerText = t.Gunes; document.getElementById('t-Dhuhr').innerText = t.Ogle; document.getElementById('t-Asr').innerText = t.Ikindi; document.getElementById('t-Maghrib').innerText = t.Aksam; document.getElementById('t-Isha').innerText = t.Yatsi; if(t.HicriTarihUzun) { document.getElementById('hijriText').innerText = `${t.HicriTarihUzun} (Hicri)`; } else { document.getElementById('hijriText').innerText = ""; } startTimer(t); }
+        function updateView(t) { if(!t) return; currentVakitData = t; document.getElementById('t-Imsak').innerText = t.Imsak; document.getElementById('t-Sunrise').innerText = t.Gunes; document.getElementById('t-Dhuhr').innerText = t.Ogle; document.getElementById('t-Asr').innerText = t.Ikindi; document.getElementById('t-Maghrib').innerText = t.Aksam; document.getElementById('t-Isha').innerText = t.Yatsi; if(t.HicriTarihUzun) { document.getElementById('hijriText').innerText = `${t.HicriTarihUzun} (Hicri)`; } else { document.getElementById('hijriText').innerText = ""; } startTimer(t); }
 
         function checkKerahat(now, t) {
             const getD = (timeStr) => { if(!timeStr) return new Date(0); let [h,m] = timeStr.split(':'); let d = new Date(now); d.setHours(parseInt(h),parseInt(m),0,0); return d; };
@@ -919,6 +1002,58 @@
         function openModal() { const modal = document.getElementById('imsakiyeModal'); modal.style.display = "flex"; setTimeout(() => modal.classList.add('show'), 10); }
         function closeModal() { const modal = document.getElementById('imsakiyeModal'); modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
+
+        /* --- BİLDİRİM (EZAN VAKİTLERİ) --- */
+        function enablePersistentMode() {
+            if (!('Notification' in window)) {
+                alert('Cihazınız bildirimleri desteklemiyor.');
+                return;
+            }
+            if (Notification.permission === 'granted') {
+                togglePrayerNotification();
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        togglePrayerNotification();
+                    } else {
+                        alert('Bildirim izni verilmedi.');
+                    }
+                });
+            } else {
+                alert('Bildirim izni reddedilmiş. Lütfen tarayıcı ayarlarından izin verin.');
+            }
+        }
+
+        function togglePrayerNotification() {
+            const btn = document.getElementById('notifyBtn');
+            btn.classList.toggle('notif-active');
+            if (btn.classList.contains('notif-active')) {
+                showPrayerTimesNotification();
+                if (prayerNotifInterval) clearInterval(prayerNotifInterval);
+                prayerNotifInterval = setInterval(showPrayerTimesNotification, 30 * 60 * 1000);
+            } else {
+                if (prayerNotifInterval) clearInterval(prayerNotifInterval);
+                prayerNotifInterval = null;
+            }
+        }
+
+        function showPrayerTimesNotification() {
+            if (!currentVakitData) return;
+            const t = currentVakitData;
+            const title = '🕌 Bugün Ezan Vakitleri';
+            const body =
+                `🌅 İmsak: ${t.Imsak}   ☀️ Güneş: ${t.Gunes}\n` +
+                `🕛 Öğle: ${t.Ogle}   🌤 İkindi: ${t.Ikindi}\n` +
+                `🌆 Akşam: ${t.Aksam}   🌙 Yatsı: ${t.Yatsi}`;
+            try {
+                new Notification(title, {
+                    body: body,
+                    icon: 'icon-192.png',
+                    tag: 'prayer-times',
+                    renotify: true
+                });
+            } catch(e) {}
+        }
     </script>
 
     <!-- ── AdSense Lazy Push ── -->
@@ -933,13 +1068,16 @@
         }
         // Sayfa yüklenince
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() { setTimeout(mgPushAds, 800); });
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(mgPushAds, 1000); });
         } else {
-            setTimeout(mgPushAds, 800);
+            setTimeout(mgPushAds, 1000);
         }
-        // Sekme geçişlerinde de push et
-        document.querySelectorAll('.nav-item, .tool-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() { setTimeout(mgPushAds, 400); });
+        // Sekme geçişlerinde de push et — event delegation ile (DOM yüklendikten sonra)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', function(e) {
+                var btn = e.target.closest('.nav-item, .tool-btn, [onclick*="switchTab"], [onclick*="handleDrawerNav"]');
+                if (btn) { setTimeout(mgPushAds, 600); }
+            });
         });
     })();
     </script>
