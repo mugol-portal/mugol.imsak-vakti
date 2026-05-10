@@ -1004,7 +1004,18 @@
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
 
         /* --- BİLDİRİM (EZAN VAKİTLERİ) --- */
-        function enablePersistentMode() {
+        let prayerSwReg = null;
+
+        window.addEventListener('load', async () => {
+            if ('serviceWorker' in navigator) {
+                try {
+                    await navigator.serviceWorker.register('./sw.js');
+                    prayerSwReg = await navigator.serviceWorker.ready;
+                } catch(e) {}
+            }
+        });
+
+        async function enablePersistentMode() {
             if (!('Notification' in window)) {
                 alert('Cihazınız bildirimleri desteklemiyor.');
                 return;
@@ -1012,15 +1023,14 @@
             if (Notification.permission === 'granted') {
                 togglePrayerNotification();
             } else if (Notification.permission !== 'denied') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        togglePrayerNotification();
-                    } else {
-                        alert('Bildirim izni verilmedi.');
-                    }
-                });
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    togglePrayerNotification();
+                } else {
+                    alert('Bildirim izni verilmedi. Tarayıcı ayarlarından açabilirsiniz.');
+                }
             } else {
-                alert('Bildirim izni reddedilmiş. Lütfen tarayıcı ayarlarından izin verin.');
+                alert('Bildirim izni reddedilmiş. Tarayıcı ayarlarından izni açabilirsiniz.');
             }
         }
 
@@ -1037,22 +1047,27 @@
             }
         }
 
-        function showPrayerTimesNotification() {
+        async function showPrayerTimesNotification() {
             if (!currentVakitData) return;
             const t = currentVakitData;
-            const title = '🕌 Bugün Ezan Vakitleri';
+            const title = 'Bugün Ezan Vakitleri';
             const body =
-                `🌅 İmsak: ${t.Imsak}   ☀️ Güneş: ${t.Gunes}\n` +
-                `🕛 Öğle: ${t.Ogle}   🌤 İkindi: ${t.Ikindi}\n` +
-                `🌆 Akşam: ${t.Aksam}   🌙 Yatsı: ${t.Yatsi}`;
+                'Imsak: ' + t.Imsak + '   Günes: ' + t.Gunes + '\n' +
+                'Ögle: ' + t.Ogle + '   Ikindi: ' + t.Ikindi + '\n' +
+                'Aksam: ' + t.Aksam + '   Yatsi: ' + t.Yatsi;
+            const opts = { body: body, icon: 'icon-192.png', badge: 'icon-192.png', tag: 'prayer-times', renotify: true };
             try {
-                new Notification(title, {
-                    body: body,
-                    icon: 'icon-192.png',
-                    tag: 'prayer-times',
-                    renotify: true
-                });
-            } catch(e) {}
+                if (!prayerSwReg && 'serviceWorker' in navigator) {
+                    try { prayerSwReg = await navigator.serviceWorker.ready; } catch(e) {}
+                }
+                if (prayerSwReg) {
+                    await prayerSwReg.showNotification(title, opts);
+                } else {
+                    new Notification(title, opts);
+                }
+            } catch(e) {
+                try { new Notification(title, opts); } catch(e2) {}
+            }
         }
     </script>
 
