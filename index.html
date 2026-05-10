@@ -43,8 +43,14 @@
 <body>
 
     <audio id="silentAudio" loop><source src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//oeAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//////////////////////////////////////////////////////////////////wAAADFMYXZjNTguNTQAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAASAAxN1CqwAAAAAAAAAAAAAAAAAAAAAA//oeZAAAAABzAAAAEAAABIABAAAAAAAAAABhAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mpeg"></audio>
-    <audio id="adhanAudio" src="https://www.islamcan.com/audio/adhan/azan2.mp3" preload="auto"></audio>
-    <audio id="kerahatAudio" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+    <audio id="adhanAudio" preload="auto">
+        <source src="https://www.islamcan.com/audio/adhan/azan2.mp3" type="audio/mpeg">
+        <source src="https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="kerahatAudio" preload="auto">
+        <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- KART ÖNİZLEME VE RENK SEÇİM MODALI -->
     <div id="previewModal" class="modal">
@@ -100,7 +106,22 @@
 
     <!-- Resim İndirme Şablonu (Cuma Kartı) -->
     <div id="export-cuma-card" class="export-template">
-        <div class="ex-cuma-bg" id="exportCumaBg" style="background: linear-gradient(135deg, #022c22, #064e3b);"></div>
+        <div class="ex-cuma-bg" id="exportCumaBg" style="background: linear-gradient(160deg, #011a12 0%, #022c22 45%, #064e3b 100%);"></div>
+
+        <!-- Geometrik İslami Desen Katmanı -->
+        <div class="ex-cuma-pattern"></div>
+
+        <!-- Köşe Süsleme Katmanı -->
+        <div class="ex-cuma-ornaments">
+            <div class="ex-cuma-corner ex-cuma-corner--tl"></div>
+            <div class="ex-cuma-corner ex-cuma-corner--tr"></div>
+            <div class="ex-cuma-corner ex-cuma-corner--bl"></div>
+            <div class="ex-cuma-corner ex-cuma-corner--br"></div>
+        </div>
+
+        <!-- Işık Hüzmesi -->
+        <div class="ex-cuma-rays"></div>
+
         <div class="ex-cuma-glass">
             <img src="icon-192.png" alt="Logo" class="ex-logo" crossorigin="anonymous" onerror="this.style.display='none'">
             
@@ -317,6 +338,17 @@
                         <button class="btn-full" style="margin-top:20px; width:100%; background:rgba(239,68,68,0.15); color:#ef4444; box-shadow:none; border:1px solid rgba(239,68,68,0.3)" onclick="resetCuz()">Hatmi Sıfırla</button>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Hatim Takibi ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 5: SURELER ================= -->
@@ -330,6 +362,17 @@
                         <div style="text-align:center; color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Namaz Sureleri yükleniyor...</div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Namaz Sureleri ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 6: DUALAR ================= -->
@@ -338,6 +381,17 @@
                     <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Günlük Dualar</h2>
                     <div id="dualarContainer" style="display:flex; flex-direction:column;"></div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Günlük Dualar ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 10: NAMAZ TESBİHATI ================= -->
@@ -346,6 +400,17 @@
                     <h2 style="text-align: center; font-family: 'Amiri', serif; color: var(--gold-text); margin-top: 10px;">Namaz Tesbihatı</h2>
                     <div id="tesbihatContainer" style="display:flex; flex-direction:column;"></div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Namaz Tesbihatı ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 11: ZEKAT HESAPLAMA ================= -->
@@ -381,6 +446,17 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Zekât Hesaplama ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 7: PEYGAMBERLER ================= -->
@@ -391,6 +467,17 @@
                         <div style="text-align:center; color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Yükleniyor...</div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Peygamberler ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 8: ESMAÜL HÜSNA ================= -->
@@ -404,6 +491,17 @@
                         <button class="refresh-btn" onclick="shuffleEsma()"><i class="fas fa-random"></i> Başka Getir</button>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Esmaül Hüsna ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
             <!-- ================= SEKME 9: AYARLAR ================= -->
@@ -467,6 +565,17 @@
                         <div class="setting-item" onclick="window.open('https://qiblafinder.withgoogle.com/', '_blank')"><i class="fas fa-compass main-icon" style="color: #10b981;"></i><div class="setting-info"><div class="setting-title">Kıble Bul (Google)</div><div class="setting-desc">Web üzerinden kıble yönü</div></div><i class="fas fa-external-link-alt" style="color: var(--text-muted)"></i></div>
                     </div>
                 </div>
+
+                <!-- ── ADSENSE REKLAM — Ayarlar ── -->
+                <div class="mg-ad-box" aria-label="Reklam" role="complementary">
+                    <span class="mg-ad-label">Reklam</span>
+                    <ins class="adsbygoogle"
+                         style="display:block;width:300px;height:250px;"
+                         data-ad-client="ca-pub-1880946354382681"
+                         data-ad-slot="1689789138"
+                         data-ad-format="rectangle"></ins>
+                </div>
+
             </div>
 
         </div>
@@ -508,6 +617,13 @@
                 <h3 style="color:var(--text-main); font-weight:700; font-family:'Amiri', serif; letter-spacing:1px">Aylık İmsakiye</h3>
                 <i class="fas fa-times" style="cursor:pointer; font-size:1.5rem; color:var(--text-muted)" onclick="closeModal()"></i>
             </div>
+            <!-- Ay / Yıl Navigasyonu -->
+            <div style="display:flex; gap:10px; margin-top:14px; margin-bottom:4px; align-items:center;">
+                <button class="btn-icon" onclick="changeImsakiyeMonth(-1)" title="Önceki Ay"><i class="fas fa-chevron-left"></i></button>
+                <div id="imsakiyeMonthLabel" style="flex:1; text-align:center; font-weight:700; color:var(--gold-text); font-family:'Amiri', serif; font-size:1.05rem;">Yükleniyor...</div>
+                <button class="btn-icon" onclick="changeImsakiyeMonth(1)" title="Sonraki Ay"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div id="imsakiyeLoader" style="display:none; text-align:center; padding:10px; color:var(--text-muted); font-size:0.85rem;"><i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...</div>
             <div class="t-scroll">
                 <table id="monthlyTable"><thead><tr><th>Gün</th><th>İmsak</th><th>Güneş</th><th>Öğle</th><th>İkindi</th><th>Akşam</th><th>Yatsı</th></tr></thead><tbody></tbody></table>
             </div>
@@ -535,12 +651,33 @@
         }
 
         function stopAllAudio() { 
-            document.getElementById('adhanAudio').pause(); document.getElementById('adhanAudio').currentTime = 0; 
-            document.getElementById('kerahatAudio').pause(); document.getElementById('kerahatAudio').currentTime = 0; 
+            const a = document.getElementById('adhanAudio');
+            const k = document.getElementById('kerahatAudio');
+            a.pause(); a.currentTime = 0; 
+            k.pause(); k.currentTime = 0; 
         }
         
-        function testAdhan() { const a = document.getElementById('adhanAudio'); a.currentTime = 0; a.play(); }
-        function testKerahat() { const k = document.getElementById('kerahatAudio'); k.currentTime = 0; k.play(); }
+        function testAdhan() { 
+            const a = document.getElementById('adhanAudio'); 
+            a.currentTime = 0; 
+            const playPromise = a.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Autoplay engellendiyse kullanıcıya bildir
+                    alert('Ezan sesini çalmak için önce sayfaya dokunun veya tıklayın, ardından tekrar deneyin.');
+                });
+            }
+        }
+        function testKerahat() { 
+            const k = document.getElementById('kerahatAudio'); 
+            k.currentTime = 0; 
+            const playPromise = k.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    alert('Ses çalmak için önce sayfaya dokunun veya tıklayın, ardından tekrar deneyin.');
+                });
+            }
+        }
 
         /* --- ÇEKMECE & SEKME YÖNETİMİ --- */
         function toggleDrawer() { document.getElementById('drawerOverlay').classList.toggle('open'); document.getElementById('drawerMenu').classList.toggle('open'); }
@@ -821,11 +958,16 @@
                 card.querySelector('.ex-logo').style.borderColor = textColor;
             } else {
                 card.querySelector('.ex-cuma-title').style.color = textColor;
-                card.querySelector('.ex-cuma-divider').style.background = textColor;
+                card.querySelector('.ex-cuma-title').style.textShadow = `0 0 40px ${textColor}55, 0 5px 15px rgba(0,0,0,0.7)`;
+                card.querySelector('.ex-cuma-divider').style.background = `linear-gradient(90deg, transparent, ${textColor}, ${textColor}, ${textColor}, transparent)`;
+                card.querySelector('.ex-cuma-divider').style.boxShadow = `0 0 12px ${textColor}66`;
                 card.querySelector('.ex-cuma-footer').style.color = textColor;
-                card.querySelector('.ex-cuma-footer').style.borderTopColor = textColor;
-                card.querySelector('.ex-cuma-glass').style.borderColor = textColor;
+                card.querySelector('.ex-cuma-footer').style.borderTopColor = `${textColor}55`;
+                card.querySelector('.ex-cuma-footer').style.textShadow = `0 0 20px ${textColor}44, 0 5px 15px rgba(0,0,0,0.5)`;
+                card.querySelector('.ex-cuma-glass').style.borderColor = `${textColor}BB`;
                 card.querySelector('.ex-logo').style.borderColor = textColor;
+                // Köşe süslerini de renklendir
+                card.querySelectorAll('.ex-cuma-corner').forEach(c => c.style.borderColor = textColor);
             }
         }
 
@@ -964,7 +1106,10 @@
         async function denemeDiyanetFetch(cityValue) { const proxies = [(url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, (url) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`]; const fetchProxy = async (url) => { let lastErr; for (let proxyFn of proxies) { try { const controller = new AbortController(); const id = setTimeout(() => controller.abort(), 8000); let reqUrl = proxyFn(url); let res = await fetch(reqUrl, { signal: controller.signal }); clearTimeout(id); if (res.ok) { let text = await res.text(); if(!text || text.trim() === '') continue; let data = JSON.parse(text); if(Array.isArray(data) && data.length > 0) return data; if(typeof data === 'object' && data !== null) return data; } } catch(e) { lastErr = e; } } throw lastErr || new Error("Proxyler başarısız"); }; let sehirler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/sehirler/2'); let sehir = sehirler.find(s => s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() || s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR')); if(!sehir) sehir = sehirler.find(s => s.SehirAdiEn.includes(cityValue.toUpperCase())); if(!sehir) throw new Error("Şehir bulunamadı"); let ilceler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/ilceler/' + sehir.SehirID); let ilce = ilceler.find(i => { let iName = i.IlceAdi.toLocaleUpperCase('tr-TR'); let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR'); return iName === cName || iName === "MERKEZ" || (cName === "KOCAELİ" && iName === "İZMİT") || (cName === "SAKARYA" && iName === "ADAPAZARI") || (cName === "HATAY" && iName === "ANTAKYA"); }); if(!ilce) ilce = ilceler[0]; return await fetchProxy('https://ezanvakti.diyanet.gov.tr/vakitler/' + ilce.IlceID); }
         async function fallbackVercelFetch(cityValue) { let res = await fetch(`https://vakit.vercel.app/api/timesFromPlace?country=Turkey&region=${cityValue}&city=${cityValue}`); if(!res.ok) throw new Error("Vercel başarısız"); let data = await res.json(); let mappedData = []; for (let dateKey in data.times) { let [y, m, d] = dateKey.split('-'); let times = data.times[dateKey]; mappedData.push({ MiladiTarihKisa: `${d}.${m}.${y}`, Imsak: times[0], Gunes: times[1], Ogle: times[2], Ikindi: times[3], Aksam: times[4], Yatsi: times[5] }); } return mappedData; }
         
-        async function getData(cityValue) { const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; try { let d = new Date(); let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`); let json = await res.json(); if(json.code === 200 && json.data && json.data.length > 0) { monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item)); updateForToday(monthlyDataCache); return; } throw new Error("Aladhan boş döndü"); } catch(e) { try { let dData = await denemeDiyanetFetch(cityValue); monthlyDataCache = dData; updateForToday(dData); } catch(e2) { try { let vData = await fallbackVercelFetch(cityValue); monthlyDataCache = vData; updateForToday(vData); } catch(finalErr) { ldr.style.display = 'none'; alert("Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."); } } } finally { ldr.style.display = 'none'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; } }
+        async function getData(cityValue) { const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; try { let d = new Date(); let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`); let json = await res.json(); if(json.code === 200 && json.data && json.data.length > 0) { monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item)); // İmsakiye önbelleğini de doldur
+                const cacheKey = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                imsakiyeDataCache[cacheKey] = monthlyDataCache;
+                updateForToday(monthlyDataCache); return; } throw new Error("Aladhan boş döndü"); } catch(e) { try { let dData = await denemeDiyanetFetch(cityValue); monthlyDataCache = dData; updateForToday(dData); } catch(e2) { try { let vData = await fallbackVercelFetch(cityValue); monthlyDataCache = vData; updateForToday(vData); } catch(finalErr) { ldr.style.display = 'none'; alert("Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."); } } } finally { ldr.style.display = 'none'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; } }
         function updateForToday(dataArray) { let d = new Date(); let todayStr = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; let todayData = dataArray.find(v => v.MiladiTarihKisa === todayStr) || dataArray[0]; updateView(todayData); }
         
         async function getGPSLocation() { if (!navigator.geolocation) return alert("Konum desteklenmiyor."); const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-location-arrow fa-spin"></i> Bulunuyor...'; navigator.geolocation.getCurrentPosition(async (pos) => { try { let geoRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=tr`); let geoJson = await geoRes.json(); let cityName = geoJson.principalSubdivision.replace(' Province', '').replace(' ili', '').replace(' İli', '').trim(); let sel = document.getElementById('citySelect'); let matchedOption = Array.from(sel.options).find(o => o.text.toLocaleUpperCase('tr-TR') === cityName.toLocaleUpperCase('tr-TR') || o.value.toUpperCase() === cityName.toUpperCase()); if(matchedOption) { sel.value = matchedOption.value; localStorage.setItem('mugolCity', matchedOption.value); await getData(matchedOption.value); } else { await getData(cityName); let opt = document.createElement('option'); opt.value = cityName; opt.text = `📍 ${cityName} (GPS)`; sel.add(opt, sel.options[0]); sel.value = cityName; } } catch (e) {} finally { ldr.style.display = 'none'; } }, () => { ldr.style.display = 'none'; alert("Konum izni reddedildi."); }); }
@@ -1068,9 +1213,95 @@
             renderSoundSettings();
         }
 
-        function openModal() { const modal = document.getElementById('imsakiyeModal'); modal.style.display = "flex"; setTimeout(() => modal.classList.add('show'), 10); }
-        function closeModal() { const modal = document.getElementById('imsakiyeModal'); modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
+        /* --- İMSAKİYE MODAL & AY NAVİGASYONU --- */
+        let imsakiyeYear = new Date().getFullYear();
+        let imsakiyeMonth = new Date().getMonth() + 1; // 1-12
+        let imsakiyeDataCache = {}; // key: "YYYY-MM"
+
+        const trMonthNames = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+
+        function openModal() {
+            const modal = document.getElementById('imsakiyeModal');
+            modal.style.display = "flex";
+            setTimeout(() => modal.classList.add('show'), 10);
+            imsakiyeYear = new Date().getFullYear();
+            imsakiyeMonth = new Date().getMonth() + 1;
+            loadImsakiyeForMonth(imsakiyeYear, imsakiyeMonth);
+        }
+        function closeModal() {
+            const modal = document.getElementById('imsakiyeModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = "none", 300);
+        }
         window.onclick = (e) => { if(e.target == document.getElementById('imsakiyeModal')) closeModal(); }
+
+        function changeImsakiyeMonth(delta) {
+            imsakiyeMonth += delta;
+            if (imsakiyeMonth > 12) { imsakiyeMonth = 1; imsakiyeYear++; }
+            if (imsakiyeMonth < 1) { imsakiyeMonth = 12; imsakiyeYear--; }
+            loadImsakiyeForMonth(imsakiyeYear, imsakiyeMonth);
+        }
+
+        async function loadImsakiyeForMonth(year, month) {
+            const label = document.getElementById('imsakiyeMonthLabel');
+            const ldr = document.getElementById('imsakiyeLoader');
+            label.innerText = `${trMonthNames[month-1]} ${year}`;
+            const cacheKey = `${year}-${String(month).padStart(2,'0')}`;
+            
+            // Önbellekte varsa direkt göster
+            if (imsakiyeDataCache[cacheKey]) {
+                renderImsakiyeTable(imsakiyeDataCache[cacheKey], year, month);
+                return;
+            }
+
+            // Aynı ay ve yıl ise mevcut monthlyDataCache'i kullan
+            const now = new Date();
+            if (year === now.getFullYear() && month === (now.getMonth()+1) && monthlyDataCache) {
+                imsakiyeDataCache[cacheKey] = monthlyDataCache;
+                renderImsakiyeTable(monthlyDataCache, year, month);
+                return;
+            }
+
+            // Yeni ay için API'den çek
+            ldr.style.display = 'block';
+            const cityValue = localStorage.getItem('mugolCity') || 'Istanbul';
+            try {
+                let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${month}&year=${year}`);
+                let json = await res.json();
+                if (json.code === 200 && json.data && json.data.length > 0) {
+                    let data = json.data.map(item => aladhanToDiyanetFormat(item));
+                    imsakiyeDataCache[cacheKey] = data;
+                    renderImsakiyeTable(data, year, month);
+                } else { throw new Error("Boş"); }
+            } catch(e) {
+                label.innerText = `${trMonthNames[month-1]} ${year} (Veri yüklenemedi)`;
+            } finally {
+                ldr.style.display = 'none';
+            }
+        }
+
+        function renderImsakiyeTable(data, year, month) {
+            const tbody = document.querySelector('#monthlyTable tbody');
+            tbody.innerHTML = '';
+            const now = new Date();
+            const todayStr = `${String(now.getDate()).padStart(2,'0')}.${String(now.getMonth()+1).padStart(2,'0')}.${now.getFullYear()}`;
+            let todayRow = null;
+            data.forEach(v => {
+                const tr = document.createElement('tr');
+                const parts = v.MiladiTarihKisa.split('.');
+                const dayNum = parseInt(parts[0]);
+                const dateObj = new Date(parseInt(parts[2]), parseInt(parts[1])-1, dayNum);
+                const dayName = dateObj.toLocaleDateString('tr-TR', {weekday:'short'});
+                const isCuma = dateObj.getDay() === 5;
+                const isToday = v.MiladiTarihKisa === todayStr;
+                if (isToday) { tr.classList.add('active-day'); todayRow = tr; }
+                if (isCuma && !isToday) tr.style.cssText = 'background:rgba(252,211,77,0.04);';
+                tr.innerHTML = `<td style="font-weight:${isToday?'800':'600'}; color:${isToday?'var(--blue)':'var(--text-main)'}; white-space:nowrap;">${dayNum}<span style="font-size:0.65rem; color:var(--text-muted); margin-left:3px;">${dayName}</span></td><td>${v.Imsak}</td><td>${v.Gunes}</td><td>${v.Ogle}</td><td>${v.Ikindi}</td><td>${v.Aksam}</td><td>${v.Yatsi}</td>`;
+                tbody.appendChild(tr);
+            });
+            // Bugünkü satıra scroll
+            if (todayRow) setTimeout(() => todayRow.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+        }
 
         /* --- BİLDİRİM (EZAN VAKİTLERİ) --- */
         let prayerSwReg = null;

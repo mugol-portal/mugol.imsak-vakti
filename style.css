@@ -243,80 +243,197 @@ tr.active-day { background: rgba(56,189,248,0.1); } tr.active-day td { color: va
 .ex-src { font-size: 2.2rem; color: #fcd34d; font-weight: 600; font-family: 'Amiri', serif; border-top: 1px solid rgba(252, 211, 77, 0.3); padding-top: 20px; display: inline-block; }
 .ex-footer { position: absolute; bottom: 50px; left: 0; right: 0; text-align: center; font-size: 2.8rem; color: #fcd34d; font-weight: 700; font-family: 'Amiri', serif; letter-spacing: 2px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
-/* --- CUMA PAYLAŞIM KARTI ŞABLONU (KESİN DÜZELTİLMİŞ) --- */
+/* --- CUMA PAYLAŞIM KARTI ŞABLONU (GELİŞTİRİLMİŞ) --- */
 #export-cuma-card { padding: 60px; }
 .ex-cuma-bg { position: absolute; inset: 0; z-index: 0; transition: background 0.3s; }
 
-.ex-cuma-glass { 
-    position: relative; 
-    z-index: 1; 
-    border: 2px solid #d4af37; 
-    border-radius: 40px; 
-    padding: 60px 80px; 
-    width: 100%; 
-    height: 100%; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: space-between; /* İçerikleri dikeyde eşit yayar */
-    align-items: center; 
-    background: rgba(0,0,0,0.25); 
-    backdrop-filter: none; /* Bulanıklık sorunu kalktı */
+/* İslami geometrik desen — SVG tekrarlayan arka plan */
+.ex-cuma-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='1.2'%3E%3Cpolygon points='60,8 112,40 112,80 60,112 8,80 8,40'/%3E%3Cpolygon points='60,22 98,44 98,76 60,98 22,76 22,44'/%3E%3Cline x1='60' y1='8' x2='60' y2='22'/%3E%3Cline x1='112' y1='40' x2='98' y2='44'/%3E%3Cline x1='112' y1='80' x2='98' y2='76'/%3E%3Cline x1='60' y1='112' x2='60' y2='98'/%3E%3Cline x1='8' y1='80' x2='22' y2='76'/%3E%3Cline x1='8' y1='40' x2='22' y2='44'/%3E%3Ccircle cx='60' cy='60' r='12'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    pointer-events: none;
+}
+
+/* Köşe süsleme çerçeveleri */
+.ex-cuma-ornaments { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.ex-cuma-corner {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-color: #d4af37;
+    border-style: solid;
+    opacity: 0.55;
+}
+.ex-cuma-corner--tl { top: 40px; left: 40px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+.ex-cuma-corner--tr { top: 40px; right: 40px; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
+.ex-cuma-corner--bl { bottom: 40px; left: 40px; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
+.ex-cuma-corner--br { bottom: 40px; right: 40px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+
+/* Köşe iç kıvrım detayı */
+.ex-cuma-corner--tl::after,
+.ex-cuma-corner--tr::after,
+.ex-cuma-corner--bl::after,
+.ex-cuma-corner--br::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #d4af37;
+    opacity: 0.7;
+}
+.ex-cuma-corner--tl::after { top: -7px; left: -7px; }
+.ex-cuma-corner--tr::after { top: -7px; right: -7px; }
+.ex-cuma-corner--bl::after { bottom: -7px; left: -7px; }
+.ex-cuma-corner--br::after { bottom: -7px; right: -7px; }
+
+/* Üstten gelen ışık hüzmesi */
+.ex-cuma-rays {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    z-index: 1;
+    background: conic-gradient(
+        from 270deg,
+        transparent 0deg,
+        rgba(212,175,55,0.06) 5deg,
+        transparent 10deg,
+        transparent 15deg,
+        rgba(212,175,55,0.05) 20deg,
+        transparent 25deg,
+        transparent 30deg,
+        rgba(212,175,55,0.07) 35deg,
+        transparent 40deg,
+        transparent 180deg
+    );
+    pointer-events: none;
+}
+
+/* Orta glow halkası */
+.ex-cuma-glass {
+    position: relative;
+    z-index: 3;
+    border: 2px solid rgba(212,175,55,0.7);
+    border-radius: 40px;
+    padding: 60px 80px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(
+        180deg,
+        rgba(1,26,18,0.55) 0%,
+        rgba(2,44,34,0.4) 50%,
+        rgba(6,78,59,0.55) 100%
+    );
+    backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
+    box-shadow:
+        0 0 0 1px rgba(212,175,55,0.15),
+        inset 0 0 120px rgba(212,175,55,0.05),
+        0 40px 80px rgba(0,0,0,0.6);
 }
 
-.ex-cuma-title { 
-    font-size: 5.2rem; 
-    color: #fcd34d; 
-    font-family: 'Amiri', serif; 
-    font-weight: 700; 
-    margin-top: 50px; 
-    margin-bottom: 20px; 
-    text-shadow: 0 5px 15px rgba(0,0,0,0.7); 
+/* İç üst kenar parıltısı */
+.ex-cuma-glass::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.8), transparent);
+    pointer-events: none;
 }
 
-.ex-cuma-divider { 
-    width: 180px; 
-    height: 4px; 
-    background: #d4af37; 
-    margin-bottom: 30px; 
-    border-radius: 2px; 
+/* Ortada yumuşak altın halo */
+.ex-cuma-glass::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(212,175,55,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Mesajın footer ile çakışmasını engelleyen esnek kapsayıcı */
+.ex-cuma-title {
+    position: relative; z-index: 2;
+    font-size: 5.2rem;
+    color: #fcd34d;
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 40px rgba(252,211,77,0.35), 0 5px 15px rgba(0,0,0,0.7);
+    letter-spacing: 2px;
+}
+
+.ex-cuma-divider {
+    position: relative; z-index: 2;
+    width: 280px;
+    height: 2px;
+    margin-bottom: 30px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, #fcd34d, #d4af37, transparent);
+    box-shadow: 0 0 12px rgba(212,175,55,0.4);
+}
+
+/* Divider uç noktası süsü */
+.ex-cuma-divider::before,
+.ex-cuma-divider::after {
+    content: '✦';
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    color: #d4af37;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+.ex-cuma-divider::before { left: -30px; }
+.ex-cuma-divider::after  { right: -30px; }
+
 .ex-cuma-text-wrapper {
-    flex: 1; /* Ortadaki boşluğu kaplar ve mesajı merkezler */
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    position: relative; z-index: 2;
 }
 
-.ex-cuma-text { 
-    font-size: 3.2rem; 
-    font-weight: 400; 
-    font-style: italic; 
-    line-height: 1.5; 
-    color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.7); 
+.ex-cuma-text {
+    font-size: 3.2rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.55;
+    color: #f0fdf4;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.8), 0 0 60px rgba(212,175,55,0.08);
     text-align: center;
     padding: 0 20px;
 }
 
-.ex-cuma-footer { 
-    position: relative; /* Absolute çakışmaya sebep oluyordu, Relative yapıldı */
-    width: 90%; 
-    text-align: center; 
-    font-size: 2.8rem; 
-    color: #fcd34d; 
-    font-weight: 700; 
-    font-family: 'Amiri', serif; 
-    letter-spacing: 2px; 
-    text-shadow: 0 5px 15px rgba(0,0,0,0.5); 
-    border-top: 2px solid rgba(212, 175, 55, 0.4); 
-    padding-top: 30px; 
+.ex-cuma-footer {
+    position: relative; z-index: 2;
+    width: 90%;
+    text-align: center;
+    font-size: 2.8rem;
+    color: #fcd34d;
+    font-weight: 700;
+    font-family: 'Amiri', serif;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(252,211,77,0.25), 0 5px 15px rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(212, 175, 55, 0.35);
+    padding-top: 30px;
     margin-bottom: 20px;
-    margin-top: 40px; /* Mesaj ile arasını açar */
+    margin-top: 40px;
 }
 
 /* --- SÖZ KARTLARI (TÜM SÖZLER LİSTESİ) --- */
