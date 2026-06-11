@@ -496,3 +496,3336 @@ tr.active-day { background: rgba(56,189,248,0.1); } tr.active-day td { color: va
     font-family: 'Outfit', sans-serif;
     opacity: 0.7;
 }
+/* ============================================================
+   v2 — RAFİNE GELİŞTİRMELER (mevcut yapıyı bozmaz)
+   Sadece görsel iyileştirme: tipografi, gölge, mikro animasyon
+   ============================================================ */
+
+:root {
+    /* Daha derin & sinematik arka plan */
+    --bg-grad-1: hsla(230, 35%, 6%, 1);
+    --bg-grad-2: hsla(225, 45%, 14%, 1);
+    --bg-grad-3: hsla(265, 40%, 16%, 1);
+
+    /* Daha zarif cam yüzey */
+    --glass-surface: rgba(255, 255, 255, 0.055);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --glass-blur: blur(28px) saturate(140%);
+
+    /* Daha yumuşak premium gölge */
+    --shadow-color: rgba(2, 6, 23, 0.55);
+    --shadow-gold: rgba(252, 211, 77, 0.18);
+    --accent-glow: 0 0 32px rgba(252, 211, 77, 0.22);
+}
+
+body.light-mode {
+    --bg-grad-1: hsla(220, 60%, 98%, 1);
+    --bg-grad-2: hsla(215, 55%, 92%, 1);
+    --bg-grad-3: hsla(40, 70%, 92%, 1);
+    --glass-surface: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(15, 23, 42, 0.08);
+}
+
+/* Daha pürüzsüz font render */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: 0.01em;
+}
+
+/* Header — daha hafif glow ve ince üst parıltı */
+.header {
+    border-radius: 28px;
+    box-shadow:
+        0 10px 40px -8px var(--shadow-color),
+        0 2px 6px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.09);
+    position: relative;
+}
+.header::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 40%);
+    pointer-events: none;
+}
+
+/* Logo — daha sofistike halka */
+.logo {
+    border-width: 1.5px;
+    box-shadow:
+        0 0 0 3px rgba(179,135,40,0.10),
+        0 0 24px rgba(252,211,77,0.30),
+        inset 0 0 12px rgba(252,211,77,0.10);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+}
+.logo:hover {
+    transform: rotate(-3deg) scale(1.05);
+    box-shadow:
+        0 0 0 4px rgba(179,135,40,0.16),
+        0 0 32px rgba(252,211,77,0.45);
+}
+
+/* App title — daha zengin altın parlaması */
+.app-title {
+    background-size: 200% 200%;
+    animation: goldShine 8s ease-in-out infinite;
+}
+@keyframes goldShine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Icon butonlar — daha rafine */
+.btn-icon {
+    border-radius: 16px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                background 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease;
+}
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px var(--shadow-color);
+    border-color: rgba(252,211,77,0.35);
+    color: var(--gold-text);
+}
+
+/* Vakit kutuları — daha derin aktif vurgu */
+.v-box {
+    border-radius: 22px;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                background 0.3s ease, box-shadow 0.35s ease, border-color 0.3s ease;
+}
+.v-box::after {
+    content: '';
+    position: absolute;
+    top: -1px; left: 50%; transform: translateX(-50%);
+    width: 40%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.v-box:hover::after { opacity: 1; }
+.v-box.active {
+    box-shadow:
+        0 14px 40px -12px rgba(179,135,40,0.45),
+        0 0 0 1px rgba(252,211,77,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        var(--accent-glow);
+}
+.v-box.active::after { opacity: 1; }
+
+/* Timer kart — daha sinematik gölge */
+.timer-card {
+    filter: drop-shadow(0 25px 55px var(--shadow-color))
+            drop-shadow(0 0 30px rgba(179,135,40,0.12));
+}
+.timer-val {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    letter-spacing: -2px;
+}
+.timer-next {
+    background-size: 200% 200%;
+    animation: goldShine 6s ease-in-out infinite;
+}
+
+/* Info kartlar — kenarda hafif altın çizgi */
+.info-card {
+    border-radius: 26px;
+    box-shadow:
+        0 12px 40px -10px var(--shadow-color),
+        0 2px 6px rgba(0,0,0,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.info-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(252,211,77,0.18), transparent 40%, transparent 60%, rgba(252,211,77,0.10));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Esma — daha şık */
+.esma-ar {
+    font-size: 3.8rem;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: goldShine 7s ease-in-out infinite;
+    text-shadow: none;
+    filter: drop-shadow(0 4px 14px rgba(252,211,77,0.25));
+    line-height: 1.3;
+}
+
+/* Section başlık — küçük altın nokta */
+.section-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold-gradient);
+    box-shadow: 0 0 10px rgba(252,211,77,0.6);
+}
+
+/* Akordiyon — daha pürüzsüz */
+.acc {
+    border-radius: 24px;
+    box-shadow:
+        0 10px 36px -10px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.acc-head { padding: 22px 26px; font-size: 1rem; letter-spacing: 0.2px; }
+.acc-head:hover { background: rgba(255,255,255,0.03); }
+
+/* Tool butonları */
+.tool-btn {
+    border-radius: 20px;
+    padding: 20px 14px;
+    gap: 10px;
+}
+.tool-btn i { font-size: 1.4rem; color: var(--gold-text); transition: transform 0.3s ease; }
+.tool-btn:hover i { transform: translateY(-3px) scale(1.1); }
+
+/* Alt navigasyon — daha şık */
+.bottom-nav {
+    box-shadow:
+        0 -16px 50px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.nav-item { border-radius: 18px; transition: 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.nav-item.active {
+    box-shadow: 0 6px 18px -6px var(--shadow-gold);
+}
+
+/* Day card — today daha belirgin */
+.day-card { border-radius: 20px; }
+.day-card.today {
+    background: linear-gradient(160deg, rgba(252,211,77,0.18), rgba(179,135,40,0.06));
+    box-shadow:
+        0 10px 28px -8px var(--shadow-gold),
+        inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+/* Modal — daha derin */
+.modal-con {
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.55),
+        0 0 0 1px var(--glass-border),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Setting item — sol akan altın */
+.setting-item { border-radius: 20px; position: relative; overflow: hidden; }
+.setting-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.setting-item:hover::before { opacity: 1; }
+.setting-item i.main-icon {
+    color: var(--gold-text);
+    filter: drop-shadow(0 0 8px rgba(252,211,77,0.25));
+}
+
+/* Cüz kutuları — okunan için zarif parıltı */
+.cuz-box { border-radius: 16px; }
+.cuz-box.read {
+    background: linear-gradient(135deg, #fcd34d, #b38728);
+    color: #1a1206;
+    box-shadow: 0 6px 18px -4px rgba(252,211,77,0.45);
+}
+.cuz-prog-fill {
+    background: var(--gold-gradient);
+    background-size: 200% 200%;
+    animation: goldShine 4s ease-in-out infinite;
+    box-shadow: 0 0 14px rgba(252,211,77,0.35);
+}
+
+/* Zikir butonu — daha canlı */
+.zb-inc {
+    background: linear-gradient(135deg, #34d399, #059669);
+    box-shadow: 0 6px 18px -4px rgba(16,185,129,0.45);
+}
+.zb-inc:hover { box-shadow: 0 8px 24px -4px rgba(16,185,129,0.6); }
+
+/* Scrollbar şıklığı */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(252,211,77,0.25), rgba(179,135,40,0.18));
+    border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(252,211,77,0.4); }
+
+/* Tıklama feedback'i hafifletildi */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Odak erişilebilirliği */
+button:focus-visible, select:focus-visible, .z-inp:focus-visible, .nav-item:focus-visible {
+    outline: 2px solid var(--gold-text);
+    outline-offset: 2px;
+    border-radius: 14px;
+}
+
+/* ── CUMA KARTLARI ── */
+#cumaKartlarGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+#cumaKartlarGrid > div > img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+#cumaKartlarGrid > div > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 6px;
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    color: #020617;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    border-radius: 0 0 12px 12px;
+}
+#cumaKartlarGrid > div > a:active {
+    opacity: 0.75;
+}
+
+/* ── CUMA LİGHTBOX ── */
+#cumaLightbox {
+    animation: lbFadeIn 0.18s ease;
+}
+@keyframes lbFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+#cumaLightboxImg {
+    animation: lbZoomIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes lbZoomIn {
+    from { transform: scale(0.88); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+
+/* ════════════════════════════════════════════
+   GENEL TASARIM GELİŞTİRMELERİ (Ana sayfa hariç)
+   ════════════════════════════════════════════ */
+
+/* ── Sayfa Başlığı ── */
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Amiri', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(252,211,77,0.18);
+    letter-spacing: 0.5px;
+}
+
+/* ── Quote kartları — sol altın çizgi ── */
+.quote-card-item {
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid #b38728;
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: var(--glass-blur);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.quote-card-item:hover {
+    transform: translateX(3px);
+    box-shadow: 0 8px 28px -8px var(--shadow-gold);
+}
+.cuma-card-item {
+    border-left-color: #059669;
+}
+.quote-text {
+    font-family: 'Amiri', serif;
+    line-height: 1.7;
+    color: var(--text-main);
+    font-style: italic;
+}
+.quote-src, .cuma-src {
+    color: var(--gold-text);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* ── Accordion gelişimi ── */
+.acc-head {
+    border-radius: 18px;
+    transition: background 0.25s, border-radius 0.25s;
+}
+.acc-head:hover {
+    background: var(--box-hover);
+}
+.acc-body {
+    border-radius: 0 0 18px 18px;
+}
+
+/* ── Drawer tool-btn gelişimi ── */
+.tool-btn {
+    border-radius: 18px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.2px;
+    transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.tool-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: inherit;
+}
+.tool-btn:hover {
+    transform: translateY(-2px) scale(1.025);
+    box-shadow: 0 8px 22px -6px var(--shadow-gold);
+    border-color: rgba(179,135,40,0.4);
+}
+.tool-btn:active {
+    transform: scale(0.97);
+}
+
+/* ── Info kartlar — daha derin cam ── */
+.info-card {
+    border-radius: 24px;
+    box-shadow:
+        0 4px 24px -8px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── Sure, Dua, Peygamber accordionları ── */
+.acc {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* ── Kaza Takibi Kısayol Butonu (Ana Sayfa) ── */
+.kaza-shortcut-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, rgba(252,211,77,0.1), rgba(179,135,40,0.05));
+    border: 1px solid rgba(179,135,40,0.3);
+    border-radius: 22px;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    backdrop-filter: var(--glass-blur);
+    font-family: 'Outfit', sans-serif;
+    text-align: left;
+}
+.kaza-shortcut-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px -8px var(--shadow-gold);
+}
+.kaza-shortcut-btn:active { transform: scale(0.98); }
+.kaza-shortcut-btn > .fa-clipboard-check {
+    font-size: 1.6rem;
+    color: var(--gold-text);
+    filter: drop-shadow(0 0 8px rgba(252,211,77,0.3));
+    flex-shrink: 0;
+}
+
+/* ── Kaza Takibi Sayfası ── */
+.kaza-summary-card {
+    background: linear-gradient(135deg, rgba(179,135,40,0.18), rgba(252,211,77,0.06));
+    border: 1px solid rgba(179,135,40,0.35);
+    border-radius: 24px;
+    padding: 24px 22px;
+    box-shadow: 0 8px 28px -10px var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.kaza-summary-inner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.kaza-summary-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #020617;
+    flex-shrink: 0;
+    box-shadow: 0 6px 18px -4px rgba(179,135,40,0.5);
+}
+.kaza-summary-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.kaza-summary-count {
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+/* ── Sekme geçiş animasyonu — daha yumuşak ── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Cuma kartları grid hover ── */
+#cumaKartlarGrid > div {
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+}
+
+
+/* ════════════════════════════════════════════
+   DRAWER DÜZELTME & DİĞER SAYFA TASARIM GELİŞTİRMELERİ
+   ════════════════════════════════════════════ */
+
+/* ── Drawer Kesin Düzeltme ── */
+.drawer-menu {
+    position: fixed !important;
+    bottom: -100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1501 !important;
+    visibility: hidden;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0s linear 0.4s !important;
+}
+.drawer-menu.open {
+    bottom: 0 !important;
+    visibility: visible;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0s linear 0s !important;
+}
+
+/* ── Drawer Tool Butonları — yatay düzen ── */
+.drawer-grid .tool-btn {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    padding: 15px 16px !important;
+    text-align: left !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    border-radius: 18px !important;
+    background: var(--glass-surface) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-main) !important;
+    transition: transform 0.18s ease, background 0.2s, box-shadow 0.2s !important;
+    position: relative;
+    overflow: hidden;
+}
+.drawer-grid .tool-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), transparent);
+    pointer-events: none;
+}
+.drawer-grid .tool-btn:hover {
+    transform: translateY(-2px) !important;
+    background: var(--box-hover) !important;
+    box-shadow: 0 6px 20px -6px var(--shadow-gold) !important;
+    border-color: rgba(179,135,40,0.35) !important;
+}
+.drawer-grid .tool-btn:active {
+    transform: scale(0.97) !important;
+}
+.drawer-grid .tool-btn i {
+    font-size: 1.1rem !important;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease !important;
+}
+.drawer-grid .tool-btn:hover i {
+    transform: scale(1.15) !important;
+}
+
+/* ── Drawer başlık çubuğu ── */
+.drawer-menu {
+    background: var(--modal-bg);
+    border-top: 1px solid var(--glass-border);
+    border-top-left-radius: 34px;
+    border-top-right-radius: 34px;
+    padding: 16px 20px 44px 20px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.drawer-drag {
+    width: 44px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    margin: 0 auto 18px auto;
+}
+
+/* ── Diğer Sayfalar — Info Layout Gelişimi ── */
+.info-layout {
+    gap: 16px;
+}
+
+/* ── Sekme sayfası üst başlık şeridi ── */
+.page-header-strip {
+    background: linear-gradient(135deg, rgba(179,135,40,0.12), rgba(252,211,77,0.04));
+    border: 1px solid rgba(179,135,40,0.2);
+    border-radius: 22px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: var(--glass-blur);
+}
+.page-header-strip-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #020617;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px -4px rgba(179,135,40,0.5);
+}
+
+/* ── Accordion — İslami stil ── */
+.acc {
+    border-radius: 20px !important;
+    overflow: hidden;
+    margin-bottom: 10px !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 2px 12px -4px var(--shadow-color) !important;
+    transition: box-shadow 0.2s ease !important;
+}
+.acc:hover {
+    box-shadow: 0 6px 22px -6px var(--shadow-color) !important;
+}
+.acc-head {
+    padding: 17px 20px !important;
+    font-size: 0.92rem !important;
+    letter-spacing: 0.2px;
+    background: var(--glass-surface) !important;
+}
+.acc-head:hover {
+    background: var(--box-hover) !important;
+}
+.acc-body.open {
+    padding: 20px !important;
+}
+
+/* ── Sözler & Ayetler — kart yenileme ── */
+.quote-card-item {
+    border-radius: 20px !important;
+    padding: 18px 20px !important;
+    background: var(--glass-surface) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-left: 3px solid #b38728 !important;
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 2px 16px -6px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.quote-card-item:hover {
+    transform: translateX(4px) !important;
+    box-shadow: 0 8px 26px -8px var(--shadow-gold) !important;
+}
+.cuma-card-item {
+    border-left-color: #059669 !important;
+}
+
+/* ── Ayarlar sayfası setting-item ── */
+.setting-item {
+    border-radius: 18px !important;
+    padding: 16px 18px !important;
+    gap: 0;
+    transition: background 0.2s, transform 0.18s ease !important;
+}
+.setting-item:hover {
+    transform: translateX(4px) !important;
+    background: var(--box-hover) !important;
+}
+
+/* ── Zikirmatik ── */
+.z-item {
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    transition: background 0.2s, transform 0.18s ease !important;
+}
+.z-item:hover {
+    transform: translateX(3px) !important;
+    background: var(--box-hover) !important;
+}
+
+/* ── Kaza takibi v-box büyütme ikonları ── */
+#kazaGrid .v-box {
+    padding: 16px 8px !important;
+    cursor: default;
+}
+#kazaGrid .v-box .fa-minus-circle,
+#kazaGrid .v-box .fa-plus-circle {
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: transform 0.18s, color 0.18s;
+    color: var(--text-muted);
+}
+#kazaGrid .v-box .fa-minus-circle:hover { color: #ef4444; transform: scale(1.2); }
+#kazaGrid .v-box .fa-plus-circle:hover  { color: #10b981; transform: scale(1.2); }
+
+/* ── Cuma kartları grid spacing ── */
+#cumaKartlarSection .section-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Info card içi arama kutusu sarmalayıcı ── */
+.search-wrap {
+    position: relative;
+    width: 100%;
+}
+.search-wrap .z-inp {
+    padding-left: 42px !important;
+    border-radius: 16px !important;
+}
+.search-wrap::before {
+    content: '\f002';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Esmaül Hüsna sayfası ── */
+.info-card.big-card {
+    border-radius: 28px !important;
+    padding: 32px 24px !important;
+    background: linear-gradient(160deg, rgba(179,135,40,0.1), var(--glass-surface)) !important;
+    border-color: rgba(179,135,40,0.25) !important;
+}
+
+/* ── Zekat sayfası input'ları ── */
+#tab-zekat .z-inp {
+    border-radius: 14px !important;
+    font-size: 0.95rem !important;
+}
+
+/* ── Cüz kutuları ── */
+.cuz-box {
+    border-radius: 14px !important;
+    font-size: 0.95rem !important;
+    padding: 14px 0 !important;
+}
+
+/* ── Hatim progress ── */
+.cuz-prog-container {
+    border-radius: 12px !important;
+    height: 12px !important;
+}
+
+/* ── Responsive drawer max-width ── */
+@media (min-width: 600px) {
+    .drawer-menu {
+        max-width: 540px !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        border-radius: 34px 34px 0 0 !important;
+    }
+}
+
+/* ════════════════════════════════════════════
+   DİNİ GÜNLER LİSTE GÖRÜNÜMÜ
+   ════════════════════════════════════════════ */
+.dini-gun-listesi {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.dini-gun-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    gap: 10px;
+    transition: background 0.2s, transform 0.18s;
+}
+.dini-gun-row:hover {
+    background: var(--box-hover);
+    transform: translateX(3px);
+}
+.dini-gun-today {
+    background: linear-gradient(135deg, rgba(252,211,77,0.13), rgba(179,135,40,0.05)) !important;
+    border-color: rgba(179,135,40,0.4) !important;
+    box-shadow: 0 4px 16px -6px rgba(179,135,40,0.3);
+}
+
+.dini-gun-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex: 1;
+    min-width: 0;
+}
+
+.dini-gun-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(179,135,40,0.12);
+    border: 1px solid rgba(179,135,40,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--gold-text);
+    flex-shrink: 0;
+}
+.dini-gun-today .dini-gun-icon {
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    color: #020617;
+    box-shadow: 0 4px 10px -3px rgba(179,135,40,0.5);
+}
+
+.dini-gun-info { min-width: 0; }
+
+.dini-gun-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+.dini-gun-today .dini-gun-name { color: var(--gold-text); }
+
+.dini-gun-date {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dini-gun-badge {
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.3px;
+}
+
+/* ════════════════════════════════════════════
+   DRAWER KAYDIRMA DÜZELTMESİ
+   ════════════════════════════════════════════ */
+.drawer-menu {
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(179,135,40,0.3) transparent;
+}
+.drawer-menu::-webkit-scrollbar { width: 3px; }
+.drawer-menu::-webkit-scrollbar-thumb { background: rgba(179,135,40,0.3); border-radius: 3px; }
+
+/* Drawer içi yapışkan tutamaç */
+.drawer-drag {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--modal-bg);
+    padding: 4px 0 12px;
+    margin-bottom: 6px !important;
+}
+
+
+/* ════════════════════════════════════════════
+   DRAWER ÜST BİLGİ ŞERİDİ
+   ════════════════════════════════════════════ */
+.drawer-top-info {
+    background: linear-gradient(135deg, rgba(179,135,40,0.12), rgba(252,211,77,0.04));
+    border: 1px solid rgba(179,135,40,0.2);
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+.drawer-top-date {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 3px;
+}
+.drawer-top-hijri {
+    font-size: 0.78rem;
+    color: var(--gold-text);
+    font-family: 'Amiri', serif;
+    opacity: 0.85;
+    min-height: 1em;
+}
+
+/* Drawer grid bölümler arası ayırıcı */
+.drawer-divider {
+    grid-column: span 2;
+    height: 1px;
+    background: var(--glass-border);
+    margin: 4px 0;
+}
+.drawer-section-label {
+    grid-column: span 2;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 2px 2px;
+}
+
+/* ════════════════════════════════════════════
+   v3 — PREMİUM TASARIM GELİŞTİRMELERİ
+   Mevcut yapıyı bozmaz, üzerine ekler
+   ════════════════════════════════════════════ */
+
+/* ── Daha derin, sinematik arka plan renkleri ── */
+:root {
+    --bg-grad-1: hsla(230, 40%, 5%, 1);
+    --bg-grad-2: hsla(220, 50%, 11%, 1);
+    --bg-grad-3: hsla(260, 45%, 13%, 1);
+    --glass-surface: rgba(255, 255, 255, 0.048);
+    --glass-border: rgba(255, 255, 255, 0.095);
+    --glass-blur: blur(30px) saturate(160%);
+    --shadow-color: rgba(2, 4, 20, 0.62);
+    --shadow-gold: rgba(252, 211, 77, 0.20);
+    --accent-glow: 0 0 36px rgba(252, 211, 77, 0.24);
+}
+
+/* ── Işık modunda rafine ── */
+body.light-mode {
+    --bg-grad-1: hsla(220, 55%, 97%, 1);
+    --bg-grad-2: hsla(210, 60%, 91%, 1);
+    --bg-grad-3: hsla(38, 80%, 93%, 1);
+    --glass-surface: rgba(255, 255, 255, 0.82);
+    --glass-border: rgba(15, 23, 42, 0.07);
+}
+
+/* ── Arka plan animasyonu — daha yavaş, hipnotik ── */
+body {
+    animation: bgShift 22s ease-in-out infinite alternate;
+}
+
+/* ── Header — derin cam & üst parıltı bandı ── */
+.header {
+    border-radius: 30px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.07) 0%, var(--glass-surface) 100%);
+    box-shadow:
+        0 12px 48px -10px var(--shadow-color),
+        0 2px 8px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.11),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
+    border-color: rgba(255,255,255,0.11);
+}
+
+/* ── Logo — çift halka ── */
+.logo {
+    box-shadow:
+        0 0 0 2px rgba(179,135,40,0.18),
+        0 0 0 5px rgba(179,135,40,0.06),
+        0 0 28px rgba(252,211,77,0.32),
+        inset 0 0 14px rgba(252,211,77,0.08);
+}
+
+/* ── App başlık — daha canlı altın parlaması ── */
+.app-title {
+    letter-spacing: 1px;
+    filter: drop-shadow(0 2px 8px rgba(179,135,40,0.35));
+}
+
+/* ── Timer kart — halo efekti ── */
+.timer-card {
+    filter:
+        drop-shadow(0 28px 60px var(--shadow-color))
+        drop-shadow(0 0 40px rgba(179,135,40,0.14))
+        drop-shadow(0 0 80px rgba(179,135,40,0.06));
+}
+
+/* ── Timer değeri — daha dramatik ── */
+.timer-val {
+    font-size: 4.2rem;
+    letter-spacing: -3px;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4));
+}
+
+/* ── Sonraki vakit adı — altın parıltı + büyük ── */
+.timer-next {
+    font-size: 3.2rem;
+    filter: drop-shadow(0 3px 10px rgba(179,135,40,0.4));
+}
+
+/* ── Vakit kutuları — daha rafine cam ── */
+.v-box {
+    background: rgba(255,255,255,0.042);
+    border-color: rgba(255,255,255,0.088);
+    border-radius: 24px !important;
+}
+.v-box:hover {
+    border-color: rgba(255,255,255,0.16);
+    box-shadow: 0 10px 28px -8px var(--shadow-color);
+}
+.v-box.active {
+    background: linear-gradient(160deg, rgba(179,135,40,0.22) 0%, rgba(252,211,77,0.04) 100%);
+    border-color: rgba(252,211,77,0.35) !important;
+    box-shadow:
+        0 16px 44px -12px rgba(179,135,40,0.45),
+        0 0 0 1px rgba(252,211,77,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        0 0 40px rgba(252,211,77,0.18);
+    transform: scale(1.07);
+}
+.active .v-name {
+    color: rgba(252,211,77,0.7);
+}
+
+/* ── Aktif vakit saati — büyük & canlı ── */
+.active .v-time {
+    font-size: 1.65rem;
+    filter: drop-shadow(0 0 10px rgba(252,211,77,0.35));
+}
+
+/* ── Info kart — derin cam + üst çizgi ── */
+.info-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%);
+    border-radius: 28px !important;
+    box-shadow:
+        0 16px 48px -12px var(--shadow-color),
+        0 3px 8px rgba(0,0,0,0.14),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.09);
+}
+
+/* ── Sünnet kartı — daha taze yeşil glow ── */
+.sunnah-card {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(255,255,255,0.04) 100%);
+    border-color: rgba(45,212,191,0.25);
+    box-shadow: 0 8px 32px -8px rgba(16,185,129,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── Kaza kısayol butonu — daha öne çıkan ── */
+.kaza-shortcut-btn {
+    background: linear-gradient(135deg, rgba(252,211,77,0.13) 0%, rgba(179,135,40,0.06) 100%);
+    border-color: rgba(252,211,77,0.3);
+    box-shadow: 0 6px 22px -8px rgba(179,135,40,0.3), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.kaza-shortcut-btn:hover {
+    background: linear-gradient(135deg, rgba(252,211,77,0.2) 0%, rgba(179,135,40,0.1) 100%);
+    box-shadow: 0 14px 36px -8px rgba(179,135,40,0.45);
+    border-color: rgba(252,211,77,0.45);
+}
+
+/* ── Alt nav — daha derin blur & ince üst parıltı ── */
+.bottom-nav {
+    background: rgba(8, 12, 28, 0.88);
+    border-top-color: rgba(255,255,255,0.08);
+    box-shadow:
+        0 -20px 60px rgba(2,4,20,0.7),
+        0 -1px 0 rgba(255,255,255,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    backdrop-filter: blur(36px) saturate(180%);
+    -webkit-backdrop-filter: blur(36px) saturate(180%);
+}
+body.light-mode .bottom-nav {
+    background: rgba(238, 243, 250, 0.92);
+}
+
+/* ── Aktif nav item — altın halo ── */
+.nav-item.active {
+    background: linear-gradient(160deg, rgba(179,135,40,0.22) 0%, rgba(252,211,77,0.07) 100%);
+    border-color: rgba(252,211,77,0.3);
+    box-shadow:
+        0 6px 20px -6px rgba(179,135,40,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.nav-item.active i {
+    filter: drop-shadow(0 0 8px rgba(252,211,77,0.6));
+}
+
+/* ── Drawer menü — daha premium ── */
+.drawer-menu {
+    background: linear-gradient(180deg, rgba(12,18,40,0.98) 0%, rgba(8,12,28,1) 100%) !important;
+    border-top-color: rgba(252,211,77,0.15) !important;
+    box-shadow:
+        0 -24px 80px rgba(2,4,20,0.75),
+        0 -1px 0 rgba(252,211,77,0.12) !important;
+}
+body.light-mode .drawer-menu {
+    background: linear-gradient(180deg, rgba(248,250,252,0.99) 0%, rgba(241,245,249,1) 100%) !important;
+}
+
+/* ── Drawer üst bilgi şeridi — daha rafine ── */
+.drawer-top-info {
+    background: linear-gradient(135deg, rgba(179,135,40,0.15) 0%, rgba(252,211,77,0.05) 100%);
+    border-color: rgba(179,135,40,0.25);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── Tool butonlar (drawer) — daha derin ── */
+.drawer-grid .tool-btn {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+.drawer-grid .tool-btn:hover {
+    background: rgba(255,255,255,0.08) !important;
+    box-shadow: 0 8px 24px -6px rgba(179,135,40,0.3), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+/* ── Akordiyon — daha derin ve temiz ── */
+.acc {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    box-shadow:
+        0 4px 20px -6px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
+/* ── Ayarlar item — daha temiz ── */
+.setting-item {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.setting-item:hover {
+    background: rgba(255,255,255,0.08) !important;
+    box-shadow: 0 6px 20px -6px var(--shadow-color), inset 0 1px 0 rgba(255,255,255,0.07) !important;
+}
+
+/* ── Select & input — daha rafine ── */
+select, .z-inp {
+    background: rgba(0,0,0,0.28);
+    border-color: rgba(255,255,255,0.09);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+}
+select:focus, .z-inp:focus {
+    border-color: rgba(56,189,248,0.55);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2), 0 0 0 3px rgba(56,189,248,0.1);
+}
+
+/* ── Quote kart — sol çizgi + glow ── */
+.quote-card-item {
+    background: rgba(255,255,255,0.04) !important;
+    box-shadow: 0 3px 18px -6px var(--shadow-color);
+}
+
+/* ── Zikirmatik item ── */
+.z-item {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* ── Günlük kart (day card) today ── */
+.day-card.today {
+    background: linear-gradient(160deg, rgba(252,211,77,0.2) 0%, rgba(179,135,40,0.07) 100%);
+    border-color: rgba(252,211,77,0.35);
+    box-shadow:
+        0 12px 32px -8px rgba(179,135,40,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* ── Btn-full — daha canlı ── */
+.btn-full {
+    box-shadow: 0 6px 22px rgba(56,189,248,0.32);
+    letter-spacing: 0.5px;
+}
+.btn-full:hover {
+    box-shadow: 0 10px 30px rgba(56,189,248,0.42);
+}
+
+/* ── Cüz kutuları — okunanlar altın ── */
+.cuz-box.read {
+    background: linear-gradient(135deg, #fcd34d 0%, #b38728 100%) !important;
+    color: #0d0a00 !important;
+    box-shadow: 0 6px 20px -4px rgba(252,211,77,0.48) !important;
+    border-color: transparent !important;
+}
+
+/* ── İmsakiye tablo ── */
+th {
+    background: rgba(8,13,30,0.95) !important;
+    color: var(--gold-text) !important;
+    letter-spacing: 0.8px;
+}
+
+/* ── Modal — daha derin ── */
+.modal-con {
+    background: linear-gradient(170deg, rgba(14,20,40,0.99) 0%, rgba(8,12,28,1) 100%);
+    border-color: rgba(255,255,255,0.09);
+    box-shadow:
+        0 32px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.07),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+}
+body.light-mode .modal-con {
+    background: #f8fafc;
+}
+
+/* ── Page title — daha büyük ve baskın ── */
+.page-title {
+    font-size: 1.5rem !important;
+    gap: 14px;
+    filter: drop-shadow(0 2px 8px rgba(179,135,40,0.3));
+}
+.page-title i {
+    filter: drop-shadow(0 0 8px rgba(179,135,40,0.4));
+}
+
+/* ── Kaza summary card ── */
+.kaza-summary-card {
+    background: linear-gradient(135deg, rgba(179,135,40,0.2) 0%, rgba(252,211,77,0.07) 100%) !important;
+    box-shadow: 0 10px 32px -8px rgba(179,135,40,0.3), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+/* ── Dini günler today ── */
+.dini-gun-today {
+    box-shadow: 0 6px 22px -6px rgba(179,135,40,0.35) !important;
+}
+
+/* ── Altın scrollbar ── */
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(252,211,77,0.30), rgba(179,135,40,0.22));
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(252,211,77,0.50), rgba(179,135,40,0.38));
+}
+
+/* ── Ekstra parıltı animasyonu — üst nav çizgisi ── */
+.bottom-nav::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(252,211,77,0.25), transparent);
+    pointer-events: none;
+}
+
+/* ── Başlık shimmer efekti hover ── */
+.header:hover .app-title {
+    animation-duration: 2s;
+}
+
+/* ── Geliştirilmiş geçiş animasyonu ── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.99); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tab-section { animation: fadeIn 0.38s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ════════════════════════════════════════════
+   ZİKİRMATİK — YENİ LİSTE TASARIMI v3
+   ════════════════════════════════════════════ */
+
+/* ── Ekleme satırı ── */
+.zikir-add-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 14px;
+    align-items: stretch;
+}
+.zikir-add-row .z-inp {
+    flex: 1;
+    min-width: 0;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    font-size: 0.92rem !important;
+}
+.zikir-target-inp {
+    flex: 0 0 72px !important;
+    text-align: center !important;
+    padding: 14px 8px !important;
+}
+
+/* ── Ekle butonu — premium ── */
+.zb-add {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #fff !important;
+    border: none;
+    padding: 0 18px;
+    border-radius: 16px !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(16,185,129,0.35);
+    white-space: nowrap;
+}
+.zb-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16,185,129,0.5);
+}
+.zb-add:active { transform: scale(0.96); }
+
+/* ── Hızlı ekleme chip'leri ── */
+.zikir-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.zikir-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-main);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+}
+.zikir-chip:hover {
+    background: rgba(16,185,129,0.15);
+    border-color: rgba(16,185,129,0.4);
+    color: #34d399;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(16,185,129,0.2);
+}
+.zikir-chip:active { transform: scale(0.95); }
+.chip-count {
+    background: rgba(16,185,129,0.2);
+    color: #34d399;
+    border-radius: 20px;
+    padding: 1px 7px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+body.light-mode .zikir-chip {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+}
+
+/* ── Zikir liste satırı ── */
+.zikir-row {
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.zikir-row::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, #b38728, #fcd34d);
+    border-radius: 4px 0 0 4px;
+    opacity: 0.7;
+}
+.zikir-row:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px -8px rgba(179,135,40,0.3);
+    border-color: rgba(179,135,40,0.3);
+}
+
+/* Tamamlananlar — yeşil ── */
+.zikir-row--done {
+    background: rgba(16,185,129,0.08);
+    border-color: rgba(16,185,129,0.25);
+}
+.zikir-row--done::before {
+    background: linear-gradient(180deg, #10b981, #34d399);
+    opacity: 1;
+}
+.zikir-row--done:hover {
+    box-shadow: 0 8px 24px -8px rgba(16,185,129,0.35);
+    border-color: rgba(16,185,129,0.4);
+}
+
+/* ── Satır üst kısım (isim + sayı) ── */
+.zikir-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-left: 6px;
+}
+.zikir-row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.zikir-row-name {
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.zikir-row-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.zikir-row--done .zikir-row-name { color: #34d399; }
+
+/* ── Büyük sayaç sağda ── */
+.zikir-row-count {
+    font-size: 2.4rem;
+    font-weight: 800;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: goldShine 5s ease-in-out infinite;
+    line-height: 1;
+    min-width: 60px;
+    text-align: right;
+    filter: drop-shadow(0 2px 6px rgba(179,135,40,0.3));
+    flex-shrink: 0;
+}
+.zikir-row--done .zikir-row-count {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 2px 6px rgba(16,185,129,0.3));
+    animation: none;
+}
+
+/* ── Progress bar ── */
+.zikir-row-bar {
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 0 14px 6px;
+}
+.zikir-row-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #b38728, #fcd34d);
+    background-size: 200% 200%;
+    animation: goldShine 4s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(252,211,77,0.4);
+    transition: width 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+.zikir-row--done .zikir-row-fill {
+    background: linear-gradient(90deg, #059669, #34d399);
+    box-shadow: 0 0 8px rgba(16,185,129,0.5);
+    animation: none;
+}
+
+/* ── Alt aksiyon butonları ── */
+.zikir-row-actions {
+    display: flex;
+    gap: 8px;
+    padding-left: 6px;
+    align-items: center;
+}
+
+/* Sıfırla & Sil — küçük yuvarlak ── */
+.zb {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    flex-shrink: 0;
+}
+.zb:active { transform: scale(0.88); }
+.zb-reset {
+    background: rgba(251,191,36,0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.25);
+}
+.zb-reset:hover {
+    background: rgba(251,191,36,0.22);
+    box-shadow: 0 4px 12px rgba(251,191,36,0.25);
+    transform: rotate(-20deg) scale(1.1);
+}
+.zb-del {
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+    border: 1px solid rgba(239,68,68,0.22);
+}
+.zb-del:hover {
+    background: rgba(239,68,68,0.22);
+    box-shadow: 0 4px 12px rgba(239,68,68,0.25);
+    transform: scale(1.1);
+}
+
+/* ── Artır butonu — geniş, premium ── */
+.zb-inc-big {
+    flex: 1;
+    height: 40px;
+    width: auto;
+    border-radius: 50px !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    box-shadow: 0 4px 16px rgba(16,185,129,0.35);
+    border: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.zb-inc-big:hover {
+    box-shadow: 0 8px 24px rgba(16,185,129,0.5);
+    transform: translateY(-2px);
+}
+.zb-inc-big:active {
+    transform: scale(0.95) !important;
+}
+.zikir-row--done .zb-inc-big {
+    background: linear-gradient(135deg, #374151, #1f2937) !important;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+body.light-mode .zikir-row {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(0,0,0,0.08);
+}
+body.light-mode .zikir-row-bar {
+    background: rgba(0,0,0,0.06);
+}
+
+/* ════════════════════════════════════════════
+   v4 — YENİ ÖZELLİKLER & GENEL TASARIM
+   ════════════════════════════════════════════ */
+
+/* ── Vakit kutusu ikonu ── */
+.v-icon {
+    font-size: 1.05rem;
+    margin-bottom: 5px;
+    display: block;
+    filter: drop-shadow(0 0 6px currentColor);
+    opacity: 0.85;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.v-box.active .v-icon {
+    opacity: 1;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+/* ── Hızlı İbadet Grid ── */
+.quick-ibad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+.quick-ibad-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 8px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, background 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.quick-ibad-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(255,255,255,0.05), transparent);
+    pointer-events: none;
+    border-radius: inherit;
+}
+.quick-ibad-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 10px 28px -8px rgba(0,0,0,0.4);
+    border-color: rgba(255,255,255,0.18);
+}
+.quick-ibad-btn:active {
+    transform: scale(0.95);
+}
+.qi-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    transition: box-shadow 0.2s;
+    flex-shrink: 0;
+}
+.quick-ibad-btn:hover .qi-icon {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.qi-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+.qi-count {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--gold-text);
+    background: rgba(252,211,77,0.1);
+    border-radius: 20px;
+    padding: 1px 8px;
+    min-width: 32px;
+    text-align: center;
+    transition: transform 0.1s;
+}
+@keyframes qiPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+.qi-count-pop { animation: qiPop 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+
+body.light-mode .quick-ibad-btn {
+    background: rgba(255,255,255,0.75);
+    border-color: rgba(0,0,0,0.08);
+}
+body.light-mode .qi-label { color: var(--text-muted); }
+
+/* ── Vakit grid — daha kompakt ── */
+.grid { gap: 8px; margin-top: 8px; }
+.v-box { padding: 14px 5px; }
+.v-time { font-size: 1.35rem; }
+
+/* ── Uyarı bantı — daha şık ── */
+.info-card.kerahat-banner {
+    border-radius: 20px !important;
+    background: rgba(239,68,68,0.1) !important;
+    border-color: rgba(239,68,68,0.4) !important;
+}
+
+/* ── Sünnet kartı başlık ikonu ── */
+.sunnah-title i { animation: heartBeat 2.5s ease-in-out infinite; }
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.2); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.12); }
+    56% { transform: scale(1); }
+}
+
+/* ── Yaklaşan dini günler başlık ── */
+.section-title i {
+    transition: transform 0.3s ease;
+}
+.info-card:hover .section-title i {
+    transform: rotate(15deg) scale(1.1);
+}
+
+/* ── Kaza shortcut btn gelişimi ── */
+.kaza-shortcut-btn {
+    position: relative;
+    overflow: hidden;
+}
+.kaza-shortcut-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(252,211,77,0.06) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+.kaza-shortcut-btn:hover::after {
+    transform: translateX(100%);
+}
+
+/* ── Info kart — sıfır padding varyant ── */
+.info-card.min-pad { padding: 18px !important; min-height: auto !important; }
+
+/* ── Responsive quick ibad ── */
+@media (max-width: 360px) {
+    .quick-ibad-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ════════════════════════════════════════════
+   AÇIK TEMA KONTRAST DÜZELTMELERİ
+   ════════════════════════════════════════════ */
+
+/* ── Buton sınırları ve yazılar ── */
+body.light-mode .v-box {
+    background: rgba(255,255,255,0.92) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+body.light-mode .v-box:hover {
+    border-color: rgba(0,0,0,0.2) !important;
+}
+body.light-mode .v-box.active {
+    border-color: rgba(180,83,9,0.5) !important;
+    box-shadow: 0 8px 24px -8px rgba(180,83,9,0.3), inset 0 1px 0 rgba(255,255,255,0.8) !important;
+}
+body.light-mode .v-name { color: #64748b; }
+body.light-mode .v-time { color: #0f172a; }
+body.light-mode .active .v-time { color: var(--gold-text); }
+
+/* ── Info kartlar ── */
+body.light-mode .info-card {
+    background: rgba(255,255,255,0.92) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07) !important;
+}
+
+/* ── Hızlı ibadet butonları ── */
+body.light-mode .quick-ibad-btn {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+body.light-mode .quick-ibad-btn:hover {
+    border-color: rgba(0,0,0,0.2) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+body.light-mode .qi-label { color: #374151; }
+body.light-mode .qi-count { color: var(--gold-text); background: rgba(180,83,9,0.1); }
+
+/* ── Kaza kısayol ── */
+body.light-mode .kaza-shortcut-btn {
+    background: linear-gradient(135deg, rgba(180,83,9,0.1), rgba(212,175,55,0.07)) !important;
+    border-color: rgba(180,83,9,0.25) !important;
+    color: #0f172a !important;
+}
+
+/* ── Sünnet kartı ── */
+body.light-mode .sunnah-card {
+    background: linear-gradient(135deg, rgba(16,185,129,0.07), rgba(255,255,255,0.9)) !important;
+    border-color: rgba(16,185,129,0.2) !important;
+}
+body.light-mode .sunnah-title { color: #0d9488; }
+body.light-mode .sunnah-text { color: #1e293b; }
+
+/* ── Akordiyon ── */
+body.light-mode .acc {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+body.light-mode .acc-head { color: #0f172a !important; background: rgba(255,255,255,0.95) !important; }
+body.light-mode .acc-head:hover { background: rgba(0,0,0,0.03) !important; }
+body.light-mode .acc-body { background: rgba(0,0,0,0.02); }
+
+/* ── Ayarlar ── */
+body.light-mode .setting-item {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #0f172a;
+}
+body.light-mode .setting-item:hover { background: rgba(0,0,0,0.03) !important; }
+body.light-mode .setting-title { color: #0f172a; }
+body.light-mode .setting-desc { color: #64748b; }
+
+/* ── Zikir satırları ── */
+body.light-mode .zikir-row {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+body.light-mode .zikir-row-name { color: #0f172a; }
+body.light-mode .zikir-row-sub { color: #64748b; }
+body.light-mode .zikir-row-bar { background: rgba(0,0,0,0.08); }
+
+/* ── Zikir chip'leri ── */
+body.light-mode .zikir-chip {
+    background: rgba(255,255,255,0.9) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    color: #1e293b !important;
+}
+body.light-mode .zikir-chip:hover {
+    background: rgba(16,185,129,0.1) !important;
+    color: #059669 !important;
+}
+
+/* ── Zikirmatik butonlar ── */
+body.light-mode .zb-reset { background: rgba(251,191,36,0.15); border-color: rgba(180,130,0,0.2); }
+body.light-mode .zb-del { background: rgba(239,68,68,0.12); border-color: rgba(200,0,0,0.15); }
+
+/* ── Quote kartları ── */
+body.light-mode .quote-card-item {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    border-left-color: #b38728 !important;
+}
+body.light-mode .quote-text { color: #1e293b !important; }
+
+/* ── Modal ── */
+body.light-mode .modal-con { border-color: rgba(0,0,0,0.1) !important; }
+body.light-mode th { background: rgba(241,245,249,0.98) !important; color: #0284c7 !important; }
+body.light-mode td { color: #475569; border-bottom-color: rgba(0,0,0,0.06); }
+body.light-mode tr:hover td { background: rgba(0,0,0,0.025); color: #0f172a; }
+
+/* ── Drawer ── */
+body.light-mode .drawer-top-info {
+    background: linear-gradient(135deg, rgba(180,83,9,0.08), rgba(212,175,55,0.04)) !important;
+    border-color: rgba(180,83,9,0.15) !important;
+}
+body.light-mode .drawer-grid .tool-btn {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #0f172a !important;
+}
+body.light-mode .drawer-grid .tool-btn:hover {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(180,83,9,0.25) !important;
+}
+
+/* ── Vakit kutularında timer badge ── */
+body.light-mode .timer-badge {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(0,0,0,0.1);
+    color: #0284c7;
+}
+
+/* ── Select ve input ── */
+body.light-mode select,
+body.light-mode .z-inp {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    color: #0f172a !important;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+body.light-mode select:focus,
+body.light-mode .z-inp:focus {
+    border-color: #0284c7 !important;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.06), 0 0 0 3px rgba(2,132,199,0.12) !important;
+}
+
+/* ── Dini günler ── */
+body.light-mode .dini-gun-row {
+    background: rgba(255,255,255,0.9) !important;
+    border-color: rgba(0,0,0,0.09) !important;
+}
+body.light-mode .dini-gun-name { color: #0f172a; }
+body.light-mode .dini-gun-date { color: #64748b; }
+body.light-mode .dini-gun-icon { background: rgba(180,83,9,0.1); border-color: rgba(180,83,9,0.15); color: var(--gold-text); }
+
+/* ── Kaza grid ── */
+body.light-mode #kazaGrid .v-box { background: rgba(255,255,255,0.92) !important; }
+body.light-mode .kaza-summary-card {
+    background: linear-gradient(135deg, rgba(180,83,9,0.1), rgba(212,175,55,0.05)) !important;
+    border-color: rgba(180,83,9,0.2) !important;
+}
+
+/* ── Page title ── */
+body.light-mode .page-title { filter: none; }
+
+/* ── Btn-full ── */
+body.light-mode .btn-full { color: #fff !important; }
+
+/* ── Bottom nav ── */
+body.light-mode .bottom-nav {
+    border-top-color: rgba(0,0,0,0.1) !important;
+}
+body.light-mode .nav-item { color: #64748b; }
+body.light-mode .nav-item:hover { background: rgba(0,0,0,0.05); color: #0f172a; }
+body.light-mode .nav-item.active {
+    color: var(--gold-text);
+    background: linear-gradient(160deg, rgba(180,83,9,0.15), rgba(212,175,55,0.06)) !important;
+    border-color: rgba(180,83,9,0.3) !important;
+}
+
+/* ════════════════════════════════════════════
+   v5 — YENİ ÖZELLİKLER & TASARIM GELİŞTİRMELERİ
+   ════════════════════════════════════════════ */
+
+/* ── Drawer üst bilgi kutusu — namaz vakti özeti ── */
+.drawer-prayer-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.drawer-prayer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 9px 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    transition: background 0.2s;
+}
+.drawer-prayer-item.active-prayer {
+    background: linear-gradient(135deg, rgba(179,135,40,0.22), rgba(252,211,77,0.07));
+    border-color: rgba(252,211,77,0.3);
+    box-shadow: 0 4px 14px -4px rgba(179,135,40,0.35);
+}
+.dp-name {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+.dp-time {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+}
+.drawer-prayer-item.active-prayer .dp-name { color: rgba(252,211,77,0.7); }
+.drawer-prayer-item.active-prayer .dp-time { color: var(--gold-text); }
+
+body.light-mode .drawer-prayer-item {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(0,0,0,0.08);
+}
+body.light-mode .drawer-prayer-item.active-prayer {
+    background: linear-gradient(135deg, rgba(180,83,9,0.1), rgba(212,175,55,0.06));
+    border-color: rgba(180,83,9,0.3);
+}
+
+/* ── Ana sayfa — bugünün özeti kartı ── */
+.today-summary-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+.ts-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+    position: relative;
+    overflow: hidden;
+}
+.ts-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(255,255,255,0.04), transparent);
+    pointer-events: none;
+}
+.ts-item:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 28px -8px var(--shadow-gold);
+    border-color: rgba(179,135,40,0.3);
+}
+.ts-item:active { transform: scale(0.96); }
+.ts-icon {
+    font-size: 1.4rem;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+.ts-val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: goldShine 5s ease-in-out infinite;
+    line-height: 1;
+}
+.ts-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-align: center;
+}
+
+body.light-mode .ts-item {
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(0,0,0,0.08);
+}
+
+/* ── Namaz vakti countdown pill ── */
+.next-prayer-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(14,165,233,0.06));
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+    transition: background 0.2s;
+}
+.next-prayer-pill i {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* ── Gelişmiş bilgi kartı başlığı ── */
+.card-header-enhanced {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.card-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gold-text);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+.card-header-title::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold-gradient);
+    box-shadow: 0 0 8px rgba(252,211,77,0.6);
+}
+.card-header-action {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(56,189,248,0.2);
+    background: rgba(56,189,248,0.06);
+}
+.card-header-action:hover { opacity: 1; background: rgba(56,189,248,0.12); }
+
+/* ── Drawer'da aktif vakit vurgulama ── */
+.drawer-vakit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(179,135,40,0.2), rgba(252,211,77,0.07));
+    border: 1px solid rgba(179,135,40,0.3);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold-text);
+    letter-spacing: 0.3px;
+    margin-bottom: 12px;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+}
+
+/* ── Drawer bölüm etiket gelişimi ── */
+.drawer-section-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+.drawer-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+}
+
+/* ── İki satır tarih bilgisi — daha büyük ── */
+.drawer-top-date {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+.drawer-top-hijri {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* ── Animasyonlu yıldız süsü (drawer drag) ── */
+.drawer-drag::before {
+    content: '✦';
+    position: absolute;
+    left: 50%;
+    top: -14px;
+    transform: translateX(-50%);
+    font-size: 0.55rem;
+    color: rgba(252,211,77,0.3);
+    pointer-events: none;
+}
+.drawer-drag { position: relative; }
+
+/* ── Haftalık namaz çubuğu ── */
+.weekly-bar {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    align-items: flex-end;
+    height: 44px;
+    justify-content: center;
+}
+.weekly-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+.weekly-bar-fill {
+    width: 100%;
+    border-radius: 6px 6px 2px 2px;
+    background: rgba(179,135,40,0.25);
+    border: 1px solid rgba(179,135,40,0.2);
+    transition: height 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    min-height: 4px;
+}
+.weekly-bar-fill.done {
+    background: linear-gradient(180deg, #fcd34d, #b38728);
+    border-color: transparent;
+    box-shadow: 0 0 8px rgba(252,211,77,0.35);
+}
+.weekly-bar-label {
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Toast bildirimi ── */
+.mg-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(252,211,77,0.3);
+    color: var(--text-main);
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.mg-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.mg-toast i { color: var(--gold-text); }
+body.light-mode .mg-toast {
+    background: rgba(248,250,252,0.97);
+    color: #0f172a;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* ── Hızlı zikir butonu — nabız animasyonu tamamlandığında ── */
+@keyframes zikirPulse {
+    0% { box-shadow: 0 0 0 0 rgba(109,40,217,0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(109,40,217,0); }
+    100% { box-shadow: 0 0 0 0 rgba(109,40,217,0); }
+}
+.qi-pulse { animation: zikirPulse 0.4s ease-out; }
+
+/* ── Drawer'da vakit countdown ── */
+.drawer-countdown {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+}
+.drawer-countdown strong {
+    color: var(--blue);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Kaza shortcut — daha büyük sayı ── */
+#totalKazaCount {
+    font-variant-numeric: tabular-nums;
+    color: var(--gold-text);
+    font-weight: 800;
+}
+
+/* ── Sünnet kartı pulse ── */
+@keyframes subtlePulse {
+    0%, 100% { box-shadow: 0 8px 32px -8px rgba(16,185,129,0.18), inset 0 1px 0 rgba(255,255,255,0.06); }
+    50% { box-shadow: 0 8px 32px -4px rgba(16,185,129,0.26), inset 0 1px 0 rgba(255,255,255,0.06); }
+}
+.sunnah-card {
+    animation: subtlePulse 5s ease-in-out infinite;
+}
+
+/* ── Vakit kutusu — daha büyük hover efekti ── */
+.v-box:hover .v-icon {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* ── Dini günler — bugün badge rengi ── */
+.dini-gun-badge.badge-today {
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    color: #020617;
+    box-shadow: 0 4px 12px rgba(179,135,40,0.4);
+}
+.dini-gun-badge.badge-soon {
+    background: rgba(56,189,248,0.12);
+    color: var(--blue);
+    border: 1px solid rgba(56,189,248,0.25);
+}
+.dini-gun-badge.badge-future {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
+}
+
+/* ── Responsive düzenlemeler ── */
+@media (max-width: 380px) {
+    .drawer-prayer-summary { grid-template-columns: repeat(3, 1fr); }
+    .today-summary-card { grid-template-columns: repeat(3, 1fr); }
+    .ts-val { font-size: 1.25rem; }
+    .ts-icon { font-size: 1.1rem; }
+}
+
+
+/* ════════════════════════════════════════════
+   v6 — YENİ ÖZELLİKLER CSS
+   ════════════════════════════════════════════ */
+
+/* ── Esma favori butonu hover ── */
+#esmaFavBtn {
+    transition: color 0.25s, background 0.25s, border-color 0.25s;
+}
+
+/* ── Kaza ilerleme çubuğu ── */
+#kazaProgressBar {
+    background-size: 200% 200%;
+    animation: goldShine 4s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(252,211,77,0.35);
+}
+
+/* ── Kaza milestone badge ── */
+#kazaMilestone {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    animation: fadeIn 0.4s ease;
+}
+
+/* ── Favori sözler — boş durum ── */
+#favoritesEmpty {
+    animation: fadeIn 0.4s ease;
+}
+
+/* ── Toast — light mode ── */
+body.light-mode .mg-toast {
+    background: rgba(248,250,252,0.97);
+    color: #0f172a;
+    border-color: rgba(180,83,9,0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ── Esma counter pill ── */
+#esmaCounter {
+    padding: 4px 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* ── Favori kart — pembe sol çizgi ── */
+.quote-card-item[style*="f472b6"] {
+    border-left-color: #f472b6 !important;
+}
+
+/* ── Özet kart — animasyonlu sayılar ── */
+.ts-val {
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.ts-item:active .ts-val {
+    transform: scale(0.88);
+}
+
+
+/* ══════════════════════════════════════
+   DİN BİLGİSİ TESTİ — v2 TASARIM
+══════════════════════════════════════ */
+
+/* ── Başlangıç kartı ── */
+.test-start-card {
+    width: 100%;
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: var(--glass-blur);
+}
+.test-hero {
+    text-align: center;
+}
+.test-hero-icon {
+    font-size: 3.2rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 12px rgba(252,211,77,0.3));
+}
+.test-hero-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+.test-hero-desc {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+.test-section-label {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.test-count-row {
+    display: flex;
+    gap: 8px;
+}
+.test-count-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border-radius: 14px;
+    border: 1.5px solid var(--glass-border);
+    background: var(--glass-surface);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+}
+.test-count-btn.active {
+    border-color: #b38728;
+    color: var(--gold-text);
+    background: rgba(179,135,40,0.14);
+    box-shadow: 0 0 10px rgba(179,135,40,0.15);
+}
+.test-count-btn:hover:not(.active) {
+    border-color: rgba(252,211,77,0.3);
+    color: var(--text-main);
+}
+.test-stats-row {
+    display: flex;
+    gap: 10px;
+}
+.test-stat-box {
+    flex: 1;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+}
+.test-stat-icon { font-size: 1.3rem; margin-bottom: 4px; }
+.test-stat-val { font-size: 1.1rem; font-weight: 800; color: var(--gold-text); }
+.test-stat-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+.test-reset-seen-btn {
+    background: none;
+    border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 20px;
+    color: #f87171;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: 0.18s;
+}
+.test-reset-seen-btn:hover { background: rgba(248,113,113,0.08); }
+.test-start-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #b38728, #fcd34d);
+    color: #020617;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    box-shadow: 0 4px 20px rgba(179,135,40,0.35);
+    transition: opacity 0.18s, transform 0.15s;
+}
+.test-start-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.test-secondary-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-surface);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Outfit', sans-serif;
+    transition: 0.18s;
+}
+.test-secondary-btn:hover { background: var(--box-hover); color: var(--text-main); }
+
+/* ── Soru ekranı ── */
+.test-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.test-topbar-left { display: flex; align-items: center; gap: 10px; }
+.test-qnum {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 5px 14px;
+}
+.test-streak {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(251,146,60,0.12);
+    border: 1px solid rgba(251,146,60,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fb923c;
+    animation: streakPop 0.3s ease;
+}
+@keyframes streakPop {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.12); }
+    100% { transform: scale(1); opacity: 1; }
+}
+.test-score-badge {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--gold-text);
+    background: rgba(179,135,40,0.12);
+    border: 1px solid rgba(179,135,40,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+}
+.test-prog-wrap {
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+.test-prog-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #b38728, #fcd34d);
+    transition: width 0.45s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+/* Timer halka */
+.test-timer-wrap {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+}
+.test-timer-ring {
+    width: 54px;
+    height: 54px;
+}
+.test-timer-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+/* Soru kartı */
+.test-q-card {
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    padding: 22px 20px;
+    backdrop-filter: var(--glass-blur);
+}
+.test-category-badge {
+    display: inline-block;
+    font-size: 0.66rem;
+    font-weight: 800;
+    color: var(--gold-text);
+    background: rgba(179,135,40,0.12);
+    border: 1px solid rgba(179,135,40,0.25);
+    border-radius: 20px;
+    padding: 3px 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+.test-question-text {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.test-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Option butonları */
+.test-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 14px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: background 0.18s, border-color 0.18s, transform 0.15s, opacity 0.18s;
+}
+.test-option-btn.opt-enter {
+    opacity: 1;
+    transform: translateX(0);
+    transition: background 0.18s, border-color 0.18s, transform 0.22s ease, opacity 0.22s ease;
+}
+.test-option-btn:hover:not(:disabled) {
+    background: rgba(252,211,77,0.07);
+    border-color: rgba(252,211,77,0.35);
+    transform: translateX(3px);
+}
+.test-option-btn .opt-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.07);
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: all 0.18s;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.opt-text { flex: 1; line-height: 1.4; }
+.test-option-btn.correct {
+    background: rgba(52,211,153,0.1) !important;
+    border-color: rgba(52,211,153,0.5) !important;
+    animation: correctFlash 0.4s ease;
+}
+@keyframes correctFlash {
+    0% { background: rgba(52,211,153,0.35) !important; }
+    100% { background: rgba(52,211,153,0.1) !important; }
+}
+.test-option-btn.correct .opt-letter {
+    background: #34d399 !important;
+    color: #022c22;
+    border-color: #34d399;
+}
+.test-option-btn.wrong {
+    background: rgba(248,113,113,0.1) !important;
+    border-color: rgba(248,113,113,0.5) !important;
+    animation: wrongShake 0.35s ease;
+}
+@keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+.test-option-btn.wrong .opt-letter {
+    background: #f87171 !important;
+    color: #450a0a;
+    border-color: #f87171;
+}
+.test-option-btn:disabled { cursor: not-allowed; }
+
+/* ── Sonuç kartı ── */
+.test-result-card {
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    backdrop-filter: var(--glass-blur);
+    width: 100%;
+}
+.test-result-hero { text-align: center; }
+.test-result-emoji { font-size: 3.5rem; margin-bottom: 8px; filter: drop-shadow(0 4px 16px rgba(252,211,77,0.25)); }
+.test-result-title { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+.test-result-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+.test-result-circle {
+    position: relative;
+    width: 130px;
+    height: 130px;
+}
+.test-result-ring-svg { width: 130px; height: 130px; }
+.test-result-circle-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.test-result-big-score { font-size: 2.4rem; font-weight: 900; color: var(--gold-text); line-height: 1; }
+.test-result-big-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
+.test-result-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 14px 20px;
+    width: 100%;
+    justify-content: space-around;
+}
+.test-result-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.trs-val { font-size: 1.4rem; font-weight: 800; }
+.trs-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
+.test-result-stat-div {
+    width: 1px;
+    height: 36px;
+    background: var(--glass-border);
+}
+.test-new-record {
+    background: linear-gradient(135deg, rgba(179,135,40,0.2), rgba(252,211,77,0.1));
+    border: 1px solid rgba(252,211,77,0.4);
+    border-radius: 20px;
+    padding: 8px 22px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold-text);
+    animation: recordPop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes recordPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.test-wrong-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.2);
+    border-radius: 14px;
+    color: #f87171;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: 0.18s;
+}
+.test-wrong-toggle:hover { background: rgba(248,113,113,0.1); }
+.test-wrong-item {
+    background: rgba(248,113,113,0.05);
+    border: 1px solid rgba(248,113,113,0.18);
+    border-radius: 13px;
+    padding: 12px 14px;
+}
+.test-wrong-q { font-size: 0.85rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; line-height: 1.45; }
+.test-wrong-yours { font-size: 0.76rem; color: #f87171; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+.test-wrong-correct { font-size: 0.76rem; color: #34d399; display: flex; align-items: center; gap: 6px; }
+.test-result-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+/* ─────────────────────────────────────────────
+   TEST TASARIM GELİŞTİRMELERİ (v2)
+   ───────────────────────────────────────────── */
+
+/* Timer kabuğu büyütüldü + pulse animasyonu */
+.test-timer-wrap {
+    width: 68px;
+    height: 68px;
+    margin: 4px auto 16px;
+    filter: drop-shadow(0 4px 14px rgba(252,211,77,0.18));
+    transition: transform 0.25s ease;
+}
+.test-timer-ring { width: 68px; height: 68px; }
+.test-timer-num {
+    font-size: 1.25rem;
+    font-weight: 900;
+    background: linear-gradient(180deg, #fff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+.test-timer-wrap.timer-danger {
+    animation: timerPulse 0.85s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(248,113,113,0.55));
+}
+@keyframes timerPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* Soru kartı — daha lüks görünüm */
+.test-q-card {
+    background:
+        linear-gradient(160deg, rgba(252,211,77,0.06) 0%, rgba(0,0,0,0) 55%),
+        var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 24px 22px;
+    backdrop-filter: var(--glass-blur);
+    box-shadow:
+        0 18px 48px -22px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+}
+.test-q-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(120% 60% at 50% -10%, rgba(252,211,77,0.10), transparent 60%);
+    pointer-events: none;
+}
+.test-question-text {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.55;
+    letter-spacing: 0.1px;
+}
+
+/* Option butonu — daha sofistike */
+.test-option-btn {
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1.5px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+.test-option-btn::after {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: transparent;
+    transition: background 0.2s;
+}
+.test-option-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(252,211,77,0.10), rgba(252,211,77,0.03));
+    border-color: rgba(252,211,77,0.45);
+    transform: translateX(4px);
+    box-shadow: 0 8px 22px -10px rgba(252,211,77,0.30);
+}
+.test-option-btn:hover:not(:disabled)::after { background: var(--gold-text); }
+.test-option-btn .opt-letter {
+    min-width: 34px; height: 34px;
+    border-radius: 11px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    font-size: 0.92rem;
+}
+.test-option-btn.correct {
+    background: linear-gradient(180deg, rgba(52,211,153,0.18), rgba(52,211,153,0.06)) !important;
+    box-shadow: 0 8px 28px -10px rgba(52,211,153,0.45) !important;
+}
+.test-option-btn.wrong {
+    background: linear-gradient(180deg, rgba(248,113,113,0.18), rgba(248,113,113,0.06)) !important;
+    box-shadow: 0 8px 28px -10px rgba(248,113,113,0.45) !important;
+}
+.test-option-btn.eliminated {
+    opacity: 0.28;
+    text-decoration: line-through;
+    filter: grayscale(0.7);
+    transform: scale(0.98);
+}
+
+/* ── Joker butonları ── */
+.test-jokers {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    justify-content: center;
+}
+.joker-btn {
+    flex: 1; max-width: 110px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px;
+    padding: 9px 6px;
+    background: linear-gradient(160deg, rgba(252,211,77,0.10), rgba(255,255,255,0.02));
+    border: 1.5px solid rgba(252,211,77,0.30);
+    border-radius: 14px;
+    color: var(--gold-text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 4px 14px -6px rgba(252,211,77,0.25);
+}
+.joker-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: var(--gold-text);
+    box-shadow: 0 8px 20px -8px rgba(252,211,77,0.50);
+}
+.joker-btn:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+.joker-btn.used, .joker-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    border-style: dashed;
+}
+.joker-icon {
+    font-size: 1.15rem; font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+.joker-icon-fa { font-size: 0.95rem; }
+.joker-label { font-size: 0.7rem; letter-spacing: 0.4px; }
+
+/* Progress bar — gradient + parıltı */
+.test-prog-fill {
+    background: linear-gradient(90deg, #b38728 0%, #fcd34d 50%, #fcf6ba 100%);
+    box-shadow: 0 0 12px rgba(252,211,77,0.45);
+}
+
+/* Score badge — gradient */
+.test-score-badge {
+    background: linear-gradient(135deg, rgba(252,211,77,0.18), rgba(179,135,40,0.10));
+    border: 1px solid rgba(252,211,77,0.30);
+    box-shadow: 0 4px 14px -6px rgba(252,211,77,0.30);
+}
+
+/* Konfeti */
+.confetti-wrap {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+.confetti-piece {
+    position: absolute; top: -10px;
+    width: 9px; height: 14px;
+    border-radius: 2px;
+    opacity: 0.95;
+    animation: confettiFall linear forwards;
+    transform-origin: center;
+}
+@keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0.85; }
+}
+
+/* Light-mode için joker uyumu */
+body.light-mode .joker-btn {
+    background: linear-gradient(160deg, rgba(180,83,9,0.10), rgba(255,255,255,0.6));
+    border-color: rgba(180,83,9,0.30);
+    color: #b45309;
+}
+body.light-mode .test-timer-num {
+    background: linear-gradient(180deg, #0f172a 0%, #475569 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ============================================== */
+/* === GENEL TASARIM GELİŞTİRMELERİ (v2) === */
+/* ============================================== */
+
+/* Yumuşak kaydırma + özel scrollbar */
+html { scroll-behavior: smooth; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(179,135,40,0.45), rgba(179,135,40,0.15));
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(252,211,77,0.7), rgba(179,135,40,0.3)); }
+
+/* Arka plan: ince noktalı doku + radyal ışıltı */
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 10%, rgba(252,211,77,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(56,189,248,0.05) 0%, transparent 45%),
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0);
+    background-size: 100% 100%, 100% 100%, 22px 22px;
+    pointer-events: none; z-index: 0;
+    mix-blend-mode: screen;
+}
+body.light-mode::before {
+    background-image:
+        radial-gradient(circle at 20% 10%, rgba(180,83,9,0.07) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(2,132,199,0.05) 0%, transparent 45%),
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+    background-size: 100% 100%, 100% 100%, 22px 22px;
+    mix-blend-mode: multiply;
+}
+
+/* Header: parlak üst kenar + hafif yükselme */
+.header {
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 10px 40px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -1px 0 rgba(0,0,0,0.2);
+}
+.header::after {
+    content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(252,211,77,0.55), transparent);
+    pointer-events: none;
+}
+
+/* Logo: yumuşak nefes animasyonu */
+.logo { animation: logoBreath 4s ease-in-out infinite; }
+@keyframes logoBreath {
+    0%,100% { box-shadow: 0 0 18px rgba(179,135,40,0.35), inset 0 0 8px rgba(179,135,40,0.1); }
+    50%     { box-shadow: 0 0 28px rgba(252,211,77,0.55), inset 0 0 12px rgba(179,135,40,0.18); }
+}
+
+/* Icon butonları: zarif hover + iç parlama */
+.btn-icon {
+    position: relative;
+    background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 4px 12px rgba(0,0,0,0.18);
+}
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.28), 0 0 16px rgba(252,211,77,0.18);
+    border-color: rgba(252,211,77,0.4);
+    color: var(--gold-text);
+}
+
+/* Birincil buton: çok katmanlı parıltı */
+.btn-full {
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+    box-shadow:
+        0 8px 24px rgba(56,189,248,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        inset 0 -2px 6px rgba(0,0,0,0.15);
+    position: relative; overflow: hidden;
+}
+.btn-full::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    transition: left 0.6s ease;
+}
+.btn-full:hover::before { left: 100%; }
+
+/* Vakit kutuları: hover'da altın çizgi */
+.v-box { position: relative; }
+.v-box::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: var(--gold-gradient);
+    transition: width 0.35s ease; border-radius: 2px;
+}
+.v-box:hover::after { width: 60%; }
+.v-box.active::after { width: 80%; box-shadow: 0 0 12px rgba(252,211,77,0.6); }
+
+/* Aktif vakit: yumuşak yanıp sönme halesi */
+.v-box.active {
+    animation: activeGlow 3s ease-in-out infinite;
+}
+@keyframes activeGlow {
+    0%,100% { box-shadow: 0 10px 30px -10px rgba(179,135,40,0.35), 0 0 20px rgba(252,211,77,0.15); }
+    50%     { box-shadow: 0 14px 36px -8px rgba(179,135,40,0.55), 0 0 32px rgba(252,211,77,0.30); }
+}
+
+/* Info kartları: hover'da hafif kalkış */
+.info-card { transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease; }
+.info-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(252,211,77,0.25);
+    box-shadow: 0 14px 40px var(--shadow-color), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 22px rgba(252,211,77,0.08);
+}
+
+/* Sayaç kartı: yumuşak kayma + dramatik gölge */
+.timer-card {
+    animation: timerFloat 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 50px var(--shadow-color)) drop-shadow(0 0 30px rgba(179,135,40,0.18));
+}
+@keyframes timerFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-6px); }
+}
+
+/* Sayaç sayıları: tabular + ince ışık */
+.timer-val { letter-spacing: -2px; }
+
+/* Alt navigasyon: aktif item üst gösterge */
+.nav-item { position: relative; }
+.nav-item.active::before {
+    content: ''; position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
+    width: 28px; height: 3px; background: var(--gold-gradient); border-radius: 3px;
+    box-shadow: 0 0 10px rgba(252,211,77,0.6);
+}
+
+/* Select: özel ok ve hover */
+select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--gold-text) 50%), linear-gradient(135deg, var(--gold-text) 50%, transparent 50%);
+    background-position: calc(100% - 22px) center, calc(100% - 16px) center;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 38px !important;
+    cursor: pointer;
+}
+select:hover, .z-inp:hover {
+    border-color: rgba(252,211,77,0.35);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+/* Tüm tıklanabilir öğelerde ince ripple hissi */
+button, .nav-item, .v-box, select {
+    -webkit-tap-highlight-color: transparent;
+}
+button:active, .nav-item:active { transform: scale(0.96); }
+
+/* Modal: yumuşak giriş */
+.modal-con {
+    animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px var(--glass-border), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Erişilebilirlik: odaklanmada altın halka */
+button:focus-visible, select:focus-visible, .nav-item:focus-visible, input:focus-visible {
+    box-shadow: 0 0 0 3px rgba(252,211,77,0.45) !important;
+}
+
+/* Hareket azaltma tercihi */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ============================================== */
+/* ====  BUTON TASARIM YÜKSELTMESİ (v3)  ======== */
+/* ============================================== */
+
+/* Testten çıkış butonu */
+.test-exit-btn{
+  width:36px;height:36px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(239,68,68,.35);
+  background:linear-gradient(145deg, rgba(239,68,68,.18), rgba(220,38,38,.08));
+  color:#fca5a5;
+  font-size:15px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease, color .2s ease;
+  box-shadow:0 4px 12px -4px rgba(239,68,68,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  margin-right:8px;
+}
+.test-exit-btn:hover{
+  transform:translateY(-2px) scale(1.05);
+  background:linear-gradient(145deg, rgba(239,68,68,.32), rgba(220,38,38,.18));
+  color:#fff;
+  box-shadow:0 8px 20px -6px rgba(239,68,68,.55), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.test-exit-btn:active{ transform:translateY(0) scale(.96); }
+body.light-mode .test-exit-btn{
+  color:#b91c1c;
+  background:linear-gradient(145deg, #fff1f1, #fde2e2);
+  border-color:rgba(220,38,38,.25);
+}
+body.light-mode .test-exit-btn:hover{
+  background:linear-gradient(145deg, #fee2e2, #fecaca);
+  color:#7f1d1d;
+}
+
+/* Joker butonları — gelişmiş hover & basma */
+.joker-btn{
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease;
+}
+.joker-btn::before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%);
+  transform:translateX(-120%);
+  transition:transform .7s ease;
+  pointer-events:none;
+}
+.joker-btn:not(.used):not(:disabled):hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px -8px rgba(252,211,77,.5);
+  border-color:rgba(252,211,77,.55);
+}
+.joker-btn:not(.used):not(:disabled):hover::before{ transform:translateX(120%); }
+.joker-btn:not(.used):not(:disabled):active{ transform:translateY(-1px) scale(.97); }
+
+/* Genel buton parlaklığı (test başlat, tekrar dene vb.) */
+.btn-full, .test-btn-primary, button.primary-btn{
+  position:relative;
+  overflow:hidden;
+}
+.btn-full::after, .test-btn-primary::after{
+  content:"";
+  position:absolute;
+  top:0;left:-75%;width:50%;height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.22), transparent);
+  transform:skewX(-20deg);
+  transition:left .8s ease;
+  pointer-events:none;
+}
+.btn-full:hover::after, .test-btn-primary:hover::after{ left:125%; }
+
+/* Şık butonları — yumuşak hover */
+.test-option{
+  transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease !important;
+}
+.test-option:not(.correct):not(.wrong):not(:disabled):hover{
+  transform:translateX(4px);
+}
+
+/* Erişilebilirlik: azaltılmış hareket */
+@media (prefers-reduced-motion: reduce){
+  .test-exit-btn, .joker-btn, .btn-full::after, .test-btn-primary::after, .test-option{
+    transition:none !important;
+    animation:none !important;
+  }
+}
+
+/* ================= İSLAM ANSİKLOPEDİSİ ================= */
+/* Arama satırı */
+.ank-search-row {
+    display: flex; gap: 10px; align-items: center;
+}
+.ank-search-wrap {
+    position: relative; flex: 1;
+}
+.ank-search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); font-size: .95rem; pointer-events: none;
+}
+.ank-search-inp {
+    width: 100%; padding: 14px 16px 14px 42px;
+    border-radius: 16px; border: 1px solid var(--glass-border);
+    background: var(--input-bg); color: var(--text-main);
+    font-size: .97rem; font-family: inherit;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.ank-search-inp:focus {
+    border-color: rgba(252,211,77,.5);
+    box-shadow: 0 0 0 3px rgba(252,211,77,.1);
+    outline: none;
+}
+.ank-search-btn {
+    width: 50px; height: 50px; border-radius: 16px; border: none; flex-shrink: 0;
+    background: linear-gradient(135deg, #fcd34d, #b38728);
+    color: #020617; font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .15s ease, box-shadow .2s ease;
+    box-shadow: 0 4px 14px rgba(179,135,40,.35);
+}
+.ank-search-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(179,135,40,.45); }
+.ank-search-btn:active { transform: scale(.95); }
+
+/* Kategori sekmeleri */
+.ank-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+}
+.ank-tab-btn {
+    padding: 8px 14px; border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-surface);
+    color: var(--text-muted); font-size: .8rem; font-weight: 600;
+    cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease;
+    white-space: nowrap; font-family: inherit;
+}
+.ank-tab-btn:hover { background: var(--box-hover); color: var(--text-main); }
+.ank-tab-btn.active {
+    background: linear-gradient(135deg, rgba(179,135,40,.25), rgba(252,211,77,.12));
+    border-color: rgba(179,135,40,.5); color: var(--gold-text);
+    box-shadow: 0 2px 12px rgba(179,135,40,.2);
+}
+
+/* Madde grid — 3 sütun */
+.ansiklopedi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+@media (max-width: 360px) {
+    .ansiklopedi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.ansiklopedi-card {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 14px 8px; border-radius: 16px;
+    background: var(--glass-surface); border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+    color: var(--text-main); font-family: inherit; font-size: .8rem; text-align: center;
+    cursor: pointer; transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+    min-height: 80px; justify-content: center;
+}
+.ansiklopedi-card:hover { background: var(--box-hover); transform: translateY(-2px); box-shadow: 0 6px 18px var(--shadow-color); }
+.ansiklopedi-card:active { transform: scale(.97); }
+.ansiklopedi-card span { font-weight: 600; line-height: 1.3; }
+.ansiklopedi-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+}
+
+/* Site linki */
+.ank-site-link {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px; border-radius: 14px;
+    border: 1px solid var(--glass-border); background: var(--glass-surface);
+    color: var(--text-muted); font-size: .85rem; font-weight: 600;
+    text-decoration: none; transition: background .2s ease, color .2s ease;
+}
+.ank-site-link:hover { background: var(--box-hover); color: var(--gold-text); }
