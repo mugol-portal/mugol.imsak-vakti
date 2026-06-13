@@ -46,7 +46,11 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1880946354382681" crossorigin="anonymous"></script>
 </head>
-<body>
+<body data-theme="tema1">
+<script>
+// Sayfa yanıp sönmesini önlemek için temayı hemen uygula
+(function(){var t=localStorage.getItem('mugol_tema')||'tema1';document.body.setAttribute('data-theme',t);})();
+</script>
 
     <audio id="silentAudio" loop><source src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//oeAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//////////////////////////////////////////////////////////////////wAAADFMYXZjNTguNTQAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAASAAxN1CqwAAAAAAAAAAAAAAAAAAAAAA//oeZAAAAABzAAAAEAAABIABAAAAAAAAAABhAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mpeg"></audio>
     <audio id="adhanAudio" preload="auto">
@@ -89,6 +93,8 @@
                         <button class="color-swatch" style="background: linear-gradient(135deg, #450a0a, #7f1d1d);" onclick="changeExportBg('#450a0a', '#7f1d1d', '#fecaca')" title="Bordo / Gül"></button>
                         <button class="color-swatch" style="background: linear-gradient(135deg, #1e3a8a, #172554);" onclick="changeExportBg('#1e3a8a', '#172554', '#93c5fd')" title="Mavi / Gümüş"></button>
                         <button class="color-swatch" style="background: linear-gradient(135deg, #000000, #1a1a1a);" onclick="changeExportBg('#000000', '#1a1a1a', '#ffffff')" title="Siyah / Beyaz"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #1c1410, #2a1f17);" onclick="changeExportBg('#1c1410', '#2a1f17', '#fbbf24')" title="Kahve / Amber"></button>
+                        <button class="color-swatch" style="background: linear-gradient(135deg, #04111c, #0a2436);" onclick="changeExportBg('#04111c', '#0a2436', '#38bdf8')" title="Okyanus / Cyan"></button>
                     </div>
 
                     <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;">Kendi Stillerini Seç</div>
@@ -168,7 +174,9 @@
                 </div>
             </div>
             <div style="display:flex; gap:8px">
-                <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Açık/Koyu Tema"><i class="fas fa-sun"></i></button>
+                <button class="btn-icon tema-btn" onclick="openTemaSekici()" title="Tema Seç" style="position:relative;">
+                    <i class="fas fa-palette"></i>
+                </button>
                 <button class="btn-icon" id="notifyBtn" onclick="enablePersistentMode()" title="Bildirim ve Sayaç"><i class="fas fa-bell"></i></button>
             </div>
         </header>
@@ -216,10 +224,13 @@
                             <button class="btn-full" onclick="openModal()"><i class="fas fa-calendar-days"></i> Aylık İmsakiye</button>
                         </div>
                         <div id="loader"><i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...</div>
+                        <div class="stale-badge" onclick="refreshVakitData()" title="Vakitleri yeniden yükle">
+                            <i class="fas fa-rotate"></i> Vakitleri Tazele
+                        </div>
                     </div>
                 </div>
 
-                <!-- ── ADSENSE REKLAM 1 — Ana Sayfa Üst ── -->
+                <!-- ── HIZLI ERİŞİM (Ezan Vakti Pro tarzı) ── -->
                 <div class="mg-ad-box" aria-label="Reklam" role="complementary">
                     <span class="mg-ad-label">Reklam</span>
                     <ins class="adsbygoogle"
@@ -232,6 +243,12 @@
                 <div class="sunnah-card">
                     <div class="sunnah-title"><i class="fas fa-heart"></i> Günün Sünneti / İyiliği</div>
                     <div class="sunnah-text" id="dailySunnah">Yükleniyor...</div>
+                </div>
+
+                <div class="hadis-card">
+                    <div class="hadis-title"><i class="fas fa-feather"></i> Günün Hadisi</div>
+                    <div class="hadis-text" id="dailyHadis">Yükleniyor...</div>
+                    <div class="hadis-src" id="dailyHadisSrc"></div>
                 </div>
 
                 <div class="info-card" style="min-height:auto; padding:20px;">
@@ -675,7 +692,7 @@
 
                         <div class="setting-item" onclick="sharePrayerTimes()"><i class="fas fa-share-nodes main-icon" style="color:#a78bfa;"></i><div class="setting-info"><div class="setting-title">Vakitleri Paylaş</div><div class="setting-desc">Bugünün vakitlerini arkadaşlarınla paylaş</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
 
-                        <div class="setting-item" onclick="enablePersistentMode()"><i class="fas fa-bell main-icon"></i><div class="setting-info"><div class="setting-title">Kalıcı Bildirim Sayacı</div><div class="setting-desc">Kilit ekranında sayacı göster</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
+                        <div class="setting-item" onclick="enablePersistentMode()"><i class="fas fa-bell main-icon"></i><div class="setting-info"><div class="setting-title">Kalıcı Bildirim Sayacı</div><div class="setting-desc">Kilit ekranında sayacı göster ve vakit girince anlık bildirim al</div></div><i class="fas fa-chevron-right" style="color: var(--text-muted)"></i></div>
 
                         <!-- SES AYARLARI -->
                         <div class="acc">
@@ -898,6 +915,96 @@
                 </div>
             </div>
 
+            <!-- ===== NAMAZ REHBERİ ===== -->
+            <div id="tab-namaz-rehberi" class="tab-section">
+                <div class="info-layout">
+                    <h2 class="page-title"><i class="fas fa-person-praying"></i> Namaz Rehberi</h2>
+                    <button class="btn-full" style="width:100%; margin-bottom:5px;" onclick="switchTab('tab-sureler')"><i class="fas fa-book-quran"></i> Namaz Sureleri</button>
+                    <div class="nr-select-grid">
+                        <button class="nr-vakit-btn active" onclick="selectNamazRehber(this,'sabah')"><i class="fas fa-moon" style="color:#818cf8"></i><span>Sabah</span><span class="nr-rekat">2+2</span></button>
+                        <button class="nr-vakit-btn" onclick="selectNamazRehber(this,'ogle')"><i class="fas fa-sun" style="color:#f97316"></i><span>Öğle</span><span class="nr-rekat">4+4+2</span></button>
+                        <button class="nr-vakit-btn" onclick="selectNamazRehber(this,'ikindi')"><i class="fas fa-cloud-sun" style="color:#38bdf8"></i><span>İkindi</span><span class="nr-rekat">4+4</span></button>
+                        <button class="nr-vakit-btn" onclick="selectNamazRehber(this,'aksam')"><i class="fas fa-cloud-sun-rain" style="color:#fb923c"></i><span>Akşam</span><span class="nr-rekat">3+2</span></button>
+                        <button class="nr-vakit-btn" onclick="selectNamazRehber(this,'yatsi')"><i class="fas fa-star-and-crescent" style="color:#a78bfa"></i><span>Yatsı</span><span class="nr-rekat">4+4+2+3</span></button>
+                        <button class="nr-vakit-btn" onclick="selectNamazRehber(this,'cuma')"><i class="fas fa-mosque" style="color:#fcd34d"></i><span>Cuma</span><span class="nr-rekat">4+2+4</span></button>
+                    </div>
+                    <div id="namazRehberContent"></div>
+                    <div class="acc"><button class="acc-head" onclick="toggleAcc(this)"><span><i class="fas fa-circle-info" style="margin-right:10px;color:#38bdf8"></i>Namaz Öncesi Bilinmesi Gerekenler</span><i class="fas fa-chevron-down"></i></button><div class="acc-body"><div class="nr-bilgi-list"><div class="nr-bilgi-item"><span class="nr-bilgi-icon">🕐</span><div><b>Vakit</b><br>Namazı vaktinde kılmak farzdır.</div></div><div class="nr-bilgi-item"><span class="nr-bilgi-icon">💧</span><div><b>Abdest / Gusül</b><br>Namaz için abdest şarttır.</div></div><div class="nr-bilgi-item"><span class="nr-bilgi-icon">🧣</span><div><b>Örtünme</b><br>Erkek: göbek-diz arası. Kadın: el, yüz, ayak hariç tüm beden.</div></div><div class="nr-bilgi-item"><span class="nr-bilgi-icon">🧭</span><div><b>Kıble</b><br>Yüzü Kâbe yönüne çevirmek farzdır.</div></div><div class="nr-bilgi-item"><span class="nr-bilgi-icon">🤲</span><div><b>Niyet</b><br>Hangi namazı kıldığını kalben bilmek farzdır.</div></div></div></div></div>
+                </div>
+                <div class="mg-ad-box" aria-label="Reklam"><span class="mg-ad-label">Reklam</span><ins class="adsbygoogle" style="display:block;width:300px;height:250px;" data-ad-client="ca-pub-1880946354382681" data-ad-slot="1689789138" data-ad-format="rectangle"></ins></div>
+            </div>
+
+            <!-- ===== RAMAZAN SAYACI ===== -->
+            <div id="tab-ramazan-sayac" class="tab-section">
+                <div class="info-layout">
+                    <h2 class="page-title"><i class="fas fa-gift"></i> Ramazan Sayacı</h2>
+                    <div class="rsayac-hero">
+                        <div class="rsayac-moon">🌙</div>
+                        <div class="rsayac-label" id="rsayacLabel">Bir Sonraki Ramazan'a</div>
+                        <div class="rsayac-grid">
+                            <div class="rsayac-unit"><span class="rsayac-num" id="rsayacGun">--</span><span class="rsayac-unit-label">GÜN</span></div>
+                            <div class="rsayac-sep">:</div>
+                            <div class="rsayac-unit"><span class="rsayac-num" id="rsayacSaat">--</span><span class="rsayac-unit-label">SAAT</span></div>
+                            <div class="rsayac-sep">:</div>
+                            <div class="rsayac-unit"><span class="rsayac-num" id="rsayacDakika">--</span><span class="rsayac-unit-label">DAK</span></div>
+                            <div class="rsayac-sep">:</div>
+                            <div class="rsayac-unit"><span class="rsayac-num" id="rsayacSaniye">--</span><span class="rsayac-unit-label">SAN</span></div>
+                        </div>
+                        <div class="rsayac-sub" id="rsayacSub">Hesaplanıyor...</div>
+                    </div>
+                    <div class="info-card" style="min-height:auto;padding:20px;">
+                        <div class="card-header-enhanced"><div class="card-header-title"><i class="fas fa-calendar-alt" style="font-size:.9rem"></i> Ramazan Tarihleri</div></div>
+                        <div id="rsayacYillar" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;"></div>
+                    </div>
+                    <div class="info-card" style="min-height:auto;padding:20px;">
+                        <div class="card-header-enhanced"><div class="card-header-title"><i class="fas fa-list-check" style="font-size:.9rem"></i> Ramazan Hazırlık Listesi</div></div>
+                        <div class="rsayac-hazirlik">
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'niyah')"><span class="rh-icon">🤲</span><span class="rh-label">Niyet et ve hazırlığa başla</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'kaza')"><span class="rh-icon">📋</span><span class="rh-label">Kaza namazlarını tamamla</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'hatim')"><span class="rh-icon">📖</span><span class="rh-label">Kur'an tilaveti planla (1 hatim)</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'sadaka')"><span class="rh-icon">💛</span><span class="rh-label">Sadaka için birikim yap</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'kadir')"><span class="rh-icon">🌙</span><span class="rh-label">Kadir Gecesi'ni ihya et</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'teravih')"><span class="rh-icon">🕌</span><span class="rh-label">Teravih için camiye git</span><i class="fas fa-circle rh-check"></i></div>
+                            <div class="rsayac-hazirlik-item" onclick="toggleHazirlik(this,'zekah')"><span class="rh-icon">🤝</span><span class="rh-label">Zekat ve fitre hesapla</span><i class="fas fa-circle rh-check"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mg-ad-box" aria-label="Reklam"><span class="mg-ad-label">Reklam</span><ins class="adsbygoogle" style="display:block;width:300px;height:250px;" data-ad-client="ca-pub-1880946354382681" data-ad-slot="1689789138" data-ad-format="rectangle"></ins></div>
+            </div>
+
+            <!-- ===== KUR'AN OKU ===== -->
+            <div id="tab-kuran" class="tab-section">
+                <div class="info-layout">
+                    <h2 class="page-title"><i class="fas fa-book-quran"></i> Kur'an-ı Kerim</h2>
+                    <div class="kuran-diyanet-card">
+                        <div class="kd-desen"></div>
+                        <div class="kd-icerik">
+                            <div class="kd-ust"><div class="kd-logo"><i class="fas fa-book-quran"></i></div><div><div class="kd-baslik">Kur'an-ı Kerim Oku</div><div class="kd-alt">Diyanet İşleri Başkanlığı</div></div></div>
+                            <div class="kd-aciklama">Diyanet'in resmi sitesinde Arapça metin, Türkçe meal ve sesli Kur'an dinleme imkânı.</div>
+                            <div class="kd-butonlar">
+                                <a href="https://kuran.diyanet.gov.tr" target="_blank" class="kd-btn kd-btn-primary"><i class="fas fa-external-link-alt"></i> Kur'an Oku</a>
+                                <a href="https://kuran.diyanet.gov.tr/mushaf" target="_blank" class="kd-btn kd-btn-secondary"><i class="fas fa-headphones"></i> Sesli Dinle</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card" style="min-height:auto;padding:20px;">
+                        <div class="card-header-enhanced"><div class="card-header-title"><i class="fas fa-list" style="font-size:.9rem"></i> Sık Okunan Sureler</div></div>
+                        <div class="search-wrap" style="margin-bottom:14px;"><input id="kuranSureAra" class="z-inp ank-search-inp" placeholder="Sure ara..." oninput="filterSureler(this.value)" style="padding-left:42px!important;"></div>
+                        <div id="kuranSurelerGrid" class="kuran-sureler-grid"></div>
+                    </div>
+                    <div class="info-card" style="min-height:auto;padding:20px;">
+                        <div class="card-header-enhanced"><div class="card-header-title"><i class="fas fa-link" style="font-size:.9rem"></i> Diyanet Kaynakları</div></div>
+                        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+                            <a href="https://kuran.diyanet.gov.tr/mushaf" target="_blank" class="kuran-link-item"><span class="kli-icon" style="background:rgba(16,185,129,.15);color:#10b981"><i class="fas fa-book-open"></i></span><div class="kli-info"><div class="kli-baslik">Mushaf</div><div class="kli-alt">Arapça metin, sayfa sayfa</div></div><i class="fas fa-chevron-right" style="color:var(--text-muted)"></i></a>
+                            <a href="https://kuran.diyanet.gov.tr/tefsir" target="_blank" class="kuran-link-item"><span class="kli-icon" style="background:rgba(56,189,248,.15);color:#38bdf8"><i class="fas fa-magnifying-glass"></i></span><div class="kli-info"><div class="kli-baslik">Tefsir</div><div class="kli-alt">Ayetlerin açıklaması</div></div><i class="fas fa-chevron-right" style="color:var(--text-muted)"></i></a>
+                            <a href="https://kuran.diyanet.gov.tr/meal" target="_blank" class="kuran-link-item"><span class="kli-icon" style="background:rgba(167,139,250,.15);color:#a78bfa"><i class="fas fa-language"></i></span><div class="kli-info"><div class="kli-baslik">Türkçe Meal</div><div class="kli-alt">Ayetlerin Türkçe anlamı</div></div><i class="fas fa-chevron-right" style="color:var(--text-muted)"></i></a>
+                            <a href="https://www.diyanet.gov.tr" target="_blank" class="kuran-link-item"><span class="kli-icon" style="background:rgba(252,211,77,.15);color:#fcd34d"><i class="fas fa-mosque"></i></span><div class="kli-info"><div class="kli-baslik">Diyanet.gov.tr</div><div class="kli-alt">Resmi Diyanet sitesi</div></div><i class="fas fa-chevron-right" style="color:var(--text-muted)"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mg-ad-box" aria-label="Reklam"><span class="mg-ad-label">Reklam</span><ins class="adsbygoogle" style="display:block;width:300px;height:250px;" data-ad-client="ca-pub-1880946354382681" data-ad-slot="1689789138" data-ad-format="rectangle"></ins></div>
+            </div>
+
             <!-- ================= SEKME: İSLAM ANSİKLOPEDİSİ ================= -->
             <div id="tab-ansiklopedi" class="tab-section">
                 <div class="info-layout">
@@ -935,10 +1042,26 @@
 
     <!-- ALT NAVİGASYON -->
     <nav class="bottom-nav">
-        <button class="nav-item active" id="nav-tab-home" onclick="switchTab('tab-home')"><i class="fas fa-home"></i><span>Ana Sayfa</span></button>
-        <button class="nav-item" id="nav-tab-verses" onclick="switchTab('tab-verses')"><i class="fas fa-book-open"></i><span>Ayetler</span></button>
-        <button class="nav-item" id="nav-tab-zikir" onclick="switchTab('tab-zikir')"><i class="fas fa-fingerprint"></i><span>Zikirmatik</span></button>
-        <button class="nav-item" id="nav-drawer-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i><span>Menü</span></button>
+        <button class="nav-item active" id="nav-tab-home" onclick="switchTab('tab-home')">
+            <div class="nav-icon-face"><i class="fas fa-home"></i></div>
+            <span>Ana Sayfa</span>
+        </button>
+        <button class="nav-item" id="nav-tab-verses" onclick="switchTab('tab-verses')">
+            <div class="nav-icon-face"><i class="fas fa-book-open"></i></div>
+            <span>Ayetler</span>
+        </button>
+        <button class="nav-item" id="nav-drawer-btn" onclick="toggleDrawer()">
+            <div class="nav-icon-face"><i class="fas fa-bars"></i></div>
+            <span>Menü</span>
+        </button>
+        <button class="nav-item" id="nav-tab-kuran" onclick="switchTab('tab-kuran')">
+            <div class="nav-icon-face"><i class="fas fa-book-quran"></i></div>
+            <span>Kur'an</span>
+        </button>
+        <button class="nav-item" id="nav-tab-ramazan-sayac" onclick="switchTab('tab-ramazan-sayac')">
+            <div class="nav-icon-face"><i class="fas fa-gift"></i></div>
+            <span>Ramazan</span>
+        </button>
     </nav>
 
     <!-- ÇEKMECE MENÜ (DRAWER) -->
@@ -952,29 +1075,98 @@
             <div class="drawer-top-hijri" id="drawerHijri">—</div>
         </div>
 
-        <div class="drawer-grid">
-            <div class="drawer-section-label">📿 İbadet Araçları</div>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-kaza')"><i class="fas fa-clipboard-check" style="color:#fcd34d"></i> Kaza Takibi</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-zikir')"><i class="fas fa-fingerprint" style="color:#a78bfa"></i> Zikirmatik</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-cuz')"><i class="fas fa-book-open-reader" style="color:#38bdf8"></i> Hatim Takibi</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-tesbihat')"><i class="fas fa-hands" style="color:#fb923c"></i> Namaz Tesbihatı</button>
-            <button class="tool-btn" onclick="window.open('https://qiblafinder.withgoogle.com/', '_blank')"><i class="fas fa-compass" style="color:#10b981"></i> Kıble Bul</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-favorites')"><i class="fas fa-heart" style="color:#f472b6"></i> Favori Sözler</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-test')"><i class="fas fa-brain" style="color:#fb923c"></i> Din Bilgisi Testi</button>
-            <div class="drawer-divider"></div>
-            <div class="drawer-section-label">📖 Dini İçerikler</div>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-cuma')"><i class="fas fa-moon" style="color:#818cf8"></i> Cuma Mesajları</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-sureler')"><i class="fas fa-book-quran" style="color:#34d399"></i> Namaz Sureleri</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-dualar')"><i class="fas fa-hands-praying" style="color:#c084fc"></i> Günlük Dualar</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-peygamberler')"><i class="fas fa-users-viewfinder" style="color:#f472b6"></i> Peygamberler</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-esma')"><i class="fas fa-hand-holding-heart" style="color:#2dd4bf"></i> Esmaül Hüsna</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-zekat')"><i class="fas fa-coins" style="color:#fbbf24"></i> Zekât Hesapla</button>
-            <button class="tool-btn" onclick="handleDrawerNav('tab-ansiklopedi')"><i class="fas fa-landmark" style="color:#60a5fa"></i> İslam Ansiklopedisi</button>
-            <div class="drawer-divider"></div>
-            <div class="drawer-section-label">⚙️ Sistem</div>
-            <button class="tool-btn" style="grid-column: span 2;" onclick="handleDrawerNav('tab-settings')"><i class="fas fa-cog" style="color:#94a3b8"></i> Ayarlar & Araçlar</button>
-            <button class="tool-btn" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16,185,129,0.3);" onclick="window.location.href='https://mugol-portal.github.io'"><i class="fas fa-arrow-left" style="color: #10b981;"></i> MuGöl PORTAL'a Dön</button>
-            <button class="tool-btn" id="installPwaBtn" style="background: rgba(56, 189, 248, 0.08); border-color: rgba(56,189,248,0.3);" onclick="installPWA()"><i class="fas fa-download" style="color: #38bdf8;"></i> Uygulamayı İndir (PWA)</button>
+        <div class="drawer-icon-grid">
+            <!-- ── İBADET ARAÇLARI ── -->
+            <div class="drawer-section-label2">📿 İbadet Araçları</div>
+
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-kuran')">
+                <div class="d-icon-face aib-green"><i class="fas fa-book-quran"></i></div>
+                <span>Kur'an Oku</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-ramazan-sayac')">
+                <div class="d-icon-face aib-blue"><i class="fas fa-gift"></i></div>
+                <span>Ramazan</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-namaz-rehberi')">
+                <div class="d-icon-face aib-teal"><i class="fas fa-person-praying"></i></div>
+                <span>Namaz Rehberi</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-kaza')">
+                <div class="d-icon-face aib-navy"><i class="fas fa-clipboard-check"></i></div>
+                <span>Kaza Takibi</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-zikir')">
+                <div class="d-icon-face aib-purple"><i class="fas fa-fingerprint"></i></div>
+                <span>Zikirmatik</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-cuz')">
+                <div class="d-icon-face aib-sky"><i class="fas fa-book-open-reader"></i></div>
+                <span>Hatim</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-tesbihat')">
+                <div class="d-icon-face aib-orange"><i class="fas fa-hands"></i></div>
+                <span>Tesbihat</span>
+            </button>
+            <button class="d-icon-btn" onclick="window.open('https://qiblafinder.withgoogle.com/','_blank')">
+                <div class="d-icon-face aib-teal"><i class="fas fa-compass"></i></div>
+                <span>Kıble Bul</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-favorites')">
+                <div class="d-icon-face aib-pink"><i class="fas fa-heart"></i></div>
+                <span>Favoriler</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-test')">
+                <div class="d-icon-face aib-red"><i class="fas fa-brain"></i></div>
+                <span>Din Testi</span>
+            </button>
+
+            <!-- ── DİNİ İÇERİKLER ── -->
+            <div class="drawer-section-label2" style="margin-top:6px;">📖 Dini İçerikler</div>
+
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-cuma')">
+                <div class="d-icon-face aib-navy"><i class="fas fa-moon"></i></div>
+                <span>Cuma</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-sureler')">
+                <div class="d-icon-face aib-lime"><i class="fas fa-book-quran"></i></div>
+                <span>Sureler</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-dualar')">
+                <div class="d-icon-face aib-purple"><i class="fas fa-hands-praying"></i></div>
+                <span>Dualar</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-peygamberler')">
+                <div class="d-icon-face aib-pink"><i class="fas fa-users-viewfinder"></i></div>
+                <span>Peygamberler</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-esma')">
+                <div class="d-icon-face aib-teal"><i class="fas fa-hand-holding-heart"></i></div>
+                <span>Esmaül Hüsna</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-zekat')">
+                <div class="d-icon-face aib-gold"><i class="fas fa-coins"></i></div>
+                <span>Zekât</span>
+            </button>
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-ansiklopedi')">
+                <div class="d-icon-face aib-blue"><i class="fas fa-landmark"></i></div>
+                <span>Ansiklopedi</span>
+            </button>
+
+            <!-- ── SİSTEM ── -->
+            <div class="drawer-section-label2" style="margin-top:6px;">⚙️ Sistem</div>
+
+            <button class="d-icon-btn" onclick="handleDrawerNav('tab-settings')">
+                <div class="d-icon-face aib-dark"><i class="fas fa-cog"></i></div>
+                <span>Ayarlar</span>
+            </button>
+            <button class="d-icon-btn" onclick="window.location.href='https://mugol-portal.github.io'">
+                <div class="d-icon-face aib-green"><i class="fas fa-arrow-left"></i></div>
+                <span>Portal</span>
+            </button>
+            <button class="d-icon-btn" id="installPwaBtn" onclick="installPWA()">
+                <div class="d-icon-face aib-sky"><i class="fas fa-download"></i></div>
+                <span>Uygulamayı İndir</span>
+            </button>
         </div>
     </div>
 
@@ -1058,7 +1250,7 @@
             if (dh) { const hEl = document.getElementById('hijriText'); if (hEl) dh.innerText = hEl.innerText; }
         }
         function handleDrawerNav(tabId) { toggleDrawer(); switchTab(tabId); }
-        function switchTab(tabId) { document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active-tab')); document.getElementById(tabId).classList.add('active-tab'); document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active')); let directNavBtn = document.getElementById('nav-' + tabId); if(directNavBtn) { directNavBtn.classList.add('active'); } else { document.getElementById('nav-drawer-btn').classList.add('active'); } window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function switchTab(tabId) { document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active-tab')); document.getElementById(tabId).classList.add('active-tab'); document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active')); let directNavBtn = document.getElementById('nav-' + tabId); if(directNavBtn && directNavBtn.id !== 'nav-drawer-btn') { directNavBtn.classList.add('active'); } /* drawer-btn hiçbir zaman active olmaz */ window.scrollTo({ top: 0, behavior: 'smooth' }); }
         
         function toggleFullScreen() { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => { alert(`Hata: ${err.message}`); }); } else { if (document.exitFullscreen) { document.exitFullscreen(); } } }
 
@@ -1069,7 +1261,28 @@
             if(savedTheme === 'light') { document.body.classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i>'; document.getElementById('themeColorMeta').setAttribute('content', '#f1f5f9'); }
             document.documentElement.style.setProperty('--read-scale', currentTextScale);
         }
-        function toggleTheme() { const body = document.body; const btn = document.getElementById('themeBtn'); const meta = document.getElementById('themeColorMeta'); body.classList.toggle('light-mode'); if(body.classList.contains('light-mode')) { localStorage.setItem('mugolTheme', 'light'); btn.innerHTML = '<i class="fas fa-moon"></i>'; meta.setAttribute('content', '#f1f5f9'); } else { localStorage.setItem('mugolTheme', 'dark'); btn.innerHTML = '<i class="fas fa-sun"></i>'; meta.setAttribute('content', '#020617'); } }
+        function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('themeBtn');
+    const meta = document.getElementById('themeColorMeta');
+    const currentThema = body.getAttribute('data-theme') || 'tema1';
+    // Tema3 (beyaz) ise, light-mode class'ı değil tema'yı değiştir
+    if (currentThema === 'tema3') {
+        if (typeof setTema === 'function') setTema('tema1');
+        btn.innerHTML = '<i class="fas fa-sun"></i>';
+        return;
+    }
+    body.classList.toggle('light-mode');
+    if(body.classList.contains('light-mode')) {
+        localStorage.setItem('mugolTheme', 'light');
+        btn.innerHTML = '<i class="fas fa-moon"></i>';
+        meta.setAttribute('content', '#f1f5f9');
+    } else {
+        localStorage.setItem('mugolTheme', 'dark');
+        btn.innerHTML = '<i class="fas fa-sun"></i>';
+        meta.setAttribute('content', '#020617');
+    }
+}
         function changeFontSize(val) { currentTextScale += val; if(currentTextScale < 0.8) currentTextScale = 0.8; if(currentTextScale > 1.6) currentTextScale = 1.6; document.documentElement.style.setProperty('--read-scale', currentTextScale); localStorage.setItem('mugolTextScale', currentTextScale); }
         initSettings();
 
@@ -1547,6 +1760,49 @@
             "Bugün birini bağışla veya özür dile.", "Geceleri uyumadan önce Ayetel Kürsi oku."
         ];
 
+        /* --- GÜNÜN HADİSİ --- */
+        const hadisList = [
+            { text: "Ameller niyetlere göre değerlendirilir.", src: "Buhârî, Müslim" },
+            { text: "Müslüman, elinden ve dilinden insanların güvende olduğu kimsedir.", src: "Buhârî" },
+            { text: "Sizden biriniz, kendisi için istediğini kardeşi için de istemedikçe gerçek anlamda iman etmiş olmaz.", src: "Buhârî, Müslim" },
+            { text: "Kolaylaştırınız, zorlaştırmayınız; sevindiriniz, nefret ettirmeyiniz.", src: "Buhârî" },
+            { text: "Allah katında en sevimli amel, az da olsa devamlı yapılan ameldir.", src: "Buhârî, Müslim" },
+            { text: "Gülümsemen bile bir sadakadır.", src: "Tirmizî" },
+            { text: "Kim Allah'a ve ahiret gününe inanıyorsa, ya hayır söylesin ya da sussun.", src: "Buhârî, Müslim" },
+            { text: "Veren el, alan elden hayırlıdır.", src: "Buhârî, Müslim" },
+            { text: "Komşusu açken tok yatan bizden değildir.", src: "Hadîs-i Şerîf" },
+            { text: "İlim öğrenmek için yola çıkan kimse, dönünceye kadar Allah yolundadır.", src: "Tirmizî" },
+            { text: "Misafire ikram, imandandır.", src: "Buhârî, Müslim" },
+            { text: "Bir hayra vesile olan, o hayrı işleyen gibidir.", src: "Tirmizî" },
+            { text: "Sabır, sıkıntı anında gösterilen sabırdır.", src: "Buhârî" },
+            { text: "Üç şey kişiye sadaka sevabı kazandırır: adaletli söz, başkasına binek yardımı, güzel söz.", src: "Buhârî, Müslim" },
+            { text: "Allah, yumuşaklıkla muamele eden kuluna, sertlikle vermediğini verir.", src: "Müslim" },
+            { text: "Kim insanlara teşekkür etmezse Allah'a da şükretmemiş olur.", src: "Ahmed b. Hanbel" },
+            { text: "Anne baba rızası, Allah rızasının kapısıdır.", src: "Tirmizî" },
+            { text: "İki nimet vardır ki insanların çoğu onların kıymetini bilmez: sağlık ve vakit.", src: "Buhârî" },
+            { text: "Mü'minin işi şaşılacak bir iştir; başına gelen her şey onun için hayırlıdır.", src: "Müslim" },
+            { text: "Kim bir kötülük görürse onu eliyle düzeltsin; gücü yetmezse diliyle, ona da gücü yetmezse kalbiyle buğz etsin.", src: "Müslim" },
+            { text: "Yumuşak huylu olan, hayrın çoğuna kavuşur.", src: "İbn Mâce" },
+            { text: "Cennet, anaların ayakları altındadır.", src: "İbn Mâce, Ahmed b. Hanbel" },
+            { text: "Ameller içinde Allah'a en sevimli olanı, vaktinde kılınan namazdır.", src: "Buhârî, Müslim" },
+            { text: "Kalbi yumuşatan üç şey vardır: Kur'an okumak, oruç tutmak ve gece namazı kılmak.", src: "Hadîs-i Şerîf" },
+            { text: "Az yiyiniz ki az hastalanasınız.", src: "İbn Mâce" },
+            { text: "Allah, güzeldir ve güzelliği sever.", src: "Müslim" },
+            { text: "Kim bir Müslümanın dünya sıkıntılarından birini giderirse, Allah da onun ahiret sıkıntılarından birini giderir.", src: "Müslim" },
+            { text: "Cömertlik, imanın bir parçasıdır.", src: "Hadîs-i Şerîf" },
+            { text: "Çocuklarınıza ikram edin ve onlara güzel terbiye verin.", src: "İbn Mâce" },
+            { text: "İnsanların en hayırlısı, insanlara en faydalı olandır.", src: "Hadîs-i Şerîf" }
+        ];
+        function renderDailyHadis() {
+            const elT = document.getElementById('dailyHadis');
+            const elS = document.getElementById('dailyHadisSrc');
+            if (!elT || !elS) return;
+            const idx = Math.floor(Date.now() / 86400000) % hadisList.length;
+            const h = hadisList[idx];
+            elT.innerText = `"${h.text}"`;
+            elS.innerText = `— ${h.src}`;
+        }
+
         /* --- MOBİL SES KİLİDİ AÇICI ---
            Android/iOS'ta autoplay yasak; ilk dokunuşta silentAudio çalarak
            ses bağlamını açıyoruz. Sonraki tüm adhanAudio.play() çağrıları çalışır. */
@@ -1571,6 +1827,7 @@
 
             const todayIndex = Math.floor(Date.now() / 86400000) % sunnahList.length;
             document.getElementById('dailySunnah').innerText = sunnahList[todayIndex];
+            renderDailyHadis();
 
             const sel = document.getElementById('citySelect'); sel.innerHTML = ""; cities.sort((a,b)=>a.n.localeCompare(b.n,'tr'));
             cities.forEach(x => { let op = document.createElement('option'); op.value = x.c; op.text = x.n; sel.add(op); });
@@ -1587,10 +1844,31 @@
         async function denemeDiyanetFetch(cityValue) { const proxies = [(url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, (url) => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`]; const fetchProxy = async (url) => { let lastErr; for (let proxyFn of proxies) { try { const controller = new AbortController(); const id = setTimeout(() => controller.abort(), 8000); let reqUrl = proxyFn(url); let res = await fetch(reqUrl, { signal: controller.signal }); clearTimeout(id); if (res.ok) { let text = await res.text(); if(!text || text.trim() === '') continue; let data = JSON.parse(text); if(Array.isArray(data) && data.length > 0) return data; if(typeof data === 'object' && data !== null) return data; } } catch(e) { lastErr = e; } } throw lastErr || new Error("Proxyler başarısız"); }; let sehirler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/sehirler/2'); let sehir = sehirler.find(s => s.SehirAdiEn.toUpperCase() === cityValue.toUpperCase() || s.SehirAdi.toLocaleUpperCase('tr-TR') === cityValue.toLocaleUpperCase('tr-TR')); if(!sehir) sehir = sehirler.find(s => s.SehirAdiEn.includes(cityValue.toUpperCase())); if(!sehir) throw new Error("Şehir bulunamadı"); let ilceler = await fetchProxy('https://ezanvakti.diyanet.gov.tr/ilceler/' + sehir.SehirID); let ilce = ilceler.find(i => { let iName = i.IlceAdi.toLocaleUpperCase('tr-TR'); let cName = sehir.SehirAdi.toLocaleUpperCase('tr-TR'); return iName === cName || iName === "MERKEZ" || (cName === "KOCAELİ" && iName === "İZMİT") || (cName === "SAKARYA" && iName === "ADAPAZARI") || (cName === "HATAY" && iName === "ANTAKYA"); }); if(!ilce) ilce = ilceler[0]; return await fetchProxy('https://ezanvakti.diyanet.gov.tr/vakitler/' + ilce.IlceID); }
         async function fallbackVercelFetch(cityValue) { let res = await fetch(`https://vakit.vercel.app/api/timesFromPlace?country=Turkey&region=${cityValue}&city=${cityValue}`); if(!res.ok) throw new Error("Vercel başarısız"); let data = await res.json(); let mappedData = []; for (let dateKey in data.times) { let [y, m, d] = dateKey.split('-'); let times = data.times[dateKey]; mappedData.push({ MiladiTarihKisa: `${d}.${m}.${y}`, Imsak: times[0], Gunes: times[1], Ogle: times[2], Ikindi: times[3], Aksam: times[4], Yatsi: times[5] }); } return mappedData; }
         
-        async function getData(cityValue) { const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; try { let d = new Date(); let res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${cityValue}&country=Turkey&method=13&month=${d.getMonth()+1}&year=${d.getFullYear()}`); let json = await res.json(); if(json.code === 200 && json.data && json.data.length > 0) { monthlyDataCache = json.data.map(item => aladhanToDiyanetFormat(item)); // İmsakiye önbelleğini de doldur
-                const cacheKey = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-                imsakiyeDataCache[cacheKey] = monthlyDataCache;
-                updateForToday(monthlyDataCache); return; } throw new Error("Aladhan boş döndü"); } catch(e) { try { let dData = await denemeDiyanetFetch(cityValue); monthlyDataCache = dData; updateForToday(dData); } catch(e2) { try { let vData = await fallbackVercelFetch(cityValue); monthlyDataCache = vData; updateForToday(vData); } catch(finalErr) { ldr.style.display = 'none'; alert("Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."); } } } finally { ldr.style.display = 'none'; ldr.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...'; } }
+        function _getOfflineVakit() {
+            const now = new Date(), mo = now.getMonth();
+            const d=String(now.getDate()).padStart(2,'0'), m=String(mo+1).padStart(2,'0'), y=now.getFullYear();
+            const vv=[{I:'06:25',G:'08:00',O:'13:00',A:'15:10',Ak:'17:45',Y:'19:15'},{I:'06:05',G:'07:38',O:'13:00',A:'15:30',Ak:'18:15',Y:'19:45'},{I:'05:30',G:'07:01',O:'13:00',A:'15:55',Ak:'18:45',Y:'20:15'},{I:'04:40',G:'06:10',O:'13:00',A:'16:25',Ak:'19:20',Y:'20:55'},{I:'03:55',G:'05:25',O:'13:00',A:'16:50',Ak:'19:55',Y:'21:35'},{I:'03:30',G:'05:05',O:'13:00',A:'17:10',Ak:'20:20',Y:'22:05'},{I:'03:40',G:'05:15',O:'13:00',A:'17:05',Ak:'20:15',Y:'22:00'},{I:'04:15',G:'05:45',O:'13:00',A:'16:45',Ak:'19:40',Y:'21:15'},{I:'05:00',G:'06:25',O:'12:55',A:'16:05',Ak:'18:55',Y:'20:25'},{I:'05:45',G:'07:10',O:'12:50',A:'15:20',Ak:'18:05',Y:'19:35'},{I:'06:25',G:'07:55',O:'12:50',A:'14:50',Ak:'17:25',Y:'18:55'},{I:'06:50',G:'08:20',O:'13:00',A:'14:55',Ak:'17:30',Y:'19:05'}];
+            const v=vv[mo]; return [{MiladiTarihKisa:`${d}.${m}.${y}`,Imsak:v.I,Gunes:v.G,Ogle:v.O,Ikindi:v.A,Aksam:v.Ak,Yatsi:v.Y,HicriTarihUzun:''}];
+        }
+        async function _fetchT(url, ms) {
+            const ctrl=new AbortController(), tid=setTimeout(()=>ctrl.abort(),ms);
+            try { const r=await fetch(url,{signal:ctrl.signal}); clearTimeout(tid); return r; } catch(e) { clearTimeout(tid); throw e; }
+        }
+        async function getData(cityValue) {
+            const ldr=document.getElementById('loader');
+            ldr.style.display='block'; ldr.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Veriler Yükleniyor...';
+            const now=new Date(), ikck=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`, lsKey=`mugol_vc_${cityValue}_${ikck}`;
+            try {
+                const cached=localStorage.getItem(lsKey);
+                if(cached){const p=JSON.parse(cached);if(p&&p.length>0){monthlyDataCache=p;imsakiyeDataCache[ikck]=p;updateForToday(p);ldr.style.display='none';setTimeout(async()=>{try{const r=await _fetchT(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityValue)}&country=Turkey&method=13&month=${now.getMonth()+1}&year=${now.getFullYear()}`,12000);const j=await r.json();if(j.code===200&&j.data?.length>0){const f=j.data.map(i=>aladhanToDiyanetFormat(i));monthlyDataCache=f;imsakiyeDataCache[ikck]=f;localStorage.setItem(lsKey,JSON.stringify(f));updateForToday(f);}}catch(e){}},1500);return;}}
+            } catch(e) {}
+            let ok=false;
+            if(!ok){try{const r=await _fetchT(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityValue)}&country=Turkey&method=13&month=${now.getMonth()+1}&year=${now.getFullYear()}`,10000);const j=await r.json();if(j.code===200&&j.data?.length>0){monthlyDataCache=j.data.map(i=>aladhanToDiyanetFormat(i));imsakiyeDataCache[ikck]=monthlyDataCache;try{localStorage.setItem(lsKey,JSON.stringify(monthlyDataCache));}catch(e){}updateForToday(monthlyDataCache);ok=true;}}catch(e){}}
+            if(!ok){try{const dData=await denemeDiyanetFetch(cityValue);monthlyDataCache=dData;imsakiyeDataCache[ikck]=dData;try{localStorage.setItem(lsKey,JSON.stringify(dData));}catch(e){}updateForToday(dData);ok=true;}catch(e){}}
+            if(!ok){try{const vData=await fallbackVercelFetch(cityValue);monthlyDataCache=vData;imsakiyeDataCache[ikck]=vData;try{localStorage.setItem(lsKey,JSON.stringify(vData));}catch(e){}updateForToday(vData);ok=true;}catch(e){}}
+            if(!ok){const off=_getOfflineVakit();monthlyDataCache=off;updateForToday(off);try{showToast('⚠️ Bağlantı yok — yaklaşık vakitler gösteriliyor','fa-triangle-exclamation');}catch(e){}}
+            ldr.style.display='none'; ldr.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...';
+        }
         function updateForToday(dataArray) { let d = new Date(); let todayStr = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; let todayData = dataArray.find(v => v.MiladiTarihKisa === todayStr) || dataArray[0]; updateView(todayData); }
         
         async function getGPSLocation() { if (!navigator.geolocation) return alert("Konum desteklenmiyor."); const ldr = document.getElementById('loader'); ldr.style.display = 'block'; ldr.innerHTML = '<i class="fas fa-location-arrow fa-spin"></i> Bulunuyor...'; navigator.geolocation.getCurrentPosition(async (pos) => { try { let geoRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=tr`); let geoJson = await geoRes.json(); let cityName = geoJson.principalSubdivision.replace(' Province', '').replace(' ili', '').replace(' İli', '').trim(); let sel = document.getElementById('citySelect'); let matchedOption = Array.from(sel.options).find(o => o.text.toLocaleUpperCase('tr-TR') === cityName.toLocaleUpperCase('tr-TR') || o.value.toUpperCase() === cityName.toUpperCase()); if(matchedOption) { sel.value = matchedOption.value; localStorage.setItem('mugolCity', matchedOption.value); await getData(matchedOption.value); } else { await getData(cityName); let opt = document.createElement('option'); opt.value = cityName; opt.text = `📍 ${cityName} (GPS)`; sel.add(opt, sel.options[0]); sel.value = cityName; } } catch (e) {} finally { ldr.style.display = 'none'; } }, () => { ldr.style.display = 'none'; alert("Konum izni reddedildi."); }); }
@@ -1614,15 +1892,31 @@
 
         function startTimer(t) { 
             if(timerInt) clearInterval(timerInt); 
+            currentVakitData = t;
             const times = {'Imsak':t.Imsak, 'Sunrise':t.Gunes, 'Dhuhr':t.Ogle, 'Asr':t.Ikindi, 'Maghrib':t.Aksam, 'Isha':t.Yatsi}; 
             const tr = {'Imsak':'İmsak','Sunrise':'Güneş','Dhuhr':'Öğle','Asr':'İkindi','Maghrib':'Akşam','Isha':'Yatsı'}; 
+            const dayStr = new Date().toDateString();
             function tick() { 
                 let now = new Date(); 
+                // Gün değişti mi? (gece yarısını geçtiyse vakitleri yeniden çek)
+                if (now.toDateString() !== dayStr) {
+                    if(timerInt) clearInterval(timerInt);
+                    timerInt = null;
+                    refreshVakitData();
+                    return;
+                }
                 checkKerahat(now, t); 
                 let target = null, name = ""; let min = Infinity; 
                 let currentTimeStr = now.toTimeString().split(' ')[0].substr(0, 5); 
                 if (now.getSeconds() === 0 && currentTimeStr !== lastPlayedTime) { 
-                    for (let key in times) { if (times[key] === currentTimeStr && adhanSettings[key] !== false) { document.getElementById('adhanAudio').play().catch(()=>{}); lastPlayedTime = currentTimeStr; } } 
+                    for (let key in times) { 
+                        if (times[key] === currentTimeStr) {
+                            if (adhanSettings[key] !== false) { document.getElementById('adhanAudio').play().catch(()=>{}); }
+                            lastPlayedTime = currentTimeStr;
+                            // Vakit girdiğinde anlık bildirim gönder
+                            sendVakitGirdiNotification(tr[key], times[key]);
+                        }
+                    } 
                 } 
                 for(let k in times) { 
                     let[h,m] = times[k].split(':'); let d = new Date(); d.setHours(h,m,0,0); let diff = d - now; 
@@ -1637,6 +1931,64 @@
             } 
             tick(); timerInt = setInterval(tick, 1000); 
         }
+
+        /* Gün değiştiğinde veya sekme arka plandan geri geldiğinde
+           vakitleri taze veriden güncelle (donma/eski veri sorununu önler) */
+        function refreshVakitData() {
+            const now = new Date();
+            const dateEl = document.getElementById('dateText');
+            if (dateEl) dateEl.innerText = now.toLocaleDateString('tr-TR', {day:'numeric', month:'long', weekday:'long'});
+            renderEvents();
+            const todayIndex = Math.floor(Date.now() / 86400000) % sunnahList.length;
+            const sunnahEl = document.getElementById('dailySunnah');
+            if (sunnahEl) sunnahEl.innerText = sunnahList[todayIndex];
+            renderDailyHadis();
+            const todayStr = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()}`;
+            if (monthlyDataCache && monthlyDataCache.length > 0) {
+                const todayData = monthlyDataCache.find(v => v.MiladiTarihKisa === todayStr);
+                if (todayData) { updateForToday(monthlyDataCache); return; }
+            }
+            // Bu ayın verisi yoksa (yeni ay başladıysa) tazeden çek
+            const city = document.getElementById('citySelect')?.value || localStorage.getItem('mugolCity') || 'Istanbul';
+            getData(city);
+        }
+
+        /* Vakit girdiğinde anlık tarayıcı bildirimi gönder (eğer izin verilmişse) */
+        async function sendVakitGirdiNotification(vakitAdi, saat) {
+            try {
+                if (!('Notification' in window) || Notification.permission !== 'granted') return;
+                const btn = document.getElementById('notifyBtn');
+                if (!btn || !btn.classList.contains('notif-active')) return;
+                const title = `${vakitAdi} Vakti Girdi`;
+                const opts = { body: `${vakitAdi} vakti (${saat}) girdi.`, icon: 'icon-192.png', badge: 'icon-192.png', tag: 'vakit-girdi-' + vakitAdi, renotify: true };
+                if (!prayerSwReg && 'serviceWorker' in navigator) {
+                    try { prayerSwReg = await navigator.serviceWorker.ready; } catch(e) {}
+                }
+                if (prayerSwReg) { await prayerSwReg.showNotification(title, opts); }
+                else { new Notification(title, opts); }
+            } catch(e) {}
+        }
+
+        /* ── SEKME GÖRÜNÜRLÜK YÖNETİMİ ──
+           Uygulama arka plana alındığında ağır sayaçları durdurur,
+           geri geldiğinde verileri tazeleyip sayaçları yeniden başlatır.
+           Bu, uzun süre açık kalan sekmelerde "donma" hissini önler. */
+        let _wasHidden = false;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                _wasHidden = true;
+                if (timerInt) { clearInterval(timerInt); timerInt = null; }
+                if (window._rsTimer) { clearInterval(window._rsTimer); window._rsTimer = null; }
+            } else if (_wasHidden) {
+                _wasHidden = false;
+                // Sekme tekrar görünür olduğunda vakitleri tazele ve sayacı yeniden başlat
+                refreshVakitData();
+                const ramazanTab = document.getElementById('tab-ramazan-sayac');
+                if (ramazanTab && ramazanTab.classList.contains('active-tab') && typeof startRamazanSayac === 'function') {
+                    startRamazanSayac();
+                }
+            }
+        });
 
         function toggleAcc(btn) { const content = btn.nextElementSibling; const icon = btn.querySelector('.fa-chevron-down'); if (content.classList.contains('open')) { content.classList.remove('open'); icon.style.transform = 'rotate(0deg)'; } else { content.classList.add('open'); icon.style.transform = 'rotate(180deg)'; } }
         
@@ -2687,8 +3039,8 @@
         }
 
         function ansiklopediAc(madde) {
-            const q = encodeURIComponent(madde);
-            window.open('https://islamansiklopedisi.org.tr/arama/?KelimeAra%5B%5D=' + q, '_blank', 'noopener');
+            const q = encodeURIComponent(madde + ' site:islamansiklopedisi.org.tr');
+            window.open('https://www.google.com/search?q=' + q, '_blank', 'noopener');
         }
 
         function ansiklopediSearch() {
@@ -2701,7 +3053,119 @@
         // Sayfa açılınca render et
         document.addEventListener('DOMContentLoaded', function() {
             try { renderAnsiklopedi(); } catch(e) { console.warn(e); }
+            try { renderSureler(_SURELER); } catch(e) {}
         });
+
+        /* ══════ NAMAZ REHBERİ ══════ */
+        const _NRD = {
+            sabah:{baslik:'Sabah Namazı',rekat:'2 Sünnet + 2 Farz',icon:'🌙',bolumler:[
+                {ad:"2 Rek'at Sünnet",renk:'#818cf8',adimlar:[{no:1,b:'Niyet',a:"'Sabah namazının sünnetini kılmaya' diye kalben niyet edilir."},{no:2,b:'İftitah Tekbiri',a:"Eller kulağa kaldırılarak 'Allahu Ekber' denir, eller bağlanır."},{no:3,b:'Sübhaneke',a:'Sübhânekellahümme ve bi hamdik ve tebârekesmük ve teâlâ ceddük ve lâ ilâhe ğayrük.'},{no:4,b:'Fatiha + Zam Sure',a:'Euzü-Besmele çekilir. Fatiha ve ardından bir sure okunur.'},{no:5,b:'Rükû',a:"Eller dizlere dayanarak eğilinir. 'Sübhâne rabbiyel azîm' 3 kez söylenir."},{no:6,b:'Kıyam',a:"'Semi'allâhü limen hamideh' diyerek doğrulunur, 'Rabbenâ lekel hamd' denir."},{no:7,b:'İki Secde',a:"'Sübhâne rabbiyel a'lâ' 3 kez söylenir. İki secde yapılır."},{no:8,b:"2. Rek'at",a:'Fatiha ve zam sure okunur. Rükû ve iki secde yapılır.'},{no:9,b:"Ka'de & Selam",a:'Ettehiyyatü okunur. Sağa ve sola selam verilir.'}]},
+                {ad:"2 Rek'at Farz",renk:'#6d28d9',adimlar:[{no:1,b:'Niyet & Tekbir',a:"'Sabah namazının farzını kılmaya.' Tekbir, Sübhaneke."},{no:2,b:'Fatiha + Zam Sure',a:'Her rek\'atta okunur.'},{no:3,b:'Rükû & Secdeler',a:'Rükû ve iki secde.'},{no:4,b:"2. Rek'at + Selam",a:"Ka'de-i ahire: Ettehiyyatü, salavat, Rabbenâ. Selam."}]}
+            ]},
+            ogle:{baslik:'Öğle Namazı',rekat:'4 Sünnet + 4 Farz + 2 Sünnet',icon:'☀️',bolumler:[
+                {ad:"4 Rek'at Sünnet",renk:'#f97316',adimlar:[{no:1,b:'Niyet & Tekbir',a:'Öğle sünnetine niyet.'},{no:2,b:"1-2. Rek'at + Ka'de-i Ula",a:"Fatiha+zam sure. İkinci sonrası oturulur, Ettehiyyatü okunup kalkılır."},{no:3,b:"3-4. Rek'at + Selam",a:"Fatiha+zam sure. Ka'de-i ahire ile selam."}]},
+                {ad:"4 Rek'at Farz",renk:'#ea580c',adimlar:[{no:1,b:'Niyet & Tekbir',a:'Öğle farzına niyet.'},{no:2,b:"1-2. Rek'at + Ka'de-i Ula",a:"Fatiha+zam sure. İkinci sonrası yalnız Ettehiyyatü."},{no:3,b:"3-4. Rek'at + Selam",a:"Sadece Fatiha. Ka'de-i ahire ile selam."}]},
+                {ad:"2 Rek'at Sünnet",renk:'#c2410c',adimlar:[{no:1,b:"2 Rek'at + Selam",a:'Sabahın farzı gibi kılınır.'}]}
+            ]},
+            ikindi:{baslik:'İkindi Namazı',rekat:'4 Sünnet + 4 Farz',icon:'🌤️',bolumler:[
+                {ad:"4 Rek'at Sünnet",renk:'#38bdf8',adimlar:[{no:1,b:"4 Rek'at",a:"Öğlenin sünneti gibi kılınır."}]},
+                {ad:"4 Rek'at Farz",renk:'#0284c7',adimlar:[{no:1,b:'Niyet & Tekbir',a:'İkindi farzına niyet.'},{no:2,b:"1-2. Rek'at + Ka'de-i Ula",a:"Fatiha+zam sure. İkinci sonrası Ettehiyyatü."},{no:3,b:"3-4. Rek'at + Selam",a:"Sadece Fatiha. Selam."}]}
+            ]},
+            aksam:{baslik:'Akşam Namazı',rekat:'3 Farz + 2 Sünnet',icon:'🌆',bolumler:[
+                {ad:"3 Rek'at Farz",renk:'#fb923c',adimlar:[{no:1,b:'Niyet & Tekbir',a:'Akşam farzına niyet.'},{no:2,b:"1-2. Rek'at + Ka'de-i Ula",a:"Fatiha+zam sure. Ettehiyyatü okunarak kalkılır."},{no:3,b:"3. Rek'at + Selam",a:"Sadece Fatiha. Ka'de-i ahire, selam."}]},
+                {ad:"2 Rek'at Sünnet",renk:'#c2410c',adimlar:[{no:1,b:"2 Rek'at + Selam",a:'Sabahın farzı gibi.'}]}
+            ]},
+            yatsi:{baslik:'Yatsı Namazı',rekat:'4 Sünnet + 4 Farz + 2 Sünnet + 3 Vitir',icon:'⭐',bolumler:[
+                {ad:"4 Rek'at Sünnet",renk:'#a78bfa',adimlar:[{no:1,b:"4 Rek'at",a:"Öğlenin sünneti gibi kılınır."}]},
+                {ad:"4 Rek'at Farz",renk:'#7c3aed',adimlar:[{no:1,b:"4 Rek'at",a:"Öğlenin farzı gibi kılınır."}]},
+                {ad:"2 Rek'at Sünnet",renk:'#5b21b6',adimlar:[{no:1,b:"2 Rek'at",a:'Sabahın farzı gibi.'}]},
+                {ad:"3 Rek'at Vitir (Vacip)",renk:'#fcd34d',adimlar:[{no:1,b:'Niyet & Tekbir',a:'Vitir namazına niyet.'},{no:2,b:"1-2. Rek'at + Ka'de-i Ula",a:'Fatiha+zam sure. Ettehiyyatü okunur.'},{no:3,b:"3. Rek'at — Kunut",a:'Fatiha+zam sure. Rükûdan önce Kunut tekbiri alınır, Kunut duası okunur.'},{no:4,b:'Rükû & Selam',a:"Rükû, secdeler. Ka'de-i ahire, selam."}]}
+            ]},
+            cuma:{baslik:'Cuma Namazı',rekat:'4 Sünnet + 2 Farz + 4 Sünnet',icon:'🕌',bolumler:[
+                {ad:"4 Rek'at İlk Sünnet",renk:'#fcd34d',adimlar:[{no:1,b:"4 Rek'at",a:"Öğlenin sünneti gibi kılınır."}]},
+                {ad:"2 Rek'at Farz (Cemaatle)",renk:'#b38728',adimlar:[{no:1,b:'Hutbe Dinle',a:'Farz öncesi hutbeyi sessizce dinlemek vaciptir.'},{no:2,b:'Niyet & İmama Uy',a:"'Cuma farzını kılmaya.' İmama uyulur, sesli okunur."},{no:3,b:'Selam',a:"Ka'de-i ahire, selam."}]},
+                {ad:"4 Rek'at Son Sünnet",renk:'#92400e',adimlar:[{no:1,b:"4 Rek'at",a:"Öğlenin sünneti gibi."}]}
+            ]}
+        };
+        let _aktifNamaz = 'sabah';
+        function selectNamazRehber(btn, namaz) {
+            document.querySelectorAll('.nr-vakit-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active'); _aktifNamaz=namaz; renderNamazRehber(namaz);
+        }
+        function renderNamazRehber(namaz) {
+            const data=_NRD[namaz], cont=document.getElementById('namazRehberContent');
+            if(!data||!cont) return;
+            let h=`<div class="nr-header-card"><div class="nr-header-icon">${data.icon}</div><div><div class="nr-header-title">${data.baslik}</div><div class="nr-header-rekat"><i class="fas fa-layer-group" style="margin-right:5px;opacity:.7"></i>${data.rekat}</div></div></div>`;
+            data.bolumler.forEach((bl,bi)=>{
+                h+=`<div class="acc" style="border-left:3px solid ${bl.renk}"><button class="acc-head" onclick="toggleAcc(this)"><span style="display:flex;align-items:center;gap:10px"><span class="nr-bolum-badge" style="background:${bl.renk}22;color:${bl.renk};border:1px solid ${bl.renk}44">${bi+1}</span>${bl.ad}</span><i class="fas fa-chevron-down"></i></button><div class="acc-body ${bi===0?'open':''}"><div class="nr-adim-list">`;
+                bl.adimlar.forEach(ad=>{h+=`<div class="nr-adim-item"><div class="nr-adim-no" style="background:${bl.renk}22;color:${bl.renk};border:1px solid ${bl.renk}33">${ad.no}</div><div class="nr-adim-content"><div class="nr-adim-baslik">${ad.b}</div><div class="nr-adim-aciklama">${ad.a}</div></div></div>`;});
+                h+=`</div></div></div>`;
+            });
+            cont.innerHTML=h;
+        }
+
+        /* ══════ RAMAZAN SAYACI ══════ */
+        const _RT=[
+            {hicri:'H.1446',baslangic:new Date('2025-03-01'),bitis:new Date('2025-03-30')},
+            {hicri:'H.1447',baslangic:new Date('2026-02-18'),bitis:new Date('2026-03-19')},
+            {hicri:'H.1448',baslangic:new Date('2027-02-08'),bitis:new Date('2027-03-09')},
+        ];
+        window._rsTimer = window._rsTimer || null;
+        function _getSonrakiR(){const n=new Date();for(const r of _RT){if(n<=r.bitis)return r;}return _RT[_RT.length-1];}
+        function startRamazanSayac(){
+            if(window._rsTimer)clearInterval(window._rsTimer);
+            _renderRsYillar();
+            function tick(){
+                const n=new Date(),r=_getSonrakiR();
+                const lEl=document.getElementById('rsayacLabel'),sEl=document.getElementById('rsayacSub');
+                if(n>=r.baslangic&&n<=r.bitis){if(lEl)lEl.textContent='🌙 Ramazan Devam Ediyor';_setRN(0,0,0,0);return;}
+                const diff=r.baslangic-n;if(diff<=0){if(lEl)lEl.textContent='🌙 Ramazan Başladı!';return;}
+                const g=Math.floor(diff/86400000),sa=Math.floor((diff%86400000)/3600000),d=Math.floor((diff%3600000)/60000),sn=Math.floor((diff%60000)/1000);
+                if(lEl)lEl.textContent="Bir Sonraki Ramazan'a";
+                if(sEl)sEl.textContent=`${r.hicri} · ${r.baslangic.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}`;
+                _setRN(g,sa,d,sn);
+            }
+            tick();window._rsTimer=setInterval(tick,1000);
+        }
+        function _setRN(g,s,d,sn){['rsayacGun','rsayacSaat','rsayacDakika','rsayacSaniye'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=String([g,s,d,sn][i]).padStart(2,'0');});}
+        function _renderRsYillar(){
+            const cont=document.getElementById('rsayacYillar');if(!cont)return;
+            const n=new Date();
+            cont.innerHTML=_RT.map(r=>{const ak=n>=r.baslangic&&n<=r.bitis,gc=n>r.bitis;return`<div class="rsayac-yil-row ${ak?'aktif':''} ${gc?'gecmis':''}"><div class="ry-left"><span class="ry-hicri">${r.hicri}</span><span class="ry-tarih">${r.baslangic.toLocaleDateString('tr-TR',{day:'numeric',month:'long'})} – ${r.bitis.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}</span></div><span class="ry-badge ${ak?'ry-badge-aktif':gc?'ry-badge-gecmis':'ry-badge-gelecek'}">${ak?'🌙 Aktif':gc?'Geçti':'Yaklaşıyor'}</span></div>`;}).join('');
+        }
+        function toggleHazirlik(el,key){
+            const ch=JSON.parse(localStorage.getItem('rsayac_hazirlik')||'{}');
+            ch[key]=!ch[key];localStorage.setItem('rsayac_hazirlik',JSON.stringify(ch));
+            el.classList.toggle('rh-done',!!ch[key]);
+            const ic=el.querySelector('.rh-check');if(ic)ic.className=`fas fa-${ch[key]?'check-circle':'circle'} rh-check`;
+            if(ch[key]&&navigator.vibrate)navigator.vibrate(40);
+        }
+        function _initHazirlik(){
+            const ch=JSON.parse(localStorage.getItem('rsayac_hazirlik')||'{}');
+            document.querySelectorAll('.rsayac-hazirlik-item').forEach(el=>{
+                const m=el.getAttribute('onclick').match(/'([^']+)'\)$/);
+                if(m&&ch[m[1]]){el.classList.add('rh-done');const ic=el.querySelector('.rh-check');if(ic)ic.className='fas fa-check-circle rh-check';}
+            });
+        }
+
+        /* ══════ KUR'AN SURELER ══════ */
+        const _SURELER=[{no:1,ad:'Fatiha',ayet:7},{no:2,ad:'Bakara',ayet:286},{no:3,ad:'Âl-i İmrân',ayet:200},{no:4,ad:'Nisâ',ayet:176},{no:5,ad:'Mâide',ayet:120},{no:6,ad:'Enâm',ayet:165},{no:7,ad:'A\'râf',ayet:206},{no:8,ad:'Enfâl',ayet:75},{no:9,ad:'Tevbe',ayet:129},{no:10,ad:'Yûnus',ayet:109},{no:11,ad:'Hûd',ayet:123},{no:12,ad:'Yûsuf',ayet:111},{no:13,ad:'Ra\'d',ayet:43},{no:14,ad:'İbrâhîm',ayet:52},{no:15,ad:'Hicr',ayet:99},{no:16,ad:'Nahl',ayet:128},{no:17,ad:'İsrâ',ayet:111},{no:18,ad:'Kehf',ayet:110},{no:19,ad:'Meryem',ayet:98},{no:20,ad:'Tâhâ',ayet:135},{no:21,ad:'Enbiyâ',ayet:112},{no:22,ad:'Hac',ayet:78},{no:23,ad:'Mü\'minûn',ayet:118},{no:24,ad:'Nûr',ayet:64},{no:25,ad:'Furkân',ayet:77},{no:26,ad:'Şuarâ',ayet:227},{no:27,ad:'Neml',ayet:93},{no:28,ad:'Kasas',ayet:88},{no:29,ad:'Ankebût',ayet:69},{no:30,ad:'Rûm',ayet:60},{no:31,ad:'Lokmân',ayet:34},{no:32,ad:'Secde',ayet:30},{no:33,ad:'Ahzâb',ayet:73},{no:34,ad:'Sebe',ayet:54},{no:35,ad:'Fâtır',ayet:45},{no:36,ad:'Yâsin',ayet:83},{no:37,ad:'Sâffât',ayet:182},{no:38,ad:'Sâd',ayet:88},{no:39,ad:'Zümer',ayet:75},{no:40,ad:'Mü\'min',ayet:85},{no:41,ad:'Fussilet',ayet:54},{no:42,ad:'Şûrâ',ayet:53},{no:43,ad:'Zuhruf',ayet:89},{no:44,ad:'Duhân',ayet:59},{no:45,ad:'Câsiye',ayet:37},{no:46,ad:'Ahkâf',ayet:35},{no:47,ad:'Muhammed',ayet:38},{no:48,ad:'Fetih',ayet:29},{no:49,ad:'Hucurât',ayet:18},{no:50,ad:'Kâf',ayet:45},{no:51,ad:'Zâriyât',ayet:60},{no:52,ad:'Tûr',ayet:49},{no:53,ad:'Necm',ayet:62},{no:54,ad:'Kamer',ayet:55},{no:55,ad:'Rahmân',ayet:78},{no:56,ad:'Vâkıa',ayet:96},{no:57,ad:'Hadîd',ayet:29},{no:58,ad:'Mücâdele',ayet:22},{no:59,ad:'Haşr',ayet:24},{no:60,ad:'Mümtehine',ayet:13},{no:61,ad:'Saf',ayet:14},{no:62,ad:'Cuma',ayet:11},{no:63,ad:'Münâfikûn',ayet:11},{no:64,ad:'Tegâbün',ayet:18},{no:65,ad:'Talâk',ayet:12},{no:66,ad:'Tahrîm',ayet:12},{no:67,ad:'Mülk',ayet:30},{no:68,ad:'Kalem',ayet:52},{no:69,ad:'Hâkka',ayet:52},{no:70,ad:'Meâric',ayet:44},{no:71,ad:'Nûh',ayet:28},{no:72,ad:'Cin',ayet:28},{no:73,ad:'Müzzemmil',ayet:20},{no:74,ad:'Müddessir',ayet:56},{no:75,ad:'Kıyâme',ayet:40},{no:76,ad:'İnsân',ayet:31},{no:77,ad:'Mürselât',ayet:50},{no:78,ad:'Nebe',ayet:40},{no:79,ad:'Nâzi\'ât',ayet:46},{no:80,ad:'Abese',ayet:42},{no:81,ad:'Tekvîr',ayet:29},{no:82,ad:'İnfitâr',ayet:19},{no:83,ad:'Mutaffifîn',ayet:36},{no:84,ad:'İnşikâk',ayet:25},{no:85,ad:'Burûc',ayet:22},{no:86,ad:'Târık',ayet:17},{no:87,ad:'A\'lâ',ayet:19},{no:88,ad:'Gâşiye',ayet:26},{no:89,ad:'Fecr',ayet:30},{no:90,ad:'Beled',ayet:20},{no:91,ad:'Şems',ayet:15},{no:92,ad:'Leyl',ayet:21},{no:93,ad:'Duhâ',ayet:11},{no:94,ad:'İnşirâh',ayet:8},{no:95,ad:'Tîn',ayet:8},{no:96,ad:'Alak',ayet:19},{no:97,ad:'Kadr',ayet:5},{no:98,ad:'Beyyine',ayet:8},{no:99,ad:'Zilzâl',ayet:8},{no:100,ad:'Âdiyât',ayet:11},{no:101,ad:'Kâria',ayet:11},{no:102,ad:'Tekâsür',ayet:8},{no:103,ad:'Asr',ayet:3},{no:104,ad:'Hümeze',ayet:9},{no:105,ad:'Fîl',ayet:5},{no:106,ad:'Kureyş',ayet:4},{no:107,ad:'Mâûn',ayet:7},{no:108,ad:'Kevser',ayet:3},{no:109,ad:'Kâfirûn',ayet:6},{no:110,ad:'Nasr',ayet:3},{no:111,ad:'Tebbet',ayet:5},{no:112,ad:'İhlâs',ayet:4},{no:113,ad:'Felak',ayet:5},{no:114,ad:'Nâs',ayet:6}];
+        function renderSureler(liste){const g=document.getElementById('kuranSurelerGrid');if(!g)return;g.innerHTML=liste.map(s=>`<a href="https://kuran.diyanet.gov.tr/mushaf#${s.no}" target="_blank" class="kuran-sure-kart"><span class="ks-no">${s.no}</span><span class="ks-info"><span class="ks-ad">${s.ad}</span><span class="ks-ayet">${s.ayet} ayet</span></span></a>`).join('');}
+        function filterSureler(q){renderSureler(_SURELER.filter(s=>s.ad.toLowerCase().includes(q.toLowerCase())||String(s.no).includes(q)));}
+
+        /* ══════ SEKME GEÇİŞ HOOK ══════ */
+        const _origST=switchTab;
+        switchTab=function(tabId){
+            _origST(tabId);
+            if(tabId==='tab-ramazan-sayac'){
+                startRamazanSayac();setTimeout(_initHazirlik,100);
+            } else if(window._rsTimer){
+                // Ramazan sayacı sekmesinden çıkıldı: gereksiz arka plan sayacını durdur
+                clearInterval(window._rsTimer); window._rsTimer = null;
+            }
+            if(tabId==='tab-kuran'){setTimeout(()=>renderSureler(_SURELER),100);}
+            if(tabId==='tab-namaz-rehberi'){setTimeout(()=>renderNamazRehber(_aktifNamaz),100);}
+        };
 
 
     </script>
@@ -2731,6 +3195,207 @@
                 var btn = e.target.closest('.nav-item, .tool-btn, [onclick*="switchTab"], [onclick*="handleDrawerNav"]');
                 if (btn) { setTimeout(mgPushAds, 600); }
             });
+        });
+    })();
+    </script>
+
+    <!-- ════ TEMA SEÇİCİ MODAL ════ -->
+    <div id="temaSekiciModal" onclick="closeTemaSekici(event)">
+        <div class="tema-modal-inner" onclick="event.stopPropagation()">
+            <div class="tema-modal-handle"></div>
+            <div class="tema-modal-title">
+                <i class="fas fa-palette" style="color:var(--gold-text);"></i>
+                Tema Seç
+            </div>
+            <div class="tema-grid">
+                <!-- TEMA 1 -->
+                <div class="tema-kart" id="temaKart1" onclick="setTema('tema1')">
+                    <div class="tema-preview tema-p1">
+                        <div class="tema-preview-counter" style="color:#fcd34d;">00:57</div>
+                        <div class="tema-preview-label" style="color:#94a3b8;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#818cf8;"></span>
+                            <span style="background:#fbbf24;"></span>
+                            <span style="background:#f97316;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#030918; color:#94a3b8;">🌙 Klasik Gece</div>
+                </div>
+                <!-- TEMA 2 -->
+                <div class="tema-kart" id="temaKart2" onclick="setTema('tema2')">
+                    <div class="tema-preview tema-p2">
+                        <div class="tema-preview-counter" style="color:#2dd4bf;">00:57</div>
+                        <div class="tema-preview-label" style="color:#94a3b8;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#818cf8;"></span>
+                            <span style="background:#2dd4bf;"></span>
+                            <span style="background:#34d399;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#0b1c20; color:#2dd4bf;">🩵 Teal</div>
+                </div>
+                <!-- TEMA 3 -->
+                <div class="tema-kart" id="temaKart3" onclick="setTema('tema3')">
+                    <div class="tema-preview tema-p3">
+                        <div class="tema-preview-counter" style="color:#d97706;">00:57</div>
+                        <div class="tema-preview-label" style="color:#64748b;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#d97706;"></span>
+                            <span style="background:#f59e0b;"></span>
+                            <span style="background:#b45309;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#e9eef4; color:#64748b;">☀️ Beyaz</div>
+                </div>
+                <!-- TEMA 4 -->
+                <div class="tema-kart" id="temaKart4" onclick="setTema('tema4')">
+                    <div class="tema-preview tema-p4">
+                        <div class="tema-preview-counter" style="color:#34d399;">00:57</div>
+                        <div class="tema-preview-label" style="color:#6ee7b7;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#10b981;"></span>
+                            <span style="background:#34d399;"></span>
+                            <span style="background:#6ee7b7;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#051510; color:#6ee7b7;">🌿 Zümrüt</div>
+                </div>
+                <!-- TEMA 5 -->
+                <div class="tema-kart" id="temaKart5" onclick="setTema('tema5')">
+                    <div class="tema-preview tema-p5">
+                        <div class="tema-preview-counter" style="color:#a78bfa;">00:57</div>
+                        <div class="tema-preview-label" style="color:#c4b5fd;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#7c3aed;"></span>
+                            <span style="background:#a78bfa;"></span>
+                            <span style="background:#c4b5fd;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#0e0620; color:#c4b5fd;">💜 Lila</div>
+                </div>
+                <!-- TEMA 6 -->
+                <div class="tema-kart" id="temaKart6" onclick="setTema('tema6')">
+                    <div class="tema-preview tema-p6">
+                        <div class="tema-preview-counter" style="color:#fca5a5;">00:57</div>
+                        <div class="tema-preview-label" style="color:#fca5a5;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#dc2626;"></span>
+                            <span style="background:#fca5a5;"></span>
+                            <span style="background:#fecaca;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#180406; color:#fca5a5;">❤️ Bordo</div>
+                </div>
+                <!-- TEMA 7 -->
+                <div class="tema-kart" id="temaKart7" onclick="setTema('tema7')">
+                    <div class="tema-preview tema-p7" style="background:linear-gradient(135deg,#1c1410,#2a1f17);">
+                        <div class="tema-preview-counter" style="color:#fbbf24;">00:57</div>
+                        <div class="tema-preview-label" style="color:#d6b89a;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#b45309;"></span>
+                            <span style="background:#fbbf24;"></span>
+                            <span style="background:#fde68a;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#20160f; color:#fbbf24;">☕ Kahve</div>
+                </div>
+                <!-- TEMA 8 -->
+                <div class="tema-kart" id="temaKart8" onclick="setTema('tema8')">
+                    <div class="tema-preview tema-p8" style="background:linear-gradient(135deg,#04111c,#0a2436);">
+                        <div class="tema-preview-counter" style="color:#38bdf8;">00:57</div>
+                        <div class="tema-preview-label" style="color:#93c5fd;">vaktin çıkmasına</div>
+                        <div class="tema-preview-bar">
+                            <span style="background:#0284c7;"></span>
+                            <span style="background:#38bdf8;"></span>
+                            <span style="background:#7dd3fc;"></span>
+                        </div>
+                    </div>
+                    <div class="tema-label" style="background:#06192a; color:#38bdf8;">🌊 Okyanus</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ════ TEMA SEÇİCİ JAVASCRIPT ════ -->
+    <script>
+    (function() {
+        /* ── Tema uygula ── */
+        function applyTema(t) {
+            document.body.setAttribute('data-theme', t);
+            localStorage.setItem('mugol_tema', t);
+            // Aktif kart işaretle
+            document.querySelectorAll('.tema-kart').forEach(function(k) {
+                k.classList.remove('aktif');
+            });
+            var aktif = document.getElementById('temaKart' + t.replace('tema', ''));
+            if (aktif) aktif.classList.add('aktif');
+        }
+
+        window.setTema = function(t) {
+            applyTema(t);
+            // Küçük dokunuş geri bildirimi
+            if (navigator.vibrate) navigator.vibrate(30);
+        };
+
+        window.openTemaSekici = function() {
+            var m = document.getElementById('temaSekiciModal');
+            m.classList.add('show');
+            // Light mode durumunu güncelle
+            updateLightModeUI();
+        };
+
+        window.closeTemaSekici = function(e) {
+            if (!e || e.target === document.getElementById('temaSekiciModal')) {
+                document.getElementById('temaSekiciModal').classList.remove('show');
+            }
+        };
+
+        window.toggleThemeFromModal = function() {
+            // Mevcut toggleTheme fonksiyonunu çağır
+            if (typeof toggleTheme === 'function') toggleTheme();
+            setTimeout(updateLightModeUI, 50);
+        };
+
+        function updateLightModeUI() {
+            var isLight = document.body.classList.contains('light-mode');
+            var lbl = document.getElementById('lightModeLabel');
+            var thumb = document.getElementById('lightModeThumb');
+            var toggle = document.getElementById('lightModeToggle');
+            if (lbl) lbl.textContent = isLight ? 'Şu an: Açık' : 'Şu an: Koyu';
+            if (thumb) {
+                thumb.style.transform = isLight ? 'translateX(22px)' : 'translateX(0)';
+                thumb.style.background = isLight ? '#fcd34d' : '#94a3b8';
+            }
+            if (toggle) toggle.style.background = isLight ? 'rgba(252,211,77,0.3)' : 'var(--glass-border)';
+        }
+
+        /* ── Kayıtlı temayı yükle ── */
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedTema = localStorage.getItem('mugol_tema') || 'tema1';
+            applyTema(savedTema);
+            updateLightModeUI();
+
+            // Light mode değişimlerini izle (MutationObserver)
+            var observer = new MutationObserver(function() { updateLightModeUI(); });
+            observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        });
+
+        /* ── Swipe ile modal kapat ── */
+        var startY = 0;
+        var modalInner = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            modalInner = document.querySelector('.tema-modal-inner');
+            if (!modalInner) return;
+            modalInner.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            modalInner.addEventListener('touchmove', function(e) {
+                var dy = e.touches[0].clientY - startY;
+                if (dy > 60) {
+                    window.closeTemaSekici();
+                }
+            }, { passive: true });
         });
     })();
     </script>
