@@ -1258,7 +1258,13 @@
         let currentTextScale = parseFloat(localStorage.getItem('mugolTextScale')) || 1.0;
         function initSettings() {
             const savedTheme = localStorage.getItem('mugolTheme');
-            if(savedTheme === 'light') { document.body.classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i>'; document.getElementById('themeColorMeta').setAttribute('content', '#f1f5f9'); }
+            if(savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                const btn = document.getElementById('themeBtn');
+                if (btn) btn.innerHTML = '<i class="fas fa-moon"></i>';
+                const meta = document.getElementById('themeColorMeta');
+                if (meta) meta.setAttribute('content', '#f1f5f9');
+            }
             document.documentElement.style.setProperty('--read-scale', currentTextScale);
         }
         function toggleTheme() {
@@ -1269,22 +1275,26 @@
     // Tema3 (beyaz) ise, light-mode class'ı değil tema'yı değiştir
     if (currentThema === 'tema3') {
         if (typeof setTema === 'function') setTema('tema1');
-        btn.innerHTML = '<i class="fas fa-sun"></i>';
+        if (btn) btn.innerHTML = '<i class="fas fa-sun"></i>';
         return;
     }
     body.classList.toggle('light-mode');
     if(body.classList.contains('light-mode')) {
         localStorage.setItem('mugolTheme', 'light');
-        btn.innerHTML = '<i class="fas fa-moon"></i>';
-        meta.setAttribute('content', '#f1f5f9');
+        if (btn) btn.innerHTML = '<i class="fas fa-moon"></i>';
+        if (meta) meta.setAttribute('content', '#f1f5f9');
     } else {
         localStorage.setItem('mugolTheme', 'dark');
-        btn.innerHTML = '<i class="fas fa-sun"></i>';
-        meta.setAttribute('content', '#020617');
+        if (btn) btn.innerHTML = '<i class="fas fa-sun"></i>';
+        if (meta) meta.setAttribute('content', '#020617');
     }
 }
         function changeFontSize(val) { currentTextScale += val; if(currentTextScale < 0.8) currentTextScale = 0.8; if(currentTextScale > 1.6) currentTextScale = 1.6; document.documentElement.style.setProperty('--read-scale', currentTextScale); localStorage.setItem('mugolTextScale', currentTextScale); }
-        initSettings();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSettings);
+        } else {
+            initSettings();
+        }
 
         let isVibrationEnabled = JSON.parse(localStorage.getItem('mugolVib')) ?? true;
         document.getElementById('vibStatus').innerText = isVibrationEnabled ? 'Açık' : 'Kapalı';
@@ -1814,26 +1824,31 @@
 
         window.onload = () => {
             document.getElementById('dateText').innerText = new Date().toLocaleDateString('tr-TR', {day:'numeric', month:'long', weekday:'long'});
-            
-            // Verileri Yükle
-            fetchSozler(); 
-            fetchPeygamberler(); 
-            fetchSureler(); 
-            fetchCumaSozler();
-            loadCumaKartlar(); 
-            
-            shuffleEsma(); renderTesbihat(); renderDualar(); renderCuz();
-            renderZikirs(); renderKaza(); renderEvents(); renderSoundSettings();
 
-            const todayIndex = Math.floor(Date.now() / 86400000) % sunnahList.length;
-            document.getElementById('dailySunnah').innerText = sunnahList[todayIndex];
-            renderDailyHadis();
-
+            // ÖNCELİK: Vakit ekranını (sayaç, imsak/güneş/öğle) en hızlı şekilde göster.
+            // Şehir listesini kur ve vakit verisini hemen çekmeye başla.
             const sel = document.getElementById('citySelect'); sel.innerHTML = ""; cities.sort((a,b)=>a.n.localeCompare(b.n,'tr'));
             cities.forEach(x => { let op = document.createElement('option'); op.value = x.c; op.text = x.n; sel.add(op); });
             const saved = localStorage.getItem('mugolCity') || "Istanbul"; sel.value = saved;
             sel.onchange = () => { localStorage.setItem('mugolCity', sel.value); getData(sel.value); }
             getData(saved);
+
+            // İKİNCİL: Diğer sekmeler/içerikler (Ayetler, Kur'an, Cuma kartları vb.) hemen
+            // gerekli değil; ana thread'i bloklamamak için bir sonraki tick'e ertelenir.
+            setTimeout(() => {
+                fetchSozler();
+                fetchPeygamberler();
+                fetchSureler();
+                fetchCumaSozler();
+                loadCumaKartlar();
+
+                shuffleEsma(); renderTesbihat(); renderDualar(); renderCuz();
+                renderZikirs(); renderKaza(); renderEvents(); renderSoundSettings();
+
+                const todayIndex = Math.floor(Date.now() / 86400000) % sunnahList.length;
+                document.getElementById('dailySunnah').innerText = sunnahList[todayIndex];
+                renderDailyHadis();
+            }, 0);
         };
 
         const esmaList =[{ar:"الله", tr:"Allah", m:"Eşi benzeri olmayan tek ilah."},{ar:"الرَّحْمَن", tr:"Er-Rahman", m:"Bütün mahlükata merhamet eden."},{ar:"الْمَلِك", tr:"El-Melik", m:"Mülkün gerçek sahibi."}];
@@ -1858,16 +1873,62 @@
             const ldr=document.getElementById('loader');
             ldr.style.display='block'; ldr.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Veriler Yükleniyor...';
             const now=new Date(), ikck=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`, lsKey=`mugol_vc_${cityValue}_${ikck}`;
+
+            // ADIM 1: Ekranın asla boş/donmuş kalmaması için HEMEN bir şey göster.
+            let shownImmediately = false;
             try {
-                const cached=localStorage.getItem(lsKey);
-                if(cached){const p=JSON.parse(cached);if(p&&p.length>0){monthlyDataCache=p;imsakiyeDataCache[ikck]=p;updateForToday(p);ldr.style.display='none';setTimeout(async()=>{try{const r=await _fetchT(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityValue)}&country=Turkey&method=13&month=${now.getMonth()+1}&year=${now.getFullYear()}`,12000);const j=await r.json();if(j.code===200&&j.data?.length>0){const f=j.data.map(i=>aladhanToDiyanetFormat(i));monthlyDataCache=f;imsakiyeDataCache[ikck]=f;localStorage.setItem(lsKey,JSON.stringify(f));updateForToday(f);}}catch(e){}},1500);return;}}
+                const cached = localStorage.getItem(lsKey);
+                if (cached) {
+                    const p = JSON.parse(cached);
+                    if (p && p.length > 0) {
+                        monthlyDataCache = p; imsakiyeDataCache[ikck] = p;
+                        updateForToday(p);
+                        shownImmediately = true;
+                    }
+                }
             } catch(e) {}
-            let ok=false;
-            if(!ok){try{const r=await _fetchT(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityValue)}&country=Turkey&method=13&month=${now.getMonth()+1}&year=${now.getFullYear()}`,10000);const j=await r.json();if(j.code===200&&j.data?.length>0){monthlyDataCache=j.data.map(i=>aladhanToDiyanetFormat(i));imsakiyeDataCache[ikck]=monthlyDataCache;try{localStorage.setItem(lsKey,JSON.stringify(monthlyDataCache));}catch(e){}updateForToday(monthlyDataCache);ok=true;}}catch(e){}}
-            if(!ok){try{const dData=await denemeDiyanetFetch(cityValue);monthlyDataCache=dData;imsakiyeDataCache[ikck]=dData;try{localStorage.setItem(lsKey,JSON.stringify(dData));}catch(e){}updateForToday(dData);ok=true;}catch(e){}}
-            if(!ok){try{const vData=await fallbackVercelFetch(cityValue);monthlyDataCache=vData;imsakiyeDataCache[ikck]=vData;try{localStorage.setItem(lsKey,JSON.stringify(vData));}catch(e){}updateForToday(vData);ok=true;}catch(e){}}
-            if(!ok){const off=_getOfflineVakit();monthlyDataCache=off;updateForToday(off);try{showToast('⚠️ Bağlantı yok — yaklaşık vakitler gösteriliyor','fa-triangle-exclamation');}catch(e){}}
-            ldr.style.display='none'; ldr.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Veriler Güncelleniyor...';
+            if (!shownImmediately) {
+                const off = _getOfflineVakit();
+                monthlyDataCache = off;
+                updateForToday(off);
+            }
+            ldr.style.display='none';
+
+            // ADIM 2: Arka planda güncel veriyi çekmeyi dene (kullanıcıyı bekletmeden).
+            const aladhanUrl = `https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityValue)}&country=Turkey&method=13&month=${now.getMonth()+1}&year=${now.getFullYear()}`;
+
+            const tryAladhan = async () => {
+                const r = await _fetchT(aladhanUrl, 7000);
+                const j = await r.json();
+                if (j.code === 200 && j.data?.length > 0) return j.data.map(i => aladhanToDiyanetFormat(i));
+                throw new Error('Aladhan boş döndü');
+            };
+            const tryDiyanet = () => _withTimeout(denemeDiyanetFetch(cityValue), 9000);
+            const tryVercel = () => _withTimeout(fallbackVercelFetch(cityValue), 7000);
+
+            const sources = [tryAladhan, tryDiyanet, tryVercel];
+            for (const src of sources) {
+                try {
+                    const data = await src();
+                    if (data && data.length > 0) {
+                        monthlyDataCache = data; imsakiyeDataCache[ikck] = data;
+                        try { localStorage.setItem(lsKey, JSON.stringify(data)); } catch(e) {}
+                        updateForToday(data);
+                        return;
+                    }
+                } catch(e) { /* sıradaki kaynağa geç */ }
+            }
+
+            if (!shownImmediately) {
+                try { showToast('⚠️ Bağlantı yok — yaklaşık vakitler gösteriliyor', 'fa-triangle-exclamation'); } catch(e) {}
+            }
+        }
+
+        function _withTimeout(promise, ms) {
+            return Promise.race([
+                promise,
+                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+            ]);
         }
         function updateForToday(dataArray) { let d = new Date(); let todayStr = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; let todayData = dataArray.find(v => v.MiladiTarihKisa === todayStr) || dataArray[0]; updateView(todayData); }
         
@@ -1897,6 +1958,7 @@
             const tr = {'Imsak':'İmsak','Sunrise':'Güneş','Dhuhr':'Öğle','Asr':'İkindi','Maghrib':'Akşam','Isha':'Yatsı'}; 
             const dayStr = new Date().toDateString();
             function tick() { 
+              try {
                 let now = new Date(); 
                 // Gün değişti mi? (gece yarısını geçtiyse vakitleri yeniden çek)
                 if (now.toDateString() !== dayStr) {
@@ -1919,15 +1981,22 @@
                     } 
                 } 
                 for(let k in times) { 
+                    if (!times[k] || typeof times[k] !== 'string' || times[k].indexOf(':') === -1) continue;
                     let[h,m] = times[k].split(':'); let d = new Date(); d.setHours(h,m,0,0); let diff = d - now; 
                     if(diff > 0 && diff < min) { min = diff; target = d; name = k; } 
                 } 
-                if(!target) { let[h,m] = times['Imsak'].split(':'); target = new Date(); target.setDate(target.getDate()+1); target.setHours(h,m,0,0); name = 'Imsak'; } 
+                if(!target && times['Imsak'] && times['Imsak'].indexOf(':') !== -1) { let[h,m] = times['Imsak'].split(':'); target = new Date(); target.setDate(target.getDate()+1); target.setHours(h,m,0,0); name = 'Imsak'; } 
+                if(!target) { document.getElementById('counter').innerText = '--:--:--'; return; }
                 document.getElementById('nextName').innerText = tr[name]; document.querySelectorAll('.v-box').forEach(x=>x.classList.remove('active')); 
                 let ab = document.getElementById('box-'+name); if(ab) ab.classList.add('active'); 
                 let rem = target - now; let h = Math.floor(rem/3600000); let m = Math.floor((rem%3600000)/60000); let s = Math.floor((rem%60000)/1000); 
                 document.getElementById('counter').innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`; 
                 document.getElementById('infoBadge').innerHTML = `<i class="fas fa-clock"></i> Hedef: ${times[name]}`; 
+              } catch(err) {
+                // Beklenmedik bir hata olursa sayaç sessizce takılı kalmasın,
+                // en azından interval canlı kalsın ve bir sonraki saniyede tekrar denensin.
+                console.error('Sayaç hatası:', err);
+              }
             } 
             tick(); timerInt = setInterval(tick, 1000); 
         }
@@ -3150,7 +3219,18 @@
 
         /* ══════ KUR'AN SURELER ══════ */
         const _SURELER=[{no:1,ad:'Fatiha',ayet:7},{no:2,ad:'Bakara',ayet:286},{no:3,ad:'Âl-i İmrân',ayet:200},{no:4,ad:'Nisâ',ayet:176},{no:5,ad:'Mâide',ayet:120},{no:6,ad:'Enâm',ayet:165},{no:7,ad:'A\'râf',ayet:206},{no:8,ad:'Enfâl',ayet:75},{no:9,ad:'Tevbe',ayet:129},{no:10,ad:'Yûnus',ayet:109},{no:11,ad:'Hûd',ayet:123},{no:12,ad:'Yûsuf',ayet:111},{no:13,ad:'Ra\'d',ayet:43},{no:14,ad:'İbrâhîm',ayet:52},{no:15,ad:'Hicr',ayet:99},{no:16,ad:'Nahl',ayet:128},{no:17,ad:'İsrâ',ayet:111},{no:18,ad:'Kehf',ayet:110},{no:19,ad:'Meryem',ayet:98},{no:20,ad:'Tâhâ',ayet:135},{no:21,ad:'Enbiyâ',ayet:112},{no:22,ad:'Hac',ayet:78},{no:23,ad:'Mü\'minûn',ayet:118},{no:24,ad:'Nûr',ayet:64},{no:25,ad:'Furkân',ayet:77},{no:26,ad:'Şuarâ',ayet:227},{no:27,ad:'Neml',ayet:93},{no:28,ad:'Kasas',ayet:88},{no:29,ad:'Ankebût',ayet:69},{no:30,ad:'Rûm',ayet:60},{no:31,ad:'Lokmân',ayet:34},{no:32,ad:'Secde',ayet:30},{no:33,ad:'Ahzâb',ayet:73},{no:34,ad:'Sebe',ayet:54},{no:35,ad:'Fâtır',ayet:45},{no:36,ad:'Yâsin',ayet:83},{no:37,ad:'Sâffât',ayet:182},{no:38,ad:'Sâd',ayet:88},{no:39,ad:'Zümer',ayet:75},{no:40,ad:'Mü\'min',ayet:85},{no:41,ad:'Fussilet',ayet:54},{no:42,ad:'Şûrâ',ayet:53},{no:43,ad:'Zuhruf',ayet:89},{no:44,ad:'Duhân',ayet:59},{no:45,ad:'Câsiye',ayet:37},{no:46,ad:'Ahkâf',ayet:35},{no:47,ad:'Muhammed',ayet:38},{no:48,ad:'Fetih',ayet:29},{no:49,ad:'Hucurât',ayet:18},{no:50,ad:'Kâf',ayet:45},{no:51,ad:'Zâriyât',ayet:60},{no:52,ad:'Tûr',ayet:49},{no:53,ad:'Necm',ayet:62},{no:54,ad:'Kamer',ayet:55},{no:55,ad:'Rahmân',ayet:78},{no:56,ad:'Vâkıa',ayet:96},{no:57,ad:'Hadîd',ayet:29},{no:58,ad:'Mücâdele',ayet:22},{no:59,ad:'Haşr',ayet:24},{no:60,ad:'Mümtehine',ayet:13},{no:61,ad:'Saf',ayet:14},{no:62,ad:'Cuma',ayet:11},{no:63,ad:'Münâfikûn',ayet:11},{no:64,ad:'Tegâbün',ayet:18},{no:65,ad:'Talâk',ayet:12},{no:66,ad:'Tahrîm',ayet:12},{no:67,ad:'Mülk',ayet:30},{no:68,ad:'Kalem',ayet:52},{no:69,ad:'Hâkka',ayet:52},{no:70,ad:'Meâric',ayet:44},{no:71,ad:'Nûh',ayet:28},{no:72,ad:'Cin',ayet:28},{no:73,ad:'Müzzemmil',ayet:20},{no:74,ad:'Müddessir',ayet:56},{no:75,ad:'Kıyâme',ayet:40},{no:76,ad:'İnsân',ayet:31},{no:77,ad:'Mürselât',ayet:50},{no:78,ad:'Nebe',ayet:40},{no:79,ad:'Nâzi\'ât',ayet:46},{no:80,ad:'Abese',ayet:42},{no:81,ad:'Tekvîr',ayet:29},{no:82,ad:'İnfitâr',ayet:19},{no:83,ad:'Mutaffifîn',ayet:36},{no:84,ad:'İnşikâk',ayet:25},{no:85,ad:'Burûc',ayet:22},{no:86,ad:'Târık',ayet:17},{no:87,ad:'A\'lâ',ayet:19},{no:88,ad:'Gâşiye',ayet:26},{no:89,ad:'Fecr',ayet:30},{no:90,ad:'Beled',ayet:20},{no:91,ad:'Şems',ayet:15},{no:92,ad:'Leyl',ayet:21},{no:93,ad:'Duhâ',ayet:11},{no:94,ad:'İnşirâh',ayet:8},{no:95,ad:'Tîn',ayet:8},{no:96,ad:'Alak',ayet:19},{no:97,ad:'Kadr',ayet:5},{no:98,ad:'Beyyine',ayet:8},{no:99,ad:'Zilzâl',ayet:8},{no:100,ad:'Âdiyât',ayet:11},{no:101,ad:'Kâria',ayet:11},{no:102,ad:'Tekâsür',ayet:8},{no:103,ad:'Asr',ayet:3},{no:104,ad:'Hümeze',ayet:9},{no:105,ad:'Fîl',ayet:5},{no:106,ad:'Kureyş',ayet:4},{no:107,ad:'Mâûn',ayet:7},{no:108,ad:'Kevser',ayet:3},{no:109,ad:'Kâfirûn',ayet:6},{no:110,ad:'Nasr',ayet:3},{no:111,ad:'Tebbet',ayet:5},{no:112,ad:'İhlâs',ayet:4},{no:113,ad:'Felak',ayet:5},{no:114,ad:'Nâs',ayet:6}];
-        function renderSureler(liste){const g=document.getElementById('kuranSurelerGrid');if(!g)return;g.innerHTML=liste.map(s=>`<a href="https://kuran.diyanet.gov.tr/mushaf#${s.no}" target="_blank" class="kuran-sure-kart"><span class="ks-no">${s.no}</span><span class="ks-info"><span class="ks-ad">${s.ad}</span><span class="ks-ayet">${s.ayet} ayet</span></span></a>`).join('');}
+        function _sureSlug(ad){
+            // Diyanet mushaf URL'i Türkçe karakterleri ve aksanları sadeleştirilmiş,
+            // kesme işaretsiz, küçük harfli bir slug bekliyor (örn. "A'râf" -> "araf", "Fâtiha" -> "fatiha").
+            return ad
+                .toLocaleLowerCase('tr-TR')
+                .replace(/['’]/g, '')
+                .replace(/â/g, 'a').replace(/î/g, 'i').replace(/û/g, 'u').replace(/ô/g, 'o').replace(/ê/g, 'e')
+                .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+        function renderSureler(liste){const g=document.getElementById('kuranSurelerGrid');if(!g)return;g.innerHTML=liste.map(s=>`<a href="https://kuran.diyanet.gov.tr/mushaf/kuran-meal-2/${_sureSlug(s.ad)}-suresi-${s.no}/ayet-1/diyanet-isleri-baskanligi-meali-1" target="_blank" class="kuran-sure-kart"><span class="ks-no">${s.no}</span><span class="ks-info"><span class="ks-ad">${s.ad}</span><span class="ks-ayet">${s.ayet} ayet</span></span></a>`).join('');}
         function filterSureler(q){renderSureler(_SURELER.filter(s=>s.ad.toLowerCase().includes(q.toLowerCase())||String(s.no).includes(q)));}
 
         /* ══════ SEKME GEÇİŞ HOOK ══════ */
