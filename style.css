@@ -3935,247 +3935,10 @@ body.light-mode .kuran-sure-kart{background:rgba(255,255,255,.9);border-color:rg
 body.light-mode .kuran-link-item{background:rgba(255,255,255,.9);border-color:rgba(0,0,0,.09)}
 body.light-mode .ks-no{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.15)}
 
-/* ════════════════════════════════════════════════
-   EZAN VAKTİ PRO — TEMA SİSTEMİ & GÖRSEL GELİŞTİRMELER
-   ════════════════════════════════════════════════ */
-
-/* ── TEMA 1: Klasik Gece (varsayılan) ── */
-body[data-theme="tema1"] {
-    --bg-deep: #020617;
-    --bg-grad-1: hsla(230,35%,6%,1);
-    --bg-grad-2: hsla(225,45%,14%,1);
-    --bg-grad-3: hsla(265,40%,16%,1);
-    --glass-surface: rgba(255,255,255,0.055);
-    --glass-border: rgba(255,255,255,0.10);
-    --gold-text: #fcd34d;
-    --gold-soft: rgba(252,211,77,0.15);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --modal-bg: #0b1120;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(255,255,255,0.09);
-    --shadow-color: rgba(2,6,23,0.55);
-    --shadow-gold: rgba(252,211,77,0.18);
-    --accent-glow: 0 0 32px rgba(252,211,77,0.22);
-    --box-active-bg: linear-gradient(160deg,rgba(179,135,40,0.18) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #fcd34d;
-    --theme-accent2: #b38728;
-    --nav-bg: rgba(11,17,32,0.88);
-    --timer-accent: linear-gradient(135deg,#bf953f,#fcd34d);
-}
-
-/* ── TEMA 2: Teal (Ezan Vakti Pro tarzı) ── */
-body[data-theme="tema2"] {
-    --bg-deep: #0a1a1e;
-    --bg-grad-1: hsla(190,60%,7%,1);
-    --bg-grad-2: hsla(185,55%,14%,1);
-    --bg-grad-3: hsla(175,50%,10%,1);
-    --glass-surface: rgba(0,200,170,0.06);
-    --glass-border: rgba(0,200,170,0.14);
-    --gold-text: #2dd4bf;
-    --gold-soft: rgba(45,212,191,0.15);
-    --text-main: #f0fdf4;
-    --text-muted: #94a3b8;
-    --modal-bg: #0d1f22;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(45,212,191,0.08);
-    --shadow-color: rgba(0,20,20,0.6);
-    --shadow-gold: rgba(45,212,191,0.2);
-    --accent-glow: 0 0 32px rgba(45,212,191,0.25);
-    --box-active-bg: linear-gradient(160deg,rgba(45,212,191,0.18) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #2dd4bf;
-    --theme-accent2: #0d9488;
-    --nav-bg: rgba(10,26,30,0.9);
-    --timer-accent: linear-gradient(135deg,#0d9488,#2dd4bf);
-    --gold-gradient: linear-gradient(135deg,#0d9488,#2dd4bf,#5eead4,#2dd4bf,#0d9488);
-}
-
-/* ── TEMA 3: Beyaz/Analog Saat (Tema 6 tarzı) ── */
-body[data-theme="tema3"] {
-    --bg-deep: #f0f4f8;
-    --bg-grad-1: hsla(215,40%,95%,1);
-    --bg-grad-2: hsla(210,35%,92%,1);
-    --bg-grad-3: hsla(220,30%,89%,1);
-    --glass-surface: rgba(255,255,255,0.85);
-    --glass-border: rgba(0,0,0,0.08);
-    --gold-text: #d97706;
-    --gold-soft: rgba(217,119,6,0.12);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --modal-bg: #f8fafc;
-    --input-bg: rgba(255,255,255,0.9);
-    --box-hover: rgba(255,255,255,0.98);
-    --shadow-color: rgba(0,0,0,0.10);
-    --shadow-gold: rgba(217,119,6,0.15);
-    --accent-glow: 0 0 20px rgba(217,119,6,0.12);
-    --box-active-bg: linear-gradient(160deg,rgba(217,119,6,0.12) 0%,rgba(255,255,255,0.8) 100%);
-    --theme-accent: #d97706;
-    --theme-accent2: #b45309;
-    --nav-bg: rgba(255,255,255,0.92);
-    --timer-accent: linear-gradient(135deg,#b45309,#d97706);
-    --gold-gradient: linear-gradient(135deg,#b45309,#d97706,#fbbf24,#d97706,#b45309);
-}
-
-/* ── TEMA 4: Koyu Yeşil / Zümrüt ── */
-body[data-theme="tema4"] {
-    --bg-deep: #051a10;
-    --bg-grad-1: hsla(145,65%,6%,1);
-    --bg-grad-2: hsla(150,55%,10%,1);
-    --bg-grad-3: hsla(155,45%,14%,1);
-    --glass-surface: rgba(16,185,129,0.06);
-    --glass-border: rgba(16,185,129,0.14);
-    --gold-text: #34d399;
-    --gold-soft: rgba(52,211,153,0.15);
-    --text-main: #ecfdf5;
-    --text-muted: #6ee7b7;
-    --modal-bg: #071a0e;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(16,185,129,0.08);
-    --shadow-color: rgba(0,15,8,0.65);
-    --shadow-gold: rgba(52,211,153,0.2);
-    --accent-glow: 0 0 32px rgba(52,211,153,0.22);
-    --box-active-bg: linear-gradient(160deg,rgba(52,211,153,0.15) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #34d399;
-    --theme-accent2: #059669;
-    --nav-bg: rgba(5,20,10,0.92);
-    --timer-accent: linear-gradient(135deg,#059669,#34d399);
-    --gold-gradient: linear-gradient(135deg,#059669,#34d399,#6ee7b7,#34d399,#059669);
-}
-
-/* ── TEMA 5: Lila / Mor ── */
-body[data-theme="tema5"] {
-    --bg-deep: #0e0618;
-    --bg-grad-1: hsla(265,55%,7%,1);
-    --bg-grad-2: hsla(260,45%,13%,1);
-    --bg-grad-3: hsla(255,40%,17%,1);
-    --glass-surface: rgba(139,92,246,0.07);
-    --glass-border: rgba(139,92,246,0.15);
-    --gold-text: #a78bfa;
-    --gold-soft: rgba(167,139,250,0.15);
-    --text-main: #faf5ff;
-    --text-muted: #c4b5fd;
-    --modal-bg: #110820;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(139,92,246,0.08);
-    --shadow-color: rgba(8,2,20,0.65);
-    --shadow-gold: rgba(167,139,250,0.2);
-    --accent-glow: 0 0 32px rgba(167,139,250,0.25);
-    --box-active-bg: linear-gradient(160deg,rgba(167,139,250,0.18) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #a78bfa;
-    --theme-accent2: #7c3aed;
-    --nav-bg: rgba(14,6,24,0.92);
-    --timer-accent: linear-gradient(135deg,#7c3aed,#a78bfa);
-    --gold-gradient: linear-gradient(135deg,#7c3aed,#a78bfa,#c4b5fd,#a78bfa,#7c3aed);
-}
-
-/* ── TEMA 6: Bordo / Kırmızı ── */
-body[data-theme="tema6"] {
-    --bg-deep: #1a0508;
-    --bg-grad-1: hsla(350,65%,7%,1);
-    --bg-grad-2: hsla(345,55%,12%,1);
-    --bg-grad-3: hsla(340,45%,16%,1);
-    --glass-surface: rgba(239,68,68,0.06);
-    --glass-border: rgba(239,68,68,0.13);
-    --gold-text: #fca5a5;
-    --gold-soft: rgba(252,165,165,0.12);
-    --text-main: #fff1f2;
-    --text-muted: #fca5a5;
-    --modal-bg: #1f0608;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(239,68,68,0.08);
-    --shadow-color: rgba(20,2,5,0.65);
-    --shadow-gold: rgba(252,165,165,0.2);
-    --accent-glow: 0 0 32px rgba(252,165,165,0.22);
-    --box-active-bg: linear-gradient(160deg,rgba(252,165,165,0.15) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #fca5a5;
-    --theme-accent2: #dc2626;
-    --nav-bg: rgba(25,5,8,0.92);
-    --timer-accent: linear-gradient(135deg,#dc2626,#fca5a5);
-    --gold-gradient: linear-gradient(135deg,#dc2626,#fca5a5,#fecaca,#fca5a5,#dc2626);
-}
-
-/* ── TEMA 7: Kahve / Amber ── */
-body[data-theme="tema7"] {
-    --bg-deep: #1c1410;
-    --bg-grad-1: hsla(28,45%,8%,1);
-    --bg-grad-2: hsla(25,40%,13%,1);
-    --bg-grad-3: hsla(20,35%,17%,1);
-    --glass-surface: rgba(217,119,6,0.06);
-    --glass-border: rgba(217,119,6,0.14);
-    --gold-text: #fbbf24;
-    --gold-soft: rgba(251,191,36,0.15);
-    --text-main: #fef6e7;
-    --text-muted: #d6b89a;
-    --modal-bg: #20160f;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(217,119,6,0.09);
-    --shadow-color: rgba(20,12,5,0.6);
-    --shadow-gold: rgba(251,191,36,0.2);
-    --accent-glow: 0 0 32px rgba(251,191,36,0.22);
-    --box-active-bg: linear-gradient(160deg,rgba(251,191,36,0.18) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #fbbf24;
-    --theme-accent2: #b45309;
-    --nav-bg: rgba(28,20,16,0.92);
-    --timer-accent: linear-gradient(135deg,#b45309,#fbbf24);
-    --gold-gradient: linear-gradient(135deg,#b45309,#fbbf24,#fde68a,#fbbf24,#b45309);
-}
-
-/* ── TEMA 8: Okyanus / Lacivert-Cyan ── */
-body[data-theme="tema8"] {
-    --bg-deep: #04111c;
-    --bg-grad-1: hsla(205,65%,7%,1);
-    --bg-grad-2: hsla(198,55%,12%,1);
-    --bg-grad-3: hsla(190,45%,16%,1);
-    --glass-surface: rgba(56,189,248,0.06);
-    --glass-border: rgba(56,189,248,0.14);
-    --gold-text: #38bdf8;
-    --gold-soft: rgba(56,189,248,0.15);
-    --text-main: #f0f9ff;
-    --text-muted: #93c5fd;
-    --modal-bg: #06192a;
-    --input-bg: rgba(0,0,0,0.3);
-    --box-hover: rgba(56,189,248,0.08);
-    --shadow-color: rgba(2,12,22,0.65);
-    --shadow-gold: rgba(56,189,248,0.2);
-    --accent-glow: 0 0 32px rgba(56,189,248,0.25);
-    --box-active-bg: linear-gradient(160deg,rgba(56,189,248,0.18) 0%,rgba(0,0,0,0) 100%);
-    --theme-accent: #38bdf8;
-    --theme-accent2: #0284c7;
-    --nav-bg: rgba(4,17,28,0.92);
-    --timer-accent: linear-gradient(135deg,#0284c7,#38bdf8);
-    --gold-gradient: linear-gradient(135deg,#0284c7,#38bdf8,#7dd3fc,#38bdf8,#0284c7);
-}
-
 /* ── Tema geçişi smooth ── */
 body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
-
-/* ── Bottom Nav — temaya duyarlı ── */
-body[data-theme="tema2"] .bottom-nav,
-body[data-theme="tema4"] .bottom-nav,
-body[data-theme="tema5"] .bottom-nav,
-body[data-theme="tema6"] .bottom-nav,
-body[data-theme="tema7"] .bottom-nav,
-body[data-theme="tema8"] .bottom-nav {
-    background: var(--nav-bg);
-    border-top-color: var(--glass-border);
-}
-body[data-theme="tema3"] .bottom-nav {
-    background: var(--nav-bg);
-    border-top: 1px solid rgba(0,0,0,0.1);
-    box-shadow: 0 -8px 30px rgba(0,0,0,0.08);
-}
-body[data-theme="tema3"] .nav-item { color: #64748b; }
-body[data-theme="tema3"] .nav-item.active { color: var(--theme-accent); }
-
-/* ── Drawer — temaya duyarlı ── */
-body[data-theme="tema2"] .drawer-menu,
-body[data-theme="tema4"] .drawer-menu,
-body[data-theme="tema5"] .drawer-menu,
-body[data-theme="tema6"] .drawer-menu,
-body[data-theme="tema7"] .drawer-menu,
-body[data-theme="tema8"] .drawer-menu { background: var(--modal-bg); }
 
 /* ════ TEMA SEÇİCİ MODAL ════ */
 #temaSekiciModal {
@@ -4190,179 +3953,10 @@ body[data-theme="tema8"] .drawer-menu { background: var(--modal-bg); }
     justify-content: center;
 }
 #temaSekiciModal.show { display: flex; }
-
-.tema-modal-inner {
-    width: 100%;
-    max-width: 480px;
-    background: var(--modal-bg);
-    border: 1px solid var(--glass-border);
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
-    padding: 24px 20px 44px;
-    box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
-    animation: slideUp 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
-}
 @keyframes slideUp {
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
 }
-
-.tema-modal-handle {
-    width: 40px; height: 4px;
-    background: var(--glass-border);
-    border-radius: 4px;
-    margin: 0 auto 20px;
-}
-
-.tema-modal-title {
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--text-main);
-    letter-spacing: 0.5px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.tema-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.tema-kart {
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-    position: relative;
-}
-.tema-kart:hover { transform: translateY(-4px) scale(1.02); }
-.tema-kart.aktif {
-    border-color: var(--theme-accent, #fcd34d);
-    box-shadow: 0 0 0 3px rgba(252,211,77,0.25), 0 8px 24px rgba(0,0,0,0.4);
-    transform: translateY(-4px) scale(1.03);
-}
-.tema-kart.aktif::after {
-    content: '✓';
-    position: absolute;
-    top: 8px; right: 8px;
-    width: 22px; height: 22px;
-    background: var(--theme-accent, #fcd34d);
-    color: #000;
-    border-radius: 50%;
-    font-size: 0.75rem;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    line-height: 1;
-    padding-top: 1px;
-}
-
-.tema-preview {
-    height: 110px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-
-.tema-preview-counter {
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    line-height: 1;
-}
-
-.tema-preview-label {
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    opacity: 0.6;
-}
-
-.tema-preview-bar {
-    display: flex;
-    gap: 3px;
-    margin-top: 6px;
-}
-.tema-preview-bar span {
-    height: 3px;
-    width: 18px;
-    border-radius: 2px;
-    opacity: 0.7;
-}
-
-.tema-label {
-    padding: 8px 10px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-align: center;
-    letter-spacing: 0.3px;
-}
-
-/* Tema 1 Preview */
-.tema-p1 { background: linear-gradient(160deg, #020617, #0f172a); }
-.tema-p1 .tema-preview-counter { color: #fcd34d; text-shadow: 0 0 15px rgba(252,211,77,0.5); }
-.tema-p1 .tema-preview-label { color: #94a3b8; }
-.tema-p1 .tema-preview-bar span { background: #fcd34d; }
-.tema-p1 .tema-label { background: #030918; color: #94a3b8; }
-
-/* Tema 2 Preview */
-.tema-p2 { background: linear-gradient(160deg, #0a1a1e, #0d2028); }
-.tema-p2 .tema-preview-counter { color: #2dd4bf; text-shadow: 0 0 15px rgba(45,212,191,0.5); }
-.tema-p2 .tema-preview-label { color: #94a3b8; }
-.tema-p2 .tema-preview-bar span { background: #2dd4bf; }
-.tema-p2 .tema-label { background: #0b1c20; color: #94a3b8; }
-
-/* Tema 3 Preview */
-.tema-p3 { background: linear-gradient(160deg, #f0f4f8, #e2e8f0); }
-.tema-p3 .tema-preview-counter { color: #d97706; text-shadow: 0 0 12px rgba(217,119,6,0.3); }
-.tema-p3 .tema-preview-label { color: #64748b; }
-.tema-p3 .tema-preview-bar span { background: #d97706; }
-.tema-p3 .tema-label { background: #e9eef4; color: #64748b; }
-
-/* Tema 4 Preview */
-.tema-p4 { background: linear-gradient(160deg, #051a10, #072814); }
-.tema-p4 .tema-preview-counter { color: #34d399; text-shadow: 0 0 15px rgba(52,211,153,0.5); }
-.tema-p4 .tema-preview-label { color: #6ee7b7; }
-.tema-p4 .tema-preview-bar span { background: #34d399; }
-.tema-p4 .tema-label { background: #051510; color: #6ee7b7; }
-
-/* Tema 5 Preview */
-.tema-p5 { background: linear-gradient(160deg, #0e0618, #17082e); }
-.tema-p5 .tema-preview-counter { color: #a78bfa; text-shadow: 0 0 15px rgba(167,139,250,0.5); }
-.tema-p5 .tema-preview-label { color: #c4b5fd; }
-.tema-p5 .tema-preview-bar span { background: #a78bfa; }
-.tema-p5 .tema-label { background: #0e0620; color: #c4b5fd; }
-
-/* Tema 6 Preview */
-.tema-p6 { background: linear-gradient(160deg, #1a0508, #280608); }
-.tema-p6 .tema-preview-counter { color: #fca5a5; text-shadow: 0 0 15px rgba(252,165,165,0.5); }
-.tema-p6 .tema-preview-label { color: #fca5a5; }
-.tema-p6 .tema-preview-bar span { background: #fca5a5; }
-.tema-p6 .tema-label { background: #180406; color: #fca5a5; }
-
-.tema-p7 { background: linear-gradient(160deg, #1c1410, #2a1f17); }
-.tema-p7 .tema-preview-counter { color: #fbbf24; text-shadow: 0 0 15px rgba(251,191,36,0.5); }
-.tema-p7 .tema-preview-label { color: #d6b89a; }
-.tema-p7 .tema-preview-bar span { background: #fbbf24; }
-.tema-p7 .tema-label { background: #20160f; color: #fbbf24; }
-
-.tema-p8 { background: linear-gradient(160deg, #04111c, #0a2436); }
-.tema-p8 .tema-preview-counter { color: #38bdf8; text-shadow: 0 0 15px rgba(56,189,248,0.5); }
-.tema-p8 .tema-preview-label { color: #93c5fd; }
-.tema-p8 .tema-preview-bar span { background: #38bdf8; }
-.tema-p8 .tema-label { background: #06192a; color: #38bdf8; }
 
 /* ════ HIZLI ERİŞİM GRİD (App Store tarzı butonlar) ════ */
 .app-icon-grid {
@@ -4500,16 +4094,6 @@ body[data-theme="tema8"] .drawer-menu { background: var(--modal-bg); }
     position: relative; z-index: 1;
 }
 
-/* Temaya göre timer card — sadece badge rengi, background cerceve.png korunuyor */
-body[data-theme="tema2"] .timer-badge { background: rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.25); color: #2dd4bf; }
-body[data-theme="tema3"] .timer-lbl { color: #94a3b8; }
-body[data-theme="tema3"] .timer-badge { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.25); color: #d97706; }
-body[data-theme="tema4"] .timer-badge { background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.25); color: #34d399; }
-body[data-theme="tema5"] .timer-badge { background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.25); color: #a78bfa; }
-body[data-theme="tema6"] .timer-badge { background: rgba(252,165,165,0.1); border-color: rgba(252,165,165,0.25); color: #fca5a5; }
-body[data-theme="tema7"] .timer-badge { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.25); color: #fbbf24; }
-body[data-theme="tema8"] .timer-badge { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.25); color: #38bdf8; }
-
 /* ════ VAKIT KARTLARI GELİŞTİRME ════ */
 .grid {
     display: grid;
@@ -4543,17 +4127,6 @@ body[data-theme="tema8"] .timer-badge { background: rgba(56,189,248,0.1); border
 .weather-day-icon { font-size: 1.2rem; }
 .weather-day-temp { font-size: 0.72rem; font-weight: 700; color: var(--text-main); }
 .weather-day-divider { width: 1px; height: 40px; background: var(--glass-border); flex-shrink: 0; margin: 0 4px; }
-
-/* ════ TEMA BUTONU (Header) ════ */
-.btn-icon.tema-btn {
-    background: linear-gradient(135deg, rgba(252,211,77,0.12), rgba(179,135,40,0.08));
-    border-color: rgba(252,211,77,0.3);
-    color: var(--gold-text);
-}
-.btn-icon.tema-btn:hover {
-    background: linear-gradient(135deg, rgba(252,211,77,0.22), rgba(179,135,40,0.15));
-    box-shadow: 0 4px 14px rgba(252,211,77,0.2);
-}
 
 /* ════ HEADER GELİŞTİRME ════ */
 .header {
@@ -4926,69 +4499,6 @@ body[data-theme="tema8"] .timer-badge { background: rgba(56,189,248,0.1); border
     gap: 8px;
 }
 
-/* ════ TEMAya göre v-box aktif renk ════ */
-body[data-theme="tema2"] .v-box.active {
-    background: linear-gradient(160deg, rgba(45,212,191,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(45,212,191,0.6);
-    box-shadow: 0 14px 40px -12px rgba(45,212,191,0.35), 0 0 0 1px rgba(45,212,191,0.2);
-}
-body[data-theme="tema2"] .active .v-time { color: #2dd4bf; }
-body[data-theme="tema2"] .nav-item.active { color: #2dd4bf; border-color: rgba(45,212,191,0.35); }
-body[data-theme="tema2"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(45,212,191,0.55)); }
-
-body[data-theme="tema3"] .v-box.active {
-    background: linear-gradient(160deg, rgba(217,119,6,0.15) 0%, rgba(255,255,255,0.7) 100%);
-    border-color: rgba(217,119,6,0.5);
-}
-body[data-theme="tema3"] .active .v-time { color: #d97706; }
-body[data-theme="tema3"] .nav-item.active { color: #d97706; border-color: rgba(217,119,6,0.35); }
-body[data-theme="tema3"] .bottom-nav .nav-item { color: #64748b; }
-
-body[data-theme="tema4"] .v-box.active {
-    background: linear-gradient(160deg, rgba(52,211,153,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(52,211,153,0.6);
-    box-shadow: 0 14px 40px -12px rgba(52,211,153,0.35), 0 0 0 1px rgba(52,211,153,0.2);
-}
-body[data-theme="tema4"] .active .v-time { color: #34d399; }
-body[data-theme="tema4"] .nav-item.active { color: #34d399; border-color: rgba(52,211,153,0.35); }
-body[data-theme="tema4"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(52,211,153,0.55)); }
-
-body[data-theme="tema5"] .v-box.active {
-    background: linear-gradient(160deg, rgba(167,139,250,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(167,139,250,0.6);
-    box-shadow: 0 14px 40px -12px rgba(167,139,250,0.35), 0 0 0 1px rgba(167,139,250,0.2);
-}
-body[data-theme="tema5"] .active .v-time { color: #a78bfa; }
-body[data-theme="tema5"] .nav-item.active { color: #a78bfa; border-color: rgba(167,139,250,0.35); }
-body[data-theme="tema5"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(167,139,250,0.55)); }
-
-body[data-theme="tema6"] .v-box.active {
-    background: linear-gradient(160deg, rgba(252,165,165,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(252,165,165,0.6);
-    box-shadow: 0 14px 40px -12px rgba(252,165,165,0.35), 0 0 0 1px rgba(252,165,165,0.2);
-}
-body[data-theme="tema6"] .active .v-time { color: #fca5a5; }
-body[data-theme="tema6"] .nav-item.active { color: #fca5a5; border-color: rgba(252,165,165,0.35); }
-body[data-theme="tema6"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(252,165,165,0.55)); }
-
-body[data-theme="tema7"] .v-box.active {
-    background: linear-gradient(160deg, rgba(251,191,36,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(251,191,36,0.6);
-    box-shadow: 0 14px 40px -12px rgba(251,191,36,0.35), 0 0 0 1px rgba(251,191,36,0.2);
-}
-body[data-theme="tema7"] .active .v-time { color: #fbbf24; }
-body[data-theme="tema7"] .nav-item.active { color: #fbbf24; border-color: rgba(251,191,36,0.35); }
-body[data-theme="tema7"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(251,191,36,0.55)); }
-
-body[data-theme="tema8"] .v-box.active {
-    background: linear-gradient(160deg, rgba(56,189,248,0.18) 0%, rgba(0,0,0,0) 100%);
-    border-color: rgba(56,189,248,0.6);
-    box-shadow: 0 14px 40px -12px rgba(56,189,248,0.35), 0 0 0 1px rgba(56,189,248,0.2);
-}
-body[data-theme="tema8"] .active .v-time { color: #38bdf8; }
-body[data-theme="tema8"] .nav-item.active { color: #38bdf8; border-color: rgba(56,189,248,0.35); }
-body[data-theme="tema8"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(56,189,248,0.55)); }
-
 /* ════ ZIKIR CHIPS ════ */
 .zikir-chips {
     display: flex;
@@ -5040,144 +4550,10 @@ body[data-theme="tema8"] .nav-item.active i { filter: drop-shadow(0 0 6px rgba(5
     .app-icon-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .app-icon-face { width: 52px; height: 52px; border-radius: 15px; font-size: 1.25rem; }
     .app-icon-name { font-size: 0.58rem; max-width: 55px; }
-    .tema-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 500px) {
     .app-icon-grid { grid-template-columns: repeat(6, 1fr); }
-}
-
-
-/* ════════════════════════════════════════════════
-   DÜZELTME BLOĞU — Beyaz Tema + Nav Icon Tarzı
-   (Mevcut kuralları override eder, bozmaz)
-   ════════════════════════════════════════════════ */
-
-/* ── TEMA 3 (Beyaz) — cerceve.png korunur, sadece filtre yumuşatılır ── */
-body[data-theme="tema3"] .timer-card {
-    /* background-image: cerceve.png kalır — dokunulmaz */
-    aspect-ratio: 1 / 1 !important;
-    width: 100% !important;
-    max-width: 400px !important;
-    padding: 22% 10% !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.10)) !important;
-}
-body[data-theme="tema3"] .timer-lbl {
-    color: #94a3b8 !important;
-    opacity: 1 !important;
-}
-body[data-theme="tema3"] .timer-next {
-    background: linear-gradient(135deg, #b45309, #d97706, #fbbf24) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    filter: none !important;
-}
-body[data-theme="tema3"] .timer-val {
-    background: linear-gradient(180deg, #0f172a 0%, #334155 100%) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    filter: none !important;
-}
-body[data-theme="tema3"] .timer-badge {
-    background: rgba(217,119,6,0.1) !important;
-    border-color: rgba(217,119,6,0.3) !important;
-    color: #d97706 !important;
-}
-/* Arka plan */
-body[data-theme="tema3"] {
-    background-color: #f0f4f8 !important;
-}
-/* Header, kartlar, v-box'lar için açık tema */
-body[data-theme="tema3"] .header {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.08) !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
-}
-body[data-theme="tema3"] .v-box {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06) !important;
-}
-body[data-theme="tema3"] .info-card {
-    background: rgba(255,255,255,0.88) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .acc {
-    background: rgba(255,255,255,0.88) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] select,
-body[data-theme="tema3"] .z-inp {
-    background: rgba(255,255,255,0.95) !important;
-    border-color: rgba(0,0,0,0.1) !important;
-    color: #0f172a !important;
-}
-body[data-theme="tema3"] .bottom-nav {
-    background: rgba(255,255,255,0.95) !important;
-    border-top-color: rgba(0,0,0,0.08) !important;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.08) !important;
-}
-body[data-theme="tema3"] .drawer-menu {
-    background: #f8fafc !important;
-}
-body[data-theme="tema3"] .tool-btn {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.08) !important;
-    color: #0f172a !important;
-}
-body[data-theme="tema3"] .tool-btn:hover {
-    background: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10) !important;
-}
-body[data-theme="tema3"] .btn-icon {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.1) !important;
-    color: #475569 !important;
-}
-body[data-theme="tema3"] .btn-full {
-    background: linear-gradient(135deg, rgba(217,119,6,0.12), rgba(180,83,9,0.08)) !important;
-    border-color: rgba(217,119,6,0.35) !important;
-    color: #d97706 !important;
-}
-body[data-theme="tema3"] .app-icon-btn .app-icon-name {
-    color: #64748b !important;
-}
-body[data-theme="tema3"] .section-header-title {
-    color: #64748b !important;
-}
-body[data-theme="tema3"] .setting-item {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .kaza-shortcut-btn {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .tema-modal-inner {
-    background: #f8fafc !important;
-}
-body[data-theme="tema3"] .mg-ad-box {
-    background: rgba(255,255,255,0.8) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .z-item {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .quick-ibad-btn {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-}
-body[data-theme="tema3"] .today-stats {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,0,0,0.07) !important;
 }
 
 /* ════ ALT NAV — iOS App Icon Tarzı ════
@@ -5260,23 +4636,6 @@ body[data-theme="tema3"] .today-stats {
 #nav-drawer-btn .nav-icon-face      { background: linear-gradient(145deg, #475569, #1e293b); }
 #nav-tab-kuran .nav-icon-face       { background: linear-gradient(145deg, #34d399, #059669); }
 #nav-tab-ramazan-sayac .nav-icon-face { background: linear-gradient(145deg, #60a5fa, #2563eb); }
-
-/* Beyaz temada nav arka planı */
-body[data-theme="tema3"] .nav-item .nav-icon-face {
-    box-shadow: 0 4px 12px -3px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.25) !important;
-}
-body[data-theme="tema3"] .nav-item.active span { color: #d97706 !important; }
-
-
-/* ── Nav icon renkleri tüm temalar için korunur ── */
-/* Tema 2 (Teal) aktif nav */
-body[data-theme="tema2"] .nav-item.active span { color: #2dd4bf !important; }
-/* Tema 4 (Yeşil) aktif nav */  
-body[data-theme="tema4"] .nav-item.active span { color: #34d399 !important; }
-/* Tema 5 (Lila) aktif nav */
-body[data-theme="tema5"] .nav-item.active span { color: #a78bfa !important; }
-/* Tema 6 (Bordo) aktif nav */
-body[data-theme="tema6"] .nav-item.active span { color: #fca5a5 !important; }
 
 /* ── nav-item'in eski active stili sıfırla ── */
 .nav-item.active {
@@ -5384,17 +4743,6 @@ body[data-theme="tema6"] .nav-item.active span { color: #fca5a5 !important; }
     letter-spacing: 0.1px;
 }
 
-/* Beyaz temada etiket rengi */
-body[data-theme="tema3"] .d-icon-btn > span { color: #64748b !important; }
-body[data-theme="tema3"] .drawer-section-label2 { color: #94a3b8 !important; }
-
-/* Beyaz temada icon shadow hafiflet */
-body[data-theme="tema3"] .d-icon-face {
-    box-shadow:
-        0 4px 12px -3px rgba(0,0,0,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.3) !important;
-}
-
 /* Küçük ekranlarda 4 sütun */
 @media (max-width: 360px) {
     .drawer-icon-grid { grid-template-columns: repeat(4, 1fr); gap: 12px 6px; }
@@ -5420,24 +4768,6 @@ body[data-theme="tema3"] .d-icon-face {
 #nav-drawer-btn .nav-icon-face i {
     font-size: 1.2rem !important;
     color: #fff !important;
-}
-
-/* ════ TEMA 3 HEADER BUTONLARI — Açık temada görünür ════ */
-body[data-theme="tema3"] .btn-icon {
-    background: rgba(255,255,255,0.95) !important;
-    border: 1px solid rgba(0,0,0,0.10) !important;
-    color: #475569 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
-}
-body[data-theme="tema3"] .btn-icon:hover {
-    background: #ffffff !important;
-    color: #d97706 !important;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12) !important;
-}
-body[data-theme="tema3"] .tema-btn {
-    background: rgba(255,255,255,0.95) !important;
-    border-color: rgba(217,119,6,0.3) !important;
-    color: #d97706 !important;
 }
 
 /* ── GÜNÜN HADİSİ KARTI ── */

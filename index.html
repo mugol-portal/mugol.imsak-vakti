@@ -46,10 +46,10 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1880946354382681" crossorigin="anonymous"></script>
 </head>
-<body data-theme="tema1">
+<body>
 <script>
 // Sayfa yanıp sönmesini önlemek için temayı hemen uygula
-(function(){var t=localStorage.getItem('mugol_tema')||'tema1';document.body.setAttribute('data-theme',t);})();
+(function(){if(localStorage.getItem('mugolTheme')==='light'){document.body.classList.add('light-mode');}})();
 </script>
 
     <audio id="silentAudio" loop><source src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//oeAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//////////////////////////////////////////////////////////////////wAAADFMYXZjNTguNTQAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAASAAxN1CqwAAAAAAAAAAAAAAAAAAAAAA//oeZAAAAABzAAAAEAAABIABAAAAAAAAAABhAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mpeg"></audio>
@@ -174,9 +174,6 @@
                 </div>
             </div>
             <div style="display:flex; gap:8px">
-                <button class="btn-icon tema-btn" onclick="openTemaSekici()" title="Tema Seç" style="position:relative;">
-                    <i class="fas fa-palette"></i>
-                </button>
                 <button class="btn-icon" id="notifyBtn" onclick="enablePersistentMode()" title="Bildirim ve Sayaç"><i class="fas fa-bell"></i></button>
             </div>
         </header>
@@ -1271,13 +1268,6 @@
     const body = document.body;
     const btn = document.getElementById('themeBtn');
     const meta = document.getElementById('themeColorMeta');
-    const currentThema = body.getAttribute('data-theme') || 'tema1';
-    // Tema3 (beyaz) ise, light-mode class'ı değil tema'yı değiştir
-    if (currentThema === 'tema3') {
-        if (typeof setTema === 'function') setTema('tema1');
-        if (btn) btn.innerHTML = '<i class="fas fa-sun"></i>';
-        return;
-    }
     body.classList.toggle('light-mode');
     if(body.classList.contains('light-mode')) {
         localStorage.setItem('mugolTheme', 'light');
@@ -3279,206 +3269,6 @@
     })();
     </script>
 
-    <!-- ════ TEMA SEÇİCİ MODAL ════ -->
-    <div id="temaSekiciModal" onclick="closeTemaSekici(event)">
-        <div class="tema-modal-inner" onclick="event.stopPropagation()">
-            <div class="tema-modal-handle"></div>
-            <div class="tema-modal-title">
-                <i class="fas fa-palette" style="color:var(--gold-text);"></i>
-                Tema Seç
-            </div>
-            <div class="tema-grid">
-                <!-- TEMA 1 -->
-                <div class="tema-kart" id="temaKart1" onclick="setTema('tema1')">
-                    <div class="tema-preview tema-p1">
-                        <div class="tema-preview-counter" style="color:#fcd34d;">00:57</div>
-                        <div class="tema-preview-label" style="color:#94a3b8;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#818cf8;"></span>
-                            <span style="background:#fbbf24;"></span>
-                            <span style="background:#f97316;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#030918; color:#94a3b8;">🌙 Klasik Gece</div>
-                </div>
-                <!-- TEMA 2 -->
-                <div class="tema-kart" id="temaKart2" onclick="setTema('tema2')">
-                    <div class="tema-preview tema-p2">
-                        <div class="tema-preview-counter" style="color:#2dd4bf;">00:57</div>
-                        <div class="tema-preview-label" style="color:#94a3b8;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#818cf8;"></span>
-                            <span style="background:#2dd4bf;"></span>
-                            <span style="background:#34d399;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#0b1c20; color:#2dd4bf;">🩵 Teal</div>
-                </div>
-                <!-- TEMA 3 -->
-                <div class="tema-kart" id="temaKart3" onclick="setTema('tema3')">
-                    <div class="tema-preview tema-p3">
-                        <div class="tema-preview-counter" style="color:#d97706;">00:57</div>
-                        <div class="tema-preview-label" style="color:#64748b;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#d97706;"></span>
-                            <span style="background:#f59e0b;"></span>
-                            <span style="background:#b45309;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#e9eef4; color:#64748b;">☀️ Beyaz</div>
-                </div>
-                <!-- TEMA 4 -->
-                <div class="tema-kart" id="temaKart4" onclick="setTema('tema4')">
-                    <div class="tema-preview tema-p4">
-                        <div class="tema-preview-counter" style="color:#34d399;">00:57</div>
-                        <div class="tema-preview-label" style="color:#6ee7b7;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#10b981;"></span>
-                            <span style="background:#34d399;"></span>
-                            <span style="background:#6ee7b7;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#051510; color:#6ee7b7;">🌿 Zümrüt</div>
-                </div>
-                <!-- TEMA 5 -->
-                <div class="tema-kart" id="temaKart5" onclick="setTema('tema5')">
-                    <div class="tema-preview tema-p5">
-                        <div class="tema-preview-counter" style="color:#a78bfa;">00:57</div>
-                        <div class="tema-preview-label" style="color:#c4b5fd;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#7c3aed;"></span>
-                            <span style="background:#a78bfa;"></span>
-                            <span style="background:#c4b5fd;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#0e0620; color:#c4b5fd;">💜 Lila</div>
-                </div>
-                <!-- TEMA 6 -->
-                <div class="tema-kart" id="temaKart6" onclick="setTema('tema6')">
-                    <div class="tema-preview tema-p6">
-                        <div class="tema-preview-counter" style="color:#fca5a5;">00:57</div>
-                        <div class="tema-preview-label" style="color:#fca5a5;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#dc2626;"></span>
-                            <span style="background:#fca5a5;"></span>
-                            <span style="background:#fecaca;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#180406; color:#fca5a5;">❤️ Bordo</div>
-                </div>
-                <!-- TEMA 7 -->
-                <div class="tema-kart" id="temaKart7" onclick="setTema('tema7')">
-                    <div class="tema-preview tema-p7" style="background:linear-gradient(135deg,#1c1410,#2a1f17);">
-                        <div class="tema-preview-counter" style="color:#fbbf24;">00:57</div>
-                        <div class="tema-preview-label" style="color:#d6b89a;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#b45309;"></span>
-                            <span style="background:#fbbf24;"></span>
-                            <span style="background:#fde68a;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#20160f; color:#fbbf24;">☕ Kahve</div>
-                </div>
-                <!-- TEMA 8 -->
-                <div class="tema-kart" id="temaKart8" onclick="setTema('tema8')">
-                    <div class="tema-preview tema-p8" style="background:linear-gradient(135deg,#04111c,#0a2436);">
-                        <div class="tema-preview-counter" style="color:#38bdf8;">00:57</div>
-                        <div class="tema-preview-label" style="color:#93c5fd;">vaktin çıkmasına</div>
-                        <div class="tema-preview-bar">
-                            <span style="background:#0284c7;"></span>
-                            <span style="background:#38bdf8;"></span>
-                            <span style="background:#7dd3fc;"></span>
-                        </div>
-                    </div>
-                    <div class="tema-label" style="background:#06192a; color:#38bdf8;">🌊 Okyanus</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ════ TEMA SEÇİCİ JAVASCRIPT ════ -->
-    <script>
-    (function() {
-        /* ── Tema uygula ── */
-        function applyTema(t) {
-            document.body.setAttribute('data-theme', t);
-            localStorage.setItem('mugol_tema', t);
-            // Aktif kart işaretle
-            document.querySelectorAll('.tema-kart').forEach(function(k) {
-                k.classList.remove('aktif');
-            });
-            var aktif = document.getElementById('temaKart' + t.replace('tema', ''));
-            if (aktif) aktif.classList.add('aktif');
-        }
-
-        window.setTema = function(t) {
-            applyTema(t);
-            // Küçük dokunuş geri bildirimi
-            if (navigator.vibrate) navigator.vibrate(30);
-        };
-
-        window.openTemaSekici = function() {
-            var m = document.getElementById('temaSekiciModal');
-            m.classList.add('show');
-            // Light mode durumunu güncelle
-            updateLightModeUI();
-        };
-
-        window.closeTemaSekici = function(e) {
-            if (!e || e.target === document.getElementById('temaSekiciModal')) {
-                document.getElementById('temaSekiciModal').classList.remove('show');
-            }
-        };
-
-        window.toggleThemeFromModal = function() {
-            // Mevcut toggleTheme fonksiyonunu çağır
-            if (typeof toggleTheme === 'function') toggleTheme();
-            setTimeout(updateLightModeUI, 50);
-        };
-
-        function updateLightModeUI() {
-            var isLight = document.body.classList.contains('light-mode');
-            var lbl = document.getElementById('lightModeLabel');
-            var thumb = document.getElementById('lightModeThumb');
-            var toggle = document.getElementById('lightModeToggle');
-            if (lbl) lbl.textContent = isLight ? 'Şu an: Açık' : 'Şu an: Koyu';
-            if (thumb) {
-                thumb.style.transform = isLight ? 'translateX(22px)' : 'translateX(0)';
-                thumb.style.background = isLight ? '#fcd34d' : '#94a3b8';
-            }
-            if (toggle) toggle.style.background = isLight ? 'rgba(252,211,77,0.3)' : 'var(--glass-border)';
-        }
-
-        /* ── Kayıtlı temayı yükle ── */
-        document.addEventListener('DOMContentLoaded', function() {
-            var savedTema = localStorage.getItem('mugol_tema') || 'tema1';
-            applyTema(savedTema);
-            updateLightModeUI();
-
-            // Light mode değişimlerini izle (MutationObserver)
-            var observer = new MutationObserver(function() { updateLightModeUI(); });
-            observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-        });
-
-        /* ── Swipe ile modal kapat ── */
-        var startY = 0;
-        var modalInner = null;
-        document.addEventListener('DOMContentLoaded', function() {
-            modalInner = document.querySelector('.tema-modal-inner');
-            if (!modalInner) return;
-            modalInner.addEventListener('touchstart', function(e) {
-                startY = e.touches[0].clientY;
-            }, { passive: true });
-            modalInner.addEventListener('touchmove', function(e) {
-                var dy = e.touches[0].clientY - startY;
-                if (dy > 60) {
-                    window.closeTemaSekici();
-                }
-            }, { passive: true });
-        });
-    })();
-    </script>
 
 </body>
 </html>
