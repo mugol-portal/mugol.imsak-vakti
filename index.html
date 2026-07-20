@@ -23,11 +23,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Cuma Sözleri Veri Dosyası -->
-    <script src="cumasoz.js"></script>
+    <script src="cumasoz.js" onerror="console.error('[MuGöl] cumasoz.js YÜKLENEMEDİ (404 veya bozuk dosya)');"></script>
 
     <!-- Din Soruları Veri Dosyası -->
     <script>window.tumSorular = [];</script>
-    <script src="din.js"></script>
+    <script src="din.js" onerror="console.error('[MuGöl] din.js YÜKLENEMEDİ (404 veya bozuk dosya)');"></script>
 
     <!-- Harici CSS Dosyası -->
     <link rel="stylesheet" href="style.css">
@@ -104,8 +104,8 @@
                         <input type="color" id="customTextColor" value="#d4af37" class="custom-color-input" onchange="applyCustomColor()" title="Vurgu/Çizgi Rengi">
                     </div>
 
-                    <button class="btn-full" style="width: 100%;" onclick="executeDownload()">
-                        <i class="fas fa-download"></i> Tasarımı İndir
+                    <button class="btn-full" id="downloadCardBtn" style="width: 100%;" onclick="executeDownload()">
+                        <i class="fas fa-download"></i> <span id="downloadCardBtnText">Tasarımı İndir</span>
                     </button>
                 </div>
             </div>
@@ -1409,8 +1409,13 @@
 
         /* Belirli bir sözü önizlemeye aç */
         function openPreviewWith(text, source) {
-            updateQuoteUI(text, source);
-            openPreview('quote');
+            try {
+                updateQuoteUI(text, source);
+                openPreview('quote');
+            } catch (err) {
+                console.error('[MuGöl] openPreviewWith hata:', err);
+                alert('Kart açılırken bir sorun oluştu: ' + err.message);
+            }
         }
 
         /* Paylaş butonu için */
@@ -1421,10 +1426,16 @@
 
         function shuffleQuote() { const q = globalQuotes[Math.floor(Math.random() * globalQuotes.length)]; updateQuoteUI(q.text, q.source); }
         function renderDailyQuote() { const q = globalQuotes[Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000) % globalQuotes.length]; updateQuoteUI(q.text, q.source); }
-        function updateQuoteUI(text, source) { 
+        function updateQuoteUI(text, source) {
             // export kart için güncelle
-            document.getElementById('ex-quote-text').innerText = `"${text}"`;
-            document.getElementById('ex-quote-src').innerText = source;
+            const textEl = document.getElementById('ex-quote-text');
+            const srcEl = document.getElementById('ex-quote-src');
+            if (!textEl || !srcEl) {
+                console.error('[MuGöl] updateQuoteUI: export-card metin elementleri bulunamadı', { textEl: !!textEl, srcEl: !!srcEl });
+                throw new Error('Kart metin alanları sayfada bulunamadı');
+            }
+            textEl.innerText = `"${text}"`;
+            srcEl.innerText = source;
         }
         function shareQuote() { shareQuoteText(document.getElementById('ex-quote-text').innerText, document.getElementById('ex-quote-src').innerText); }
         
@@ -1592,18 +1603,29 @@
 
         /* --- ÖNİZLEME VE RENK DEĞİŞTİRME MANTIĞI (GÜNCELLENDİ) --- */
         function openPreview(type) {
-            activePreviewType = type;
-            const modal = document.getElementById('previewModal');
-            const wrapper = document.getElementById('previewWrapper');
-            const cardId = type === 'quote' ? 'export-card' : 'export-cuma-card';
-            const card = document.getElementById(cardId);
-            
-            wrapper.innerHTML = ''; 
-            wrapper.appendChild(card);
-            card.classList.add('previewing');
-            
-            modal.style.display = "flex";
-            setTimeout(() => modal.classList.add('show'), 10);
+            try {
+                activePreviewType = type;
+                const modal = document.getElementById('previewModal');
+                const wrapper = document.getElementById('previewWrapper');
+                const cardId = type === 'quote' ? 'export-card' : 'export-cuma-card';
+                const card = document.getElementById(cardId);
+
+                if (!modal || !wrapper || !card) {
+                    console.error('[MuGöl] openPreview: eksik element', { modal: !!modal, wrapper: !!wrapper, card: !!card, cardId });
+                    alert('Kart önizleme paneli bulunamadı (eksik element: ' + cardId + '). Sayfayı yenileyip tekrar deneyin.');
+                    return;
+                }
+
+                wrapper.innerHTML = '';
+                wrapper.appendChild(card);
+                card.classList.add('previewing');
+
+                modal.style.display = "flex";
+                setTimeout(() => modal.classList.add('show'), 10);
+            } catch (err) {
+                console.error('[MuGöl] openPreview hata:', err);
+                alert('Önizleme açılırken bir sorun oluştu: ' + err.message);
+            }
         }
 
         function closePreview() {
@@ -1662,30 +1684,70 @@
         }
 
         function executeDownload() {
-            const cardId = activePreviewType === 'quote' ? 'export-card' : 'export-cuma-card';
-            const card = document.getElementById(cardId);
-            const originalParent = card.parentNode;
+            const btn = document.getElementById('downloadCardBtn');
+            const btnText = document.getElementById('downloadCardBtnText');
+            const originalText = btnText ? btnText.textContent : null;
 
-            card.classList.remove('previewing');
-            card.classList.add('downloading');
-            
-            document.body.appendChild(card);
-            
-            html2canvas(card, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = activePreviewType === 'quote' ? 'Mugol-Gunun-Sozu.png' : 'Mugol-Hayirli-Cumalar.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                
-                card.classList.remove('downloading');
-                card.classList.add('previewing');
-                originalParent.appendChild(card); 
-                closePreview();
-            }).catch(err => { 
-                alert("Resim oluşturulurken bir hata oluştu.");
-                card.classList.remove('downloading');
-                closePreview();
-            });
+            function setLoading(isLoading) {
+                if (!btn || !btnText) return;
+                btn.disabled = isLoading;
+                btn.style.opacity = isLoading ? '0.7' : '1';
+                btn.style.pointerEvents = isLoading ? 'none' : '';
+                btnText.textContent = isLoading ? 'Hazırlanıyor, lütfen bekleyin...' : originalText;
+            }
+
+            try {
+                if (typeof html2canvas === 'undefined') {
+                    console.error('[MuGöl] executeDownload: html2canvas yüklenmemiş (CDN engellenmiş olabilir).');
+                    alert('Resim oluşturma kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edip sayfayı yenileyin.');
+                    return;
+                }
+
+                const cardId = activePreviewType === 'quote' ? 'export-card' : 'export-cuma-card';
+                const card = document.getElementById(cardId);
+
+                if (!card) {
+                    console.error('[MuGöl] executeDownload: kart elementi bulunamadı', cardId, 'activePreviewType:', activePreviewType);
+                    alert('İndirilecek kart bulunamadı. Lütfen önce bir kart açıp tekrar deneyin.');
+                    return;
+                }
+
+                setLoading(true);
+
+                const originalParent = card.parentNode;
+
+                card.classList.remove('previewing');
+                card.classList.add('downloading');
+
+                document.body.appendChild(card);
+
+                html2canvas(card, { scale: 1.5, useCORS: true, backgroundColor: null }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = activePreviewType === 'quote' ? 'Mugol-Gunun-Sozu.png' : 'Mugol-Hayirli-Cumalar.png';
+                    link.href = canvas.toDataURL('image/png');
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+
+                    card.classList.remove('downloading');
+                    card.classList.add('previewing');
+                    originalParent.appendChild(card);
+                    setLoading(false);
+                    closePreview();
+                }).catch(err => {
+                    console.error('[MuGöl] html2canvas / toDataURL hata:', err);
+                    alert('Resim oluşturulurken bir hata oluştu: ' + (err && err.message ? err.message : err));
+                    card.classList.remove('downloading');
+                    card.classList.add('previewing');
+                    originalParent.appendChild(card);
+                    setLoading(false);
+                    closePreview();
+                });
+            } catch (err) {
+                console.error('[MuGöl] executeDownload genel hata:', err);
+                alert('Kart indirilirken beklenmeyen bir hata oluştu: ' + err.message);
+                setLoading(false);
+            }
         }
 
         /* --- PEYGAMBERLER DIŞ DOSYADAN --- */
